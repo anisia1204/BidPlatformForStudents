@@ -1,0 +1,43 @@
+<p-card header="Intra in contul tau" class="pt-5 pb-1 d-flex justify-content-center">
+  <div>
+    <form [formGroup]="form">
+        <div class="col-12 pb-4">
+        <span class="p-float-label flex-grow-1">
+          <input
+            id="email"
+            name="email"
+            formControlName="email"
+            type="email"
+            pInputText
+          >
+          <label for="email">
+          Email
+        </label>
+        </span>
+        </div>
+
+        <div class="col-12 pb-4">
+        <span class="p-float-label flex-grow-1">
+          <input
+            id="password"
+            name="password"
+            formControlName="password"
+            type="password"
+            pInputText
+          >
+          <label for="password">Parola</label>
+        </span>
+        </div>
+
+        <div class="pb-3">
+          <p-button
+            type="submit"
+            label="Conecteaza-te"
+          >
+          </p-button>
+        </div>
+    </form>
+
+  </div>
+
+</p-card>

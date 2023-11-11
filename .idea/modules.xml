@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BidPlatformForStudents.iml" filepath="$PROJECT_DIR$/.idea/BidPlatformForStudents.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/studbid/auth/user/user.iml" filepath="$PROJECT_DIR$/backend/studbid/auth/user/user.iml" />
     </modules>
   </component>
 </project>

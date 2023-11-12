@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
-import {RegistrationComponent} from "./registration/registration.component";
+import {RegistrationComponent} from "./auth/registration/registration.component";
 
 @Component({
   selector: 'app-root',

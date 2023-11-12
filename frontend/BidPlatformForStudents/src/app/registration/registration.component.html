@@ -1,1 +1,74 @@
-<p>registration works!</p>
+<div class="d-flex ">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="col-12 pt-4">
+      <span class="p-float-label flex-grow-1">
+        <input
+        pInputText
+        id="lastName"
+        name="lastName"
+        formControlName="lastName"
+        type="text"
+        >
+        <label for="lastName">
+          Nume
+        </label>
+      </span>
+    </div>
+
+    <div class="col-12 pt-4">
+      <span class="p-float-label flex-grow-1">
+        <input
+          pInputText
+          id="firstName"
+          name="firstName"
+          formControlName="firstName"
+          type="text"
+        >
+        <label for="firstName">
+          Prenume
+        </label>
+      </span>
+    </div>
+
+    <div class="col-12 pt-4">
+      <span class="p-float-label flex-grow-1">
+        <input
+          pInputText
+          id="email"
+          name="email"
+          formControlName="email"
+          type="email"
+        >
+        <label for="email">
+          E-mail
+        </label>
+      </span>
+    </div>
+
+    <div class="col-12 pt-4">
+      <span class="p-float-label flex-grow-1">
+        <input
+          pInputText
+          id="password"
+          name="password"
+          formControlName="password"
+          type="password"
+        >
+        <label for="password">
+          Parola
+        </label>
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      <p-button
+        type="submit"
+        label="Submit"
+        [rounded]="true"
+      >
+      </p-button>
+    </div>
+
+  </form>
+</div>
+

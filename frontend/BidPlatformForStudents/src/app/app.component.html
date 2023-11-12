@@ -1,9 +1,12 @@
-<app-login>
-</app-login>
+<app-login></app-login>
 <p class="d-flex justify-content-center">
-  <a
-    [routerLink]="'registration'"
+  <p-button
+    class="mt-2"
+    [text]="true"
+    (click)="register()"
   >
     Nu ai un cont? Inscrie-te!
-  </a>
+  </p-button>
 </p>
+<router-outlet></router-outlet>
+

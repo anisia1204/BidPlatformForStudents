@@ -7,18 +7,17 @@ import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ChipsModule} from "primeng/chips";
-import {Route, RouterLink, RouterModule} from "@angular/router";
+import { RouterLink, RouterModule, Routes} from "@angular/router";
 import { RegistrationComponent } from './registration/registration.component';
+import {ToastModule} from "primeng/toast";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
-const routes: Route[] = [
+const routes: Routes = [
   {
     path: "",
     redirectTo: "",
     pathMatch: "full"
-  },
-  {
-    path: "registration",
-    component: RegistrationComponent
   }
 ]
 
@@ -28,15 +27,18 @@ const routes: Route[] = [
     LoginComponent,
     RegistrationComponent
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        ChipsModule,
-        RouterLink,
-        RouterModule.forRoot(routes)
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    ChipsModule,
+    RouterLink,
+    RouterModule.forRoot(routes),
+    ToastModule,
+    ConfirmDialogModule,
+    BrowserAnimationsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

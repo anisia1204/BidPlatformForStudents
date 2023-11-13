@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UserDtoModel} from "../domain/user-dto.model";
+import {RegistrationService} from "./registration.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+  providers: [MessageService]
 })
 export class RegistrationComponent {
   form: any;
+  userDto: UserDtoModel | undefined;
+  registrationService = inject(RegistrationService)
+  messageService = inject(MessageService)
 
   constructor() {
     this.createForm();
@@ -23,6 +30,18 @@ export class RegistrationComponent {
   }
 
   submit() {
-
+    if(this.form.valid) {
+      this.userDto = <UserDtoModel>this.form.value
+      this.registrationService.saveUser(this.userDto).subscribe(
+        userDto => {
+          console.log(userDto)
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Inregistrare reusita!',
+            detail: 'V-ati inregistrat cu succes!'
+          })
+        }
+      )
+    }
   }
 }

@@ -12,6 +12,8 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import {ToastModule} from "primeng/toast";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CommonModule} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
   {
@@ -37,7 +39,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     ToastModule,
     ConfirmDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CommonModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

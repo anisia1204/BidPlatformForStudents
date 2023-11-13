@@ -17,7 +17,18 @@
 
 	<modules>
 		<module>studbid-web</module>
-	</modules>
+        <module>studbid-auth</module>
+    </modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.licenta</groupId>
+				<artifactId>studbid-auth</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 
 	<properties>

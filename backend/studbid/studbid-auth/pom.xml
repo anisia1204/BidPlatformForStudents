@@ -10,42 +10,32 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <name>Bid Platform for Students</name>
-    <artifactId>studbid-web</artifactId>
 
-    <properties>
-        <java.version>17</java.version>
-    </properties>
 
+    <name>Studbid Auth</name>
     <dependencies>
-        <dependency>
-            <groupId>com.licenta</groupId>
-            <artifactId>studbid-auth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
+    <artifactId>studbid-auth</artifactId>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
 
 </project>

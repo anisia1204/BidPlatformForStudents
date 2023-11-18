@@ -14,4 +14,8 @@ export class UserResourceService {
   saveUser(userDto: UserDtoModel) {
     return this.httpClient.post<UserDtoModel>(`${this.url}`, userDto);
   }
+
+  login(userDto: UserDtoModel) {
+    return this.httpClient.post<UserDtoModel>(`${this.url}/login`, userDto)
+  }
 }

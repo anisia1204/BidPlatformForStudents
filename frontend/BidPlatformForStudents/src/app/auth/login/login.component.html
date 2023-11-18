@@ -1,6 +1,6 @@
 <p-card header="Intra in contul tau" class="pt-5 pb-1 d-flex justify-content-center">
   <div>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" >
         <div class="col-12 pb-4">
         <span class="p-float-label flex-grow-1">
           <input

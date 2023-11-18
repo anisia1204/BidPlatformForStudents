@@ -1,5 +1,6 @@
 package com.licenta.service.dto;
 
+import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ public class UserDTOMapper {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
+        user.setRole(Role.USER);
 
         return user;
     }

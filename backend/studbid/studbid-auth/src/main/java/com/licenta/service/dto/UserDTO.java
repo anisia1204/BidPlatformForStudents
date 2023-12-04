@@ -1,5 +1,7 @@
 package com.licenta.service.dto;
 
+import com.licenta.service.AuthenticationResponse;
+
 public class UserDTO {
     private Long id;
     private String firstName;
@@ -7,6 +9,7 @@ public class UserDTO {
     private String email;
     private String password;
     private Double points;
+    private AuthenticationResponse authenticationResponse;
 
     public Long getId() {
         return id;
@@ -54,5 +57,13 @@ public class UserDTO {
 
     public void setPoints(Double points) {
         this.points = points;
+    }
+
+    public AuthenticationResponse getAuthenticationResponse() {
+        return authenticationResponse;
+    }
+
+    public void setAuthenticationResponse(AuthenticationResponse authenticationResponse) {
+        this.authenticationResponse = authenticationResponse;
     }
 }

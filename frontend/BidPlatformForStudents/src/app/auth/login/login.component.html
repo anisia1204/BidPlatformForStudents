@@ -1,4 +1,4 @@
-<p-card header="Intra in contul tau" class="pt-5 pb-1 d-flex justify-content-center">
+<p-card header="Intra in contul tau" class="pt-5 pb-1 d-flex justify-content-center" [style]="{marginTop: '100px'}">
   <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" >
         <div class="col-12 pb-4">
@@ -24,6 +24,7 @@
             formControlName="password"
             type="password"
             pInputText
+            minlength="6"
           >
           <label for="password">Parola</label>
         </span>
@@ -33,6 +34,7 @@
           <p-button
             type="submit"
             label="Conecteaza-te"
+            [disabled]="!form.valid"
           >
           </p-button>
         </div>

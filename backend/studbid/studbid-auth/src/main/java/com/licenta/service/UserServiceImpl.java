@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public AuthenticationResponse save(UserDTO userDTO) {
-        if(userJPARepository.findByEmail(userDTO.getEmail()).isPresent())
+    public UserDTO save(UserDTO userDTO) {
+        if(isExisting(userDTO))
             throw new UserAlreadyExists("An user with this email already exists!");
 
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -42,8 +42,14 @@ public class UserServiceImpl implements UserService{
 
         user.setPoints(100.0);
         userJPARepository.save(user);
+        userDTO = userDTOMapper.getDTOFromEntity(user);
+        userDTO.setAuthenticationResponse(new AuthenticationResponse(jwtService.generateJwtToken(user)));
 
-        return new AuthenticationResponse(jwtService.generateJwtToken(user));
+        return userDTO;
+    }
+
+    public boolean isExisting(UserDTO userDTO) {
+        return userJPARepository.findByEmail(userDTO.getEmail()).isPresent();
     }
 
     @Override

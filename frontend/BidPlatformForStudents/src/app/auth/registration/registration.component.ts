@@ -20,7 +20,7 @@ export class RegistrationComponent {
     this.createForm();
   }
 
-  createForm(){
+  createForm() {
     this.form = new FormGroup<any>({
       lastName: new FormControl<string | undefined>("", Validators.required),
       firstName: new FormControl<string | undefined>("", Validators.required),
@@ -30,18 +30,26 @@ export class RegistrationComponent {
   }
 
   submit() {
-    if(this.form.valid) {
+    if (this.form.valid) {
       this.userDto = <UserDtoModel>this.form.value
-      this.registrationService.saveUser(this.userDto).subscribe(
-        userDto => {
-          console.log(userDto)
-          this.messageService.add({
-            severity: 'info',
-            summary: 'Inregistrare reusita!',
-            detail: 'V-ati inregistrat cu succes!'
-          })
-        }
-      )
+      this.registrationService.saveUser(this.userDto)
+        .subscribe(
+          userDto => {
+            console.log(userDto)
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Inregistrare reusita!',
+              detail: 'V-ati inregistrat cu succes!'
+            })
+          },
+          errorResponse => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Inregistrare esuata!',
+              detail: errorResponse.error.email
+            })
+          }
+        )
     }
   }
 }

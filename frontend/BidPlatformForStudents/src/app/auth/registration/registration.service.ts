@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
 export class RegistrationService {
   userResourceService = inject(UserResourceService)
 
-  saveUser(userDto: UserDtoModel) : Observable<UserDtoModel> {
+  saveUser(userDto: UserDtoModel)  {
     return this.userResourceService.saveUser(userDto);
   }
 }

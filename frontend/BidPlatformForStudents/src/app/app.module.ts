@@ -14,6 +14,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
+import { NavbarComponent } from './infra/navbar/navbar.component';
+import {MenubarModule} from "primeng/menubar";
 
 const routes: Routes = [
   {
@@ -27,22 +29,24 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    NavbarComponent
   ],
-  imports: [
-    BrowserModule,
-    CardModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    ChipsModule,
-    RouterLink,
-    RouterModule.forRoot(routes),
-    ToastModule,
-    ConfirmDialogModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        CardModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        ChipsModule,
+        RouterLink,
+        RouterModule.forRoot(routes),
+        ToastModule,
+        ConfirmDialogModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        HttpClientModule,
+        MenubarModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

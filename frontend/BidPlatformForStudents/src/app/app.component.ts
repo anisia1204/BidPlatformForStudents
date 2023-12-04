@@ -19,8 +19,8 @@ export class AppComponent implements OnDestroy{
   register() {
     this.dialog = this.dialogService.open(RegistrationComponent, {
       header: "Inregistreaza-te!",
-      width: "16%",
-      height: "55%",
+      width: "19%",
+      height: "69%",
       position: "center"
     })
   }

@@ -53,6 +53,7 @@
           name="password"
           formControlName="password"
           type="password"
+          minlength="6"
         >
         <label for="password">
           Parola
@@ -65,11 +66,14 @@
         type="submit"
         label="Submit"
         [rounded]="true"
+        [disabled]="!form.valid"
       >
       </p-button>
     </div>
 
   </form>
 </div>
-<p-toast></p-toast>
+<p-toast
+  position="top-right">
+</p-toast>
 

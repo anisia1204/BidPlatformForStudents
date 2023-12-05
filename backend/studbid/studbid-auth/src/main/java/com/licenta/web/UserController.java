@@ -19,10 +19,12 @@ public class UserController {
 
     private final UserService userService;
     private final UserValidator userValidator;
+    private final LoginValidator loginValidator;
 
-    public UserController(UserService userService, UserValidator userValidator) {
+    public UserController(UserService userService, UserValidator userValidator, LoginValidator loginValidator) {
         this.userService = userService;
         this.userValidator = userValidator;
+        this.loginValidator = loginValidator;
     }
 
     @PostMapping
@@ -43,7 +45,17 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody UserDTO userDTO){
+    public ResponseEntity<?> authenticate(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
+        loginValidator.validate(userDTO, bindingResult);
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getAllErrors().forEach(error -> {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getCode();
+                errors.put(fieldName, errorMessage);
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(userService.login(userDTO));
     }
 }

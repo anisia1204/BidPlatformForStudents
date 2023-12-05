@@ -1,20 +1,23 @@
 package com.licenta.web;
 
+import com.licenta.domain.User;
 import com.licenta.service.UserService;
 import com.licenta.service.dto.UserDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class UserValidator implements Validator {
+public class LoginValidator implements Validator {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserValidator(UserService userService) {
+    public LoginValidator(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
-
     @Override
     public boolean supports(Class<?> clazz) {
         return UserDTO.class.equals(clazz);
@@ -22,12 +25,16 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
         UserDTO userDTO = (UserDTO) target;
-        if(userService.isExisting(userDTO))
-            errors.rejectValue("email", "Exista deja un utilizator cu acest email!");
+        if(!userService.isExisting(userDTO))
+            errors.rejectValue("email", "Nu exista niciun cont inregistrat cu acest email!");
+
+        User existingUser = userService.getUserByEmail(userDTO.getEmail());
+
+        if(!passwordEncoder.matches(userDTO.getPassword(), existingUser.getPassword())) {
+            errors.rejectValue("password", "Parola incorecta!");
+        }
     }
 }

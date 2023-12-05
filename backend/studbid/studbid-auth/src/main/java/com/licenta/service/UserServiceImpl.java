@@ -48,12 +48,13 @@ public class UserServiceImpl implements UserService{
         return userDTO;
     }
 
+    @Override
     public boolean isExisting(UserDTO userDTO) {
         return userJPARepository.findByEmail(userDTO.getEmail()).isPresent();
     }
 
     @Override
-    public AuthenticationResponse login(UserDTO userDTO) {
+    public UserDTO login(UserDTO userDTO) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDTO.getEmail(),
@@ -61,9 +62,12 @@ public class UserServiceImpl implements UserService{
                 )
         );
         User user = getUserByEmail(userDTO.getEmail());
-        return new AuthenticationResponse(jwtService.generateJwtToken(user));
+        userDTO = userDTOMapper.getDTOFromEntity(user);
+        userDTO.setAuthenticationResponse(new AuthenticationResponse(jwtService.generateJwtToken(user)));
+        return userDTO;
     }
 
+    @Override
     public User getUserByEmail(String email) {
         return userJPARepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }

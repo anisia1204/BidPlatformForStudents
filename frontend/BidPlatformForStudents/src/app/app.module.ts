@@ -16,12 +16,21 @@ import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import { NavbarComponent } from './infra/navbar/navbar.component';
 import {MenubarModule} from "primeng/menubar";
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "",
-    pathMatch: "full"
+    redirectTo: "login",
+    pathMatch: "full",
+  },
+  {
+    path: "login",
+    component: LoginComponent
+  },
+  {
+    path: "dashboard",
+    component: DashboardComponent
   }
 ]
 
@@ -30,7 +39,8 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    NavbarComponent
+    NavbarComponent,
+    DashboardComponent
   ],
     imports: [
         BrowserModule,

@@ -9,25 +9,7 @@ import {RegistrationComponent} from "./auth/registration/registration.component"
   styleUrls: ['./app.component.scss'],
   providers:[DialogService]
 })
-export class AppComponent implements OnDestroy{
+export class AppComponent{
   route = inject(ActivatedRoute)
   router = inject(Router)
-  dialogService = inject(DialogService)
-  dialog: DynamicDialogRef | undefined;
-
-
-  register() {
-    this.dialog = this.dialogService.open(RegistrationComponent, {
-      header: "Inregistreaza-te!",
-      width: "19%",
-      height: "69%",
-      position: "center"
-    })
-  }
-
-  ngOnDestroy(): void {
-    if (this.dialog) {
-      this.dialog.close();
-    }
-  }
 }

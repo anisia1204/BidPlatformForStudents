@@ -1,11 +1,16 @@
-<p-menubar
-  class="fixed-top"
-  [style]="{backgroundColor: '#14B8A6', height: '60px', color: 'white'}"
-  [model]="items"
-  >
-  <ng-template pTemplate="start">
-    <h5>
-      BidPlatformForStudents
-    </h5>
-  </ng-template>
-</p-menubar>
+<nav class="custom-navbar fixed-top">
+  <div class="row">
+    <div class="col-4 mt-3 ms-3">
+      <h5 class="text-white">
+        BidPlatform
+      </h5>
+    </div>
+
+    <div class="col-3 mt-1">
+      <p-button>
+        <i class="pi pi-power-off"></i>
+        <label class="ms-2">Logout</label>
+      </p-button>
+    </div>
+  </div>
+</nav>

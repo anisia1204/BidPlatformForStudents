@@ -1,8 +1,11 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "./login.service";
 import {UserDtoModel} from "../domain/user-dto.model";
 import {MessageService} from "primeng/api";
+import {Router} from "@angular/router";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {RegistrationComponent} from "../registration/registration.component";
 
 @Component({
   selector: 'app-login',
@@ -10,11 +13,12 @@ import {MessageService} from "primeng/api";
   styleUrls: ['./login.component.scss'],
   providers: [MessageService]
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy{
   form: any;
   loginService = inject(LoginService)
   userDto : UserDtoModel = new UserDtoModel()
   messageService = inject(MessageService)
+  router = inject(Router)
 
   constructor() {
     this.createForm();
@@ -31,7 +35,10 @@ export class LoginComponent {
     if(this.form.valid) {
       this.userDto = <UserDtoModel>this.form.value
       this.loginService.login(this.userDto).subscribe(
-        userDto => console.log(userDto),
+        userDto => {
+          console.log(userDto)
+          this.router.navigate(['/dashboard'])
+        },
         errorResponse => {
           let message = "Nu v-ati putut loga!"
           console.log(errorResponse.error)
@@ -47,6 +54,25 @@ export class LoginComponent {
           })
         }
       )
+    }
+  }
+
+  dialogService = inject(DialogService)
+  dialog: DynamicDialogRef | undefined;
+
+
+  register() {
+    this.dialog = this.dialogService.open(RegistrationComponent, {
+      header: "Inregistreaza-te!",
+      width: "19%",
+      height: "69%",
+      position: "center"
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.dialog) {
+      this.dialog.close();
     }
   }
 }

@@ -11,7 +11,16 @@ export class NavbarComponent implements OnInit{
 
   ngOnInit(): void {
     this.items = [
-
+      {
+        label: 'Logout',
+        icon: 'pi pi-fw pi-power-off',
+      },{
+        label: 'Logout',
+        icon: 'pi pi-fw pi-power-off'
+      },{
+        label: 'Logout',
+        icon: 'pi pi-fw pi-power-off'
+      }
     ]
   }
 

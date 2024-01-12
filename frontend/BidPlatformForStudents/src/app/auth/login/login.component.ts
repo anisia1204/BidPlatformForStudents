@@ -46,6 +46,8 @@ export class LoginComponent implements OnDestroy{
             message = "Nu exista niciun cont inregistrat cu acest email!"
           else if(errorResponse.error.password)
             message = errorResponse.error.password
+          else if(errorResponse.error.emailAlreadySent)
+            message = errorResponse.error.emailAlreadySent
           console.log(message)
           this.messageService.add({
             severity: 'error',

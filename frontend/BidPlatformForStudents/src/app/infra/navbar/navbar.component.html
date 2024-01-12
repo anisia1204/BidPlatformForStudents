@@ -7,7 +7,9 @@
     </div>
 
     <div class="col-3 mt-1">
-      <p-button>
+      <p-button *ngIf="isLoggedIn"
+                (onClick)="logout()"
+      >
         <i class="pi pi-power-off"></i>
         <label class="ms-2">Logout</label>
       </p-button>

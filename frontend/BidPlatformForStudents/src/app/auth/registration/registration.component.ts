@@ -38,8 +38,8 @@ export class RegistrationComponent {
             console.log(userDto)
             this.messageService.add({
               severity: 'info',
-              summary: 'Inregistrare reusita!',
-              detail: 'V-ati inregistrat cu succes!'
+              summary: 'Verifica-ti email-ul!',
+              detail: 'Un email de confirmare a fost trimis catre tine. Acceseaza link-ul din email pentru a-ti verifica adresa!'
             })
           },
           errorResponse => {

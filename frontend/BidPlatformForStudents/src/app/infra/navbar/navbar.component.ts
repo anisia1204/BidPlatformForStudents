@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
+import {NavbarService} from "./navbar.service";
 
 @Component({
   selector: 'app-navbar',
@@ -8,6 +9,8 @@ import {MenuItem} from "primeng/api";
 })
 export class NavbarComponent implements OnInit{
   items: MenuItem[] | any;
+  isLoggedIn: boolean = false;
+  navbarService = inject(NavbarService)
 
   ngOnInit(): void {
     this.items = [
@@ -24,4 +27,7 @@ export class NavbarComponent implements OnInit{
     ]
   }
 
+  logout() {
+
+  }
 }

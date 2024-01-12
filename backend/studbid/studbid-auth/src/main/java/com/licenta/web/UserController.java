@@ -1,6 +1,5 @@
 package com.licenta.web;
 
-import com.licenta.service.AuthenticationResponse;
 import com.licenta.service.UserService;
 import com.licenta.service.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +40,12 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
         return ResponseEntity.ok(userService.save(userDTO));
+    }
+
+    @GetMapping("/confirm")
+    public ResponseEntity<?> confirmUser(@RequestParam("token") String token) {
+        userService.confirmUser(token);
+        return ResponseEntity.ok("Te-ai inregistrat cu succes!");
     }
 
     @PostMapping("/login")

@@ -10,4 +10,6 @@ public interface UserService {
 
     boolean isExisting(UserDTO userDTO0);
     User getUserByEmail(String email);
+
+    void confirmUser(String confirmationToken);
 }

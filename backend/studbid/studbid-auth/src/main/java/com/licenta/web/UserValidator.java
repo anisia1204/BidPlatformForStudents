@@ -1,5 +1,6 @@
 package com.licenta.web;
 
+import com.licenta.domain.User;
 import com.licenta.service.UserService;
 import com.licenta.service.dto.UserDTO;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,15 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
         UserDTO userDTO = (UserDTO) target;
-        if(userService.isExisting(userDTO))
-            errors.rejectValue("email", "Exista deja un utilizator cu acest email!");
+        if(userService.isExisting(userDTO)){
+            User user = userService.getUserByEmail(userDTO.getEmail());
+            if(user.isEnabled()) {
+                errors.rejectValue("email", "Exista deja un utilizator cu acest email!");
+            }
+            else {
+                errors.rejectValue("email", "Un email de confirmare a fost deja trimis catre tine! Confirma-ti adresa de email accesand link-ul din email-ul primit!");
+            }
+        }
+
     }
 }

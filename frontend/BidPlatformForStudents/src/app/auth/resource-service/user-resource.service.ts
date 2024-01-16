@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {UserDtoModel} from "../domain/user-dto.model";
 import {HttpClient} from "@angular/common/http";
+import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
 
 @Injectable({
   providedIn: "root"
@@ -16,6 +17,6 @@ export class UserResourceService {
   }
 
   login(userDto: UserDtoModel) {
-    return this.httpClient.post<UserDtoModel>(`${this.url}/login`, userDto)
+    return this.httpClient.post<LoggedInUserDtoModel>(`${this.url}/login`, userDto)
   }
 }

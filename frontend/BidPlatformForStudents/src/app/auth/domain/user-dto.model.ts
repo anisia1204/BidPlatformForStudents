@@ -1,13 +1,17 @@
 import {AuthenticationResponseModel} from "./authentication-response.model";
 
 export class UserDtoModel {
-  firstName: string | undefined;
-  lastName: string | undefined;
-  email: string | undefined;
-  password: string | undefined;
-  _authenticationResponse: AuthenticationResponseModel | undefined;
+  constructor(
+  public firstName: string | undefined,
+  public lastName: string | undefined,
+  public email: string | undefined,
+  public password: string | undefined) {}
 
-  get authenticationResponse() {
-    return this._authenticationResponse
-  }
+
+  // get authenticationResponse() {
+  //   if(!this._authenticationResponse?.tokenExpirationDate || new Date() > this._authenticationResponse.tokenExpirationDate)
+  //     return null;
+  //   return this._authenticationResponse;
+  // }
+
 }

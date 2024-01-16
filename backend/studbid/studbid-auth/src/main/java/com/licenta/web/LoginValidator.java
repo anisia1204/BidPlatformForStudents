@@ -30,13 +30,16 @@ public class LoginValidator implements Validator {
         UserDTO userDTO = (UserDTO) target;
         if(!userService.isExisting(userDTO))
             errors.rejectValue("email", "Nu exista niciun cont inregistrat cu acest email!");
-
-        User existingUser = userService.getUserByEmail(userDTO.getEmail());
-        if(!existingUser.isEnabled()) {
-            errors.rejectValue("emailAlreadySent", "Un email de confirmare a fost deja trimis catre tine! Confirma-ti adresa de email accesand link-ul din email-ul primit!");
-        }
-        if(!passwordEncoder.matches(userDTO.getPassword(), existingUser.getPassword())) {
-            errors.rejectValue("password", "Parola incorecta!");
+        else {
+            User existingUser = userService.getUserByEmail(userDTO.getEmail());
+            if(!existingUser.isEnabled()) {
+                errors.rejectValue("email", "Un email de confirmare a fost deja trimis catre tine! Confirma-ti adresa de email accesand link-ul din email-ul primit!");
+            }
+            else {
+                if(!passwordEncoder.matches(userDTO.getPassword(), existingUser.getPassword())) {
+                    errors.rejectValue("password", "Parola incorecta!");
+                }
+            }
         }
     }
 }

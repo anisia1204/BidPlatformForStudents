@@ -1,18 +1,49 @@
 <nav class="custom-navbar fixed-top">
-  <div class="row">
-    <div class="col-4 mt-3 ms-3">
+  <div class="flex-row d-flex align-content-center">
+    <div class="col-2 mt-3 ms-3">
       <h5 class="text-white">
         BidPlatform
       </h5>
     </div>
 
-    <div class="col-3 mt-1">
-      <p-button *ngIf="isLoggedIn"
-                (onClick)="logout()"
-      >
-        <i class="pi pi-power-off"></i>
-        <label class="ms-2">Logout</label>
-      </p-button>
-    </div>
+    <ng-container *ngIf="isLoggedIn">
+      <div  class="col-4 mt-1">
+        <input [style]="{'width': '400px'}" type="text" pInputText placeholder="Cauta..." class="w-full"/>
+      </div>
+
+      <div class="col-6 d-inline-flex align-content-between justify-content-end pe-3">
+        <p-button class="mt-1 pe-1"
+                  label="Creaza un anunt"
+                  icon="pi pi-pencil"
+                  [routerLink]="['/new-announcement']"
+        >
+        </p-button>
+        <p-button class="mt-1 pe-1"
+                  label="Conversatii"
+                  icon="pi pi-comment"
+        >
+        </p-button>
+        <div class="mt-3 pe-1">
+          <label  class="text-white pe-1"
+          >
+            {{points}}
+          </label>
+          <i class="pi pi-money-bill text-white"></i>
+        </div>
+        <p-splitButton label="Profil"
+                       [model]="this.items"
+                       (onClick)="goToMyProfile()"
+                       styleClass="mr-2 mb-2 custom-link mt-1 pe-1"
+                       icon="pi pi-user"
+        >
+        </p-splitButton>
+
+        <p-button class="mt-1 pe-1"
+                  icon="pi pi-power-off"
+                  (onClick)="logout()"
+        >
+        </p-button>
+      </div>
+    </ng-container>
   </div>
 </nav>

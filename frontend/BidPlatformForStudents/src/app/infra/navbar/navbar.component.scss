@@ -2,3 +2,8 @@
   height: 58px;
   background-color: #14B8A6;
 }
+
+::ng-deep .custom-link a {
+  text-decoration: none;
+}
+

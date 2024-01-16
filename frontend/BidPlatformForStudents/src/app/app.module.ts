@@ -13,10 +13,20 @@ import {ToastModule} from "primeng/toast";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CommonModule} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { NavbarComponent } from './infra/navbar/navbar.component';
 import {MenubarModule} from "primeng/menubar";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {SplitButtonModule} from "primeng/splitbutton";
+import { ProfileComponent } from './profile/profile.component';
+import { NewAnnouncementComponent } from './announcements/new-announcement/new-announcement.component';
+import { EditAnnouncementComponent } from './announcements/edit-announcement/edit-announcement.component';
+import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
+import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
+import { FavouritesListComponent } from './favourites/favourites-list/favourites-list.component';
+import { PageNotFoundComponent } from './infra/page-not-found/page-not-found.component';
+import {AuthInterceptorService} from "./auth/auth-interceptor/auth-interceptor.service";
+import {authGuardFn} from "./auth/auth-guard/auth.guard";
 
 const routes: Routes = [
   {
@@ -30,7 +40,32 @@ const routes: Routes = [
   },
   {
     path: "dashboard",
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [authGuardFn]
+  },
+  {
+    path:"profile",
+    component: ProfileComponent
+  },
+  {
+    path: "new-announcement",
+    component: NewAnnouncementComponent
+  },
+  {
+    path: "my-announcements",
+    component: AnnouncementListComponent
+  },
+  {
+    path: "favourites",
+    component: FavouritesListComponent
+  },
+  {
+    path: "my-transactions",
+    component: TransactionListComponent
+  },
+  {
+    path: "**",
+    component: PageNotFoundComponent
   }
 ]
 
@@ -40,7 +75,14 @@ const routes: Routes = [
     LoginComponent,
     RegistrationComponent,
     NavbarComponent,
-    DashboardComponent
+    DashboardComponent,
+    ProfileComponent,
+    NewAnnouncementComponent,
+    EditAnnouncementComponent,
+    AnnouncementListComponent,
+    TransactionListComponent,
+    FavouritesListComponent,
+    PageNotFoundComponent
   ],
     imports: [
         BrowserModule,
@@ -55,9 +97,16 @@ const routes: Routes = [
         BrowserAnimationsModule,
         CommonModule,
         HttpClientModule,
-        MenubarModule
+        MenubarModule,
+        SplitButtonModule
     ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

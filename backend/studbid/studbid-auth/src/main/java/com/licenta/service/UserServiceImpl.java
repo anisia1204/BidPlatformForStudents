@@ -6,9 +6,12 @@ import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import com.licenta.domain.repository.UserJPARepository;
 import com.licenta.email.EmailSender;
+import com.licenta.service.dto.LoggedInUserDTO;
+import com.licenta.service.dto.LoggedInUserDTOMapper;
 import com.licenta.service.dto.UserDTO;
 import com.licenta.service.dto.UserDTOMapper;
 import com.licenta.service.exception.UserAlreadyExists;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +34,9 @@ public class UserServiceImpl implements UserService{
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender) {
+    private final LoggedInUserDTOMapper loggedInUserDTOMapper;
+
+    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, LoggedInUserDTOMapper loggedInUserDTOMapper) {
         this.userJPARepository = userJPARepository;
         this.userDTOMapper = userDTOMapper;
         this.passwordEncoder = passwordEncoder;
@@ -39,6 +44,7 @@ public class UserServiceImpl implements UserService{
         this.authenticationManager = authenticationManager;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
+        this.loggedInUserDTOMapper = loggedInUserDTOMapper;
     }
 
     @Override
@@ -90,7 +96,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO login(UserDTO userDTO) {
+    public LoggedInUserDTO login(UserDTO userDTO) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDTO.getEmail(),
@@ -98,9 +104,13 @@ public class UserServiceImpl implements UserService{
                 )
         );
         User user = getUserByEmail(userDTO.getEmail());
-        userDTO = userDTOMapper.getDTOFromEntity(user);
-        userDTO.setAuthenticationResponse(new AuthenticationResponse(jwtService.generateJwtToken(user)));
-        return userDTO;
+        LoggedInUserDTO loggedInUserDTO = loggedInUserDTOMapper.getDTOFromEntity(user);
+
+        String jwtToken = jwtService.generateJwtToken(user);
+        loggedInUserDTO.setToken(jwtToken);
+        loggedInUserDTO.setTokenExpirationDate(jwtService.extractClaim(jwtToken, Claims::getExpiration));
+
+        return loggedInUserDTO;
     }
 
     @Override

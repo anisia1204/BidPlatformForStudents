@@ -6,6 +6,7 @@ import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {RegistrationComponent} from "../registration/registration.component";
+import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,10 @@ import {RegistrationComponent} from "../registration/registration.component";
 export class LoginComponent implements OnDestroy{
   form: any;
   loginService = inject(LoginService)
-  userDto : UserDtoModel = new UserDtoModel()
+  userDto : UserDtoModel | undefined
   messageService = inject(MessageService)
   router = inject(Router)
+
 
   constructor() {
     this.createForm();
@@ -35,29 +37,37 @@ export class LoginComponent implements OnDestroy{
     if(this.form.valid) {
       this.userDto = <UserDtoModel>this.form.value
       this.loginService.login(this.userDto).subscribe(
-        userDto => {
-          console.log(userDto)
+        loggedInUserDto => {
+          this.loginService.isLoggedIn(loggedInUserDto);
           this.router.navigate(['/dashboard'])
         },
         errorResponse => {
-          let message = "Nu v-ati putut loga!"
-          console.log(errorResponse.error)
-          if(errorResponse.status == 403)
-            message = "Nu exista niciun cont inregistrat cu acest email!"
-          else if(errorResponse.error.password)
-            message = errorResponse.error.password
-          else if(errorResponse.error.emailAlreadySent)
-            message = errorResponse.error.emailAlreadySent
-          console.log(message)
           this.messageService.add({
             severity: 'error',
             summary: 'Logare esuata!',
-            detail: message
+            detail: this.handleErrorMessage(errorResponse)
           })
         }
       )
     }
   }
+
+  private handleErrorMessage(errorResponse: any): string {
+    let message = 'Nu v-ati putut loga!';
+    console.log(errorResponse.error);
+
+    if (errorResponse.status === 403) {
+      message = 'Nu exista niciun cont inregistrat cu acest email!';
+    } else if (errorResponse.error.password) {
+      message = errorResponse.error.password;
+    } else if (errorResponse.error.emailAlreadySent) {
+      message = errorResponse.error.emailAlreadySent;
+    }
+
+    console.log(message);
+    return message;
+  }
+
 
   dialogService = inject(DialogService)
   dialog: DynamicDialogRef | undefined;

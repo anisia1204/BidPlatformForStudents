@@ -10,7 +10,8 @@ import com.licenta.service.dto.LoggedInUserDTO;
 import com.licenta.service.dto.LoggedInUserDTOMapper;
 import com.licenta.service.dto.UserDTO;
 import com.licenta.service.dto.UserDTOMapper;
-import com.licenta.service.exception.UserAlreadyExists;
+import com.licenta.service.exception.UserAlreadyExistsException;
+import com.licenta.service.exception.UserNotFoundException;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public UserDTO save(UserDTO userDTO) {
         if(isExisting(userDTO))
-            throw new UserAlreadyExists("An user with this email already exists!");
+            throw new UserAlreadyExistsException("An user with this email already exists!");
 
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = userDTOMapper.getEntityFromDTO(userDTO);
@@ -139,6 +140,12 @@ public class UserServiceImpl implements UserService{
         confirmationTokenService.setConfirmedAt(token);
         User user = confirmationToken.getUser();
         enableUser(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User findById(Long userId) {
+        return userJPARepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
     @Transactional

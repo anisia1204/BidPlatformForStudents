@@ -1,5 +1,6 @@
 package com.licenta.service;
 
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.AnnouncementStatus;
 import com.licenta.domain.TutoringService;
 import com.licenta.domain.repository.TutoringServiceJPARepository;
@@ -24,6 +25,7 @@ public class TutoringServiceServiceImpl implements TutoringServiceService{
     @Override
     @Transactional
     public TutoringServiceDTO save(TutoringServiceDTO tutoringServiceDTO) {
+        tutoringServiceDTO.setUserId(UserContextHolder.getUserContext().getUserId());
         TutoringService tutoringService = tutoringServiceDTOMapper.getEntityFromDTO(tutoringServiceDTO);
         tutoringService.setStatus(AnnouncementStatus.ACTIVE);
         tutoringService.setCreatedAt(LocalDateTime.now());

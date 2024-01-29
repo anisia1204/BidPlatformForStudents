@@ -1,0 +1,71 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-6 pb-4">
+      <span class="p-float-label flex-grow-1">
+        <input
+          id="subject"
+          name="subject"
+          formControlName="subject"
+          type="text"
+          pInputText
+        >
+        <label for="subject">Subiect</label>
+      </span>
+    </div>
+
+    <div class="col-md-6 pb-4">
+      <span class="p-float-label flex-grow-1">
+        <input
+          id="hoursPerSession"
+          name="hoursPerSession"
+          formControlName="hoursPerSession"
+          type="number"
+          pInputText
+        >
+        <label for="hoursPerSession">Ore per sesiune</label>
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 pb-4">
+      <span class="p-float-label flex-grow-1">
+        <p-calendar [showClear]="true"
+                    formControlName="startDate"
+                    id="startDate"
+                    dataType="string"
+                    dateFormat="yy-mm-dd"
+                    appendTo="body">
+        </p-calendar>
+        <label for="startDate">De la</label>
+      </span>
+    </div>
+
+    <div class="col-md-6 pb-4">
+      <span class="p-float-label flex-grow-1">
+        <p-calendar [showClear]="true"
+                    formControlName="endDate"
+                    id="endDate"
+                    dataType="string"
+                    dateFormat="yy-mm-dd"
+                    appendTo="body">
+        </p-calendar>
+        <label for="endDate">Pana la</label>
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 pb-4">
+      <span class="p-float-label flex-grow-1">
+         <p-dropdown [options]="tutoringTypes"
+                     formControlName="tutoringType"
+                     placeholder="Modul de predare"
+                     optionLabel="label"
+                     id="tutoringType">
+         </p-dropdown>
+         <label for="tutoringType">Modul de predare</label>
+      </span>
+    </div>
+  </div>
+</form>

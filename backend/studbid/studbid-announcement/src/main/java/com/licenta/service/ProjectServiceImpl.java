@@ -1,5 +1,6 @@
 package com.licenta.service;
 
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.AnnouncementStatus;
 import com.licenta.domain.Project;
 import com.licenta.domain.repository.ProjectJPARepository;
@@ -28,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public ProjectDTO save(ProjectDTO projectDTO) {
+        projectDTO.setUserId(UserContextHolder.getUserContext().getUserId());
         Project project =  projectDTOMapper.getEntityFromDTO(projectDTO);
         project.setStatus(AnnouncementStatus.ACTIVE);
         project.setCreatedAt(LocalDateTime.now());

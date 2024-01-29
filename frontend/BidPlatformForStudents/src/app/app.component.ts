@@ -1,7 +1,5 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
-import {RegistrationComponent} from "./auth/registration/registration.component";
+import {Component, OnInit} from '@angular/core';
+import {DialogService} from "primeng/dynamicdialog";
 import {LoginService} from "./auth/login/login.service";
 
 @Component({

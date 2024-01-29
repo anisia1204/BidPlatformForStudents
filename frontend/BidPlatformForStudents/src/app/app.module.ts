@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChipsModule} from "primeng/chips";
 import { RouterLink, RouterModule, Routes} from "@angular/router";
 import { RegistrationComponent } from './auth/registration/registration.component';
@@ -27,6 +27,14 @@ import { FavouritesListComponent } from './favourites/favourites-list/favourites
 import { PageNotFoundComponent } from './infra/page-not-found/page-not-found.component';
 import {AuthInterceptorService} from "./auth/auth-interceptor/auth-interceptor.service";
 import {authGuardFn} from "./auth/auth-guard/auth.guard";
+import { TeachingMaterialFormComponent } from './announcements/teaching-material-form/teaching-material-form.component';
+import { TutoringServiceFormComponent } from './announcements/tutoring-service-form/tutoring-service-form.component';
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {RadioButtonModule} from "primeng/radiobutton";
+import { ProjectInputsComponent } from './announcements/project-inputs/project-inputs.component';
+import {CalendarModule} from "primeng/calendar";
+import {DropdownModule} from "primeng/dropdown";
+import {StyleClassModule} from "primeng/styleclass";
 
 const routes: Routes = [
   {
@@ -49,7 +57,13 @@ const routes: Routes = [
   },
   {
     path: "new-announcement",
-    component: NewAnnouncementComponent
+    component: NewAnnouncementComponent,
+    children: [
+      {
+        path: "tutoring-service",
+        component: TutoringServiceFormComponent
+      }
+    ]
   },
   {
     path: "my-announcements",
@@ -82,7 +96,10 @@ const routes: Routes = [
     AnnouncementListComponent,
     TransactionListComponent,
     FavouritesListComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    TeachingMaterialFormComponent,
+    TutoringServiceFormComponent,
+    ProjectInputsComponent
   ],
     imports: [
         BrowserModule,
@@ -98,7 +115,13 @@ const routes: Routes = [
         CommonModule,
         HttpClientModule,
         MenubarModule,
-        SplitButtonModule
+        SplitButtonModule,
+        InputTextareaModule,
+        RadioButtonModule,
+        FormsModule,
+        CalendarModule,
+        DropdownModule,
+        StyleClassModule
     ],
   providers: [
     {

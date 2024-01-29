@@ -1,5 +1,6 @@
 package com.licenta.service;
 
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.AnnouncementStatus;
 import com.licenta.domain.TeachingMaterial;
 import com.licenta.domain.repository.TeachingMaterialJPARepository;
@@ -24,6 +25,7 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
     @Override
     @Transactional
     public TeachingMaterialDTO save(TeachingMaterialDTO teachingMaterialDTO) {
+        teachingMaterialDTO.setUserId(UserContextHolder.getUserContext().getUserId());
         TeachingMaterial teachingMaterial = teachingMaterialDTOMapper.getEntityFromDTO(teachingMaterialDTO);
         teachingMaterial.setStatus(AnnouncementStatus.ACTIVE);
         teachingMaterial.setCreatedAt(LocalDateTime.now());

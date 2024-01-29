@@ -1,1 +1,107 @@
-<p [style]="{marginTop: '500px', marginBottom: '1500px'}">new-announcement works!</p>
+<div class="row d-flex justify-content-center align-items-center pb-5">
+  <div class="col-xl-9 col-lg-9">
+    <p-card header="Adauga un anunt" class="p-d-xl-flex" [style]="{
+        backgroundColor: 'var(--blue-800)',
+        color: 'white'
+    }">
+      <hr class="my-0 pb-4">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-md-6 pb-4">
+              <span class="p-float-label flex-grow-1 w-100">
+                <input
+                  id="title"
+                  name="title"
+                  formControlName="title"
+                  type="text"
+                  pInputText
+                >
+                <label for="title">
+                  Titlu
+                </label>
+              </span>
+              </div>
+
+              <div class="col-md-6 pb-4">
+              <span class="p-float-label flex-grow-1">
+                <input
+                  id="points"
+                  name="points"
+                  formControlName="points"
+                  type="number"
+                  pInputText
+                >
+                <label for="points">
+                  Puncte
+                </label>
+              </span>
+              </div>
+            </div>
+
+
+            <div class="col-md-12 pb-4">
+              <span class="p-float-label flex-grow-1">
+                <textarea
+                  rows="5"
+                  cols="55"
+                  id="description"
+                  name="description"
+                  formControlName="description"
+                  type="text"
+                  pInputTextarea
+                >
+                </textarea>
+                <label for="description">
+                  Descriere
+                </label>
+              </span>
+            </div>
+
+
+          </div>
+          <div class="col-6">
+            <div class="flex flex-wrap gap-3 align-content-center d-flex col-12">
+              <div class="flex align-items-center">
+                <p-radioButton name="announcementType" value="project" formControlName="announcementType" id="ingredient1"></p-radioButton>
+                <label for="ingredient1" class="ml-2">Proiect</label>
+              </div>
+
+              <div class="flex align-items-center">
+                <p-radioButton name="announcementType" value="tutoringService" formControlName="announcementType" id="ingredient2"></p-radioButton>
+                <label for="ingredient2" class="ml-2">Serviciu de tutorat</label>
+              </div>
+
+              <div class="flex align-items-center">
+                <p-radioButton name="announcementType" value="teachingMaterial" formControlName="announcementType" id="ingredient3"></p-radioButton>
+                <label for="ingredient3" class="ml-2">Material didactic</label>
+              </div>
+            </div>
+
+            <div class="col-12 mt-4">
+              <ng-container *ngIf="form.get('announcementType').value === 'teachingMaterial'">
+                <app-teaching-material-form [form]="form.get('teachingMaterial')"></app-teaching-material-form>
+              </ng-container>
+
+              <ng-container *ngIf="form.get('announcementType').value === 'tutoringService'">
+                <app-tutoring-service-form [form]="form.get('tutoringService')"></app-tutoring-service-form>
+              </ng-container>
+
+              <ng-container *ngIf="form.get('announcementType').value === 'project'">
+                <app-project-inputs [form]="form.get('project')"></app-project-inputs>
+              </ng-container>
+            </div>
+
+
+          </div>
+        </div>
+      </form>
+      <ng-template pTemplate="footer" class="d-flex align-content-end">
+        <button pButton [label]="'Cancel'" pStyleClass="p-button-secondary" type="button" class="p-button-text"
+                [style]="{ 'margin-left': '.5em' }"></button>
+        <button pButton [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text"></button>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

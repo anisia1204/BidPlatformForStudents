@@ -6,7 +6,6 @@ import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {RegistrationComponent} from "../registration/registration.component";
-import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
 
 @Component({
   selector: 'app-login',

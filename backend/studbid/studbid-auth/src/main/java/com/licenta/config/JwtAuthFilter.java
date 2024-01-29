@@ -1,6 +1,9 @@
 package com.licenta.config;
 
 import com.licenta.config.service.JwtService;
+import com.licenta.context.UserContextHolder;
+import com.licenta.domain.repository.UserJPARepository;
+import com.licenta.service.exception.UserNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,10 +24,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserJPARepository userJPARepository;
 
-    public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService, UserJPARepository userJPARepository) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.userJPARepository = userJPARepository;
     }
 
     @Override
@@ -44,6 +49,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUsername(jwtToken);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            Long userId = getUserIdByUserEmail(userEmail);
+            UserContextHolder.setUserContext(new UserContextHolder.UserContext(userDetails, userId));
             if(jwtService.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -58,4 +65,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+    private Long getUserIdByUserEmail(String username) {
+        return this.userJPARepository.findByEmail(username).orElseThrow(UserNotFoundException::new).getId();
+    }
 }
+
+

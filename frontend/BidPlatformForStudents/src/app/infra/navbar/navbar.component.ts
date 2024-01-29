@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {NavbarService} from "./navbar.service";
-import {MenuItem, MenuItemCommandEvent} from "primeng/api";
+import {MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 

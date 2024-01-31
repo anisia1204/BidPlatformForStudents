@@ -11,4 +11,6 @@ public interface TeachingMaterialService {
     TeachingMaterial getById(Long id);
 
     void delete(Long id);
+
+    TeachingMaterialDTO getTemplate(Long id);
 }

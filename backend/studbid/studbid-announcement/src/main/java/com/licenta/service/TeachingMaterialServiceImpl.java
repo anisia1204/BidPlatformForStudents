@@ -56,4 +56,11 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
         teachingMaterial.setDeleted(true);
         teachingMaterialJPARepository.save(teachingMaterial);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TeachingMaterialDTO getTemplate(Long id) {
+        TeachingMaterial teachingMaterial = getById(id);
+        return teachingMaterialDTOMapper.getDTOFromEntity(teachingMaterial);
+    }
 }

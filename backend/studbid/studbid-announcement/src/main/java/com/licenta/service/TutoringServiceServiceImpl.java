@@ -51,6 +51,13 @@ public class TutoringServiceServiceImpl implements TutoringServiceService{
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public TutoringServiceDTO getTemplate(Long id) {
+        TutoringService tutoringService = getById(id);
+        return tutoringServiceDTOMapper.getDTOFromEntity(tutoringService);
+    }
+
+    @Override
     @Transactional
     public void delete(Long id) {
         TutoringService tutoringService = getById(id);

@@ -8,4 +8,5 @@ public interface TutoringServiceService {
     TutoringServiceDTO update(TutoringServiceDTO tutoringServiceDTO);
     void delete(Long id);
     TutoringService getById(Long id);
+    TutoringServiceDTO getTemplate(Long id);
 }

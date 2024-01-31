@@ -68,4 +68,13 @@ public class ProjectServiceImpl implements ProjectService{
     public Project getById(Long id) {
         return projectJPARepository.findById(id).orElseThrow(ProjectNotFoundException::new);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProjectDTO getTemplate(Long id) {
+        Project project = getById(id);
+        ProjectDTO projectDTO = projectDTOMapper.getDTOFromEntity(project);
+        projectDTO.setRequiredSkills(skillService.getAllDTOsByProjectId(id));
+        return projectDTO;
+    }
 }

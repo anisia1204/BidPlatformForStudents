@@ -33,4 +33,10 @@ public class ProjectController {
         projectService.delete(id);
         return ResponseEntity.ok(true);
     }
+
+    @GetMapping(value = {"/template/{id}"})
+    @ResponseBody
+    public ResponseEntity<?> getTemplate(@PathVariable Long id) {
+        return ResponseEntity.ok(projectService.getTemplate(id));
+    }
 }

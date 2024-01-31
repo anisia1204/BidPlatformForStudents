@@ -44,4 +44,13 @@ public class SkillServiceImpl implements SkillService{
         skillDTO = skillDTOMapper.getDTOFromEntity(skill);
         return skillDTO;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SkillDTO> getAllDTOsByProjectId(Long projectId) {
+        return skillJPARepository.findAllByProjectId(projectId)
+                .stream()
+                .map(skillDTOMapper::getDTOFromEntity)
+                .toList();
+    }
 }

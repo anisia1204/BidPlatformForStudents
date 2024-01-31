@@ -8,4 +8,5 @@ import java.util.List;
 public interface SkillService {
     List<SkillDTO> saveAll(List<SkillDTO> projectSkillDTOS, Project project);
     SkillDTO save(SkillDTO skillDTO, Project project);
+    List<SkillDTO> getAllDTOsByProjectId(Long projectId);
 }

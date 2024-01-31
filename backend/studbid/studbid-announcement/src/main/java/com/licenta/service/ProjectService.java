@@ -10,4 +10,6 @@ public interface ProjectService {
 
     void delete(Long id);
     Project getById(Long id);
+
+    ProjectDTO getTemplate(Long id);
 }

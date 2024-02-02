@@ -1,30 +1,28 @@
 <div class="row d-flex justify-content-center align-items-center pb-5">
-  <div class="col-xl-9 col-lg-9">
-    <p-card header="Adauga un anunt" class="p-d-xl-flex" [style]="{
-        backgroundColor: 'var(--blue-800)',
-        color: 'white'
-    }">
-      <hr class="my-0 pb-4">
+  <div class="col-xl-11 col-lg-11">
+    <h3 class="text-center pb-2">Adauga un anunt</h3>
+    <hr class="my-0 pb-4">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-6">
-            <div class="row">
-              <div class="col-md-6 pb-4">
-              <span class="p-float-label flex-grow-1 w-100">
+        <div class="row d-flex justify-content-center">
+          <div class="col-3">
+            <div class="col-12 pb-4">
+              <span class="p-float-label flex-grow-1">
                 <input
                   id="title"
                   name="title"
                   formControlName="title"
                   type="text"
                   pInputText
+                  required
+                  style="width: 100%"
                 >
                 <label for="title">
-                  Titlu
+                  Titlu*
                 </label>
               </span>
-              </div>
+            </div>
 
-              <div class="col-md-6 pb-4">
+            <div class="col-12 pb-4">
               <span class="p-float-label flex-grow-1">
                 <input
                   id="points"
@@ -32,54 +30,59 @@
                   formControlName="points"
                   type="number"
                   pInputText
+                  required
+                  style="width: 100%"
                 >
                 <label for="points">
-                  Puncte
+                  Puncte*
                 </label>
               </span>
-              </div>
             </div>
-
-
-            <div class="col-md-12 pb-4">
+          </div>
+          <div class="col-9">
+            <div class="col-12 pb-4">
               <span class="p-float-label flex-grow-1">
                 <textarea
-                  rows="5"
-                  cols="55"
+                  rows="4"
+                  cols="83"
                   id="description"
                   name="description"
                   formControlName="description"
                   type="text"
                   pInputTextarea
+                  required
+                  style="width: 100%"
                 >
                 </textarea>
                 <label for="description">
-                  Descriere
+                  Descriere*
                 </label>
               </span>
             </div>
-
-
           </div>
-          <div class="col-6">
-            <div class="flex flex-wrap gap-3 align-content-center d-flex col-12">
+        </div>
+        <h5 class="pb-2 text-center">Tipul anuntului</h5>
+            <div class="flex flex-row gap-3 align-content-center justify-content-center d-flex col-12 pb-2">
               <div class="flex align-items-center">
-                <p-radioButton name="announcementType" value="project" formControlName="announcementType" id="ingredient1"></p-radioButton>
+                <p-radioButton name="announcementType" value="project" formControlName="announcementType"
+                               id="ingredient1" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
                 <label for="ingredient1" class="ml-2">Proiect</label>
               </div>
 
               <div class="flex align-items-center">
-                <p-radioButton name="announcementType" value="tutoringService" formControlName="announcementType" id="ingredient2"></p-radioButton>
+                <p-radioButton name="announcementType" value="tutoringService" formControlName="announcementType"
+                               id="ingredient2" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
                 <label for="ingredient2" class="ml-2">Serviciu de tutorat</label>
               </div>
 
               <div class="flex align-items-center">
-                <p-radioButton name="announcementType" value="teachingMaterial" formControlName="announcementType" id="ingredient3"></p-radioButton>
+                <p-radioButton name="announcementType" value="teachingMaterial" formControlName="announcementType"
+                               id="ingredient3" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
                 <label for="ingredient3" class="ml-2">Material didactic</label>
               </div>
             </div>
-
-            <div class="col-12 mt-4">
+{{form.valid | json}}
+        <div class="pt-3">
               <ng-container *ngIf="form.get('announcementType').value === 'teachingMaterial'">
                 <app-teaching-material-form [form]="form.get('teachingMaterial')"></app-teaching-material-form>
               </ng-container>
@@ -91,17 +94,11 @@
               <ng-container *ngIf="form.get('announcementType').value === 'project'">
                 <app-project-inputs [form]="form.get('project')"></app-project-inputs>
               </ng-container>
-            </div>
-
-
-          </div>
         </div>
+
       </form>
-      <ng-template pTemplate="footer" class="d-flex align-content-end">
-        <button pButton [label]="'Cancel'" pStyleClass="p-button-secondary" type="button" class="p-button-text"
-                [style]="{ 'margin-left': '.5em' }"></button>
-        <button pButton [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text"></button>
-      </ng-template>
-    </p-card>
+        <div class="d-flex justify-content-end">
+          <p-button [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text"></p-button>
+        </div>
   </div>
 </div>

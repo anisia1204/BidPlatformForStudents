@@ -1,10 +1,15 @@
-import {Component, inject} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, inject} from '@angular/core';
 import {Router} from "@angular/router";
-import { FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {TeachingMaterialDtoModel} from "../domain/teaching-material-dto.model";
 import {TutoringServiceDtoModel} from "../domain/tutoring-service-dto.model";
 import {NewAnnouncementService} from "./new-announcement.service";
 import {ProjectDtoModel} from "../domain/project-dto.model";
+import {TutoringTypeModel} from "../domain/tutoring-type.model";
+import {SkillDtoModel} from "../domain/skill-dto.model";
+import {
+  NewAnnouncementValidatorHandlerServiceTsService
+} from "../validator/new-announcement-validator-handler.service.ts.service";
 
 
 @Component({
@@ -12,11 +17,10 @@ import {ProjectDtoModel} from "../domain/project-dto.model";
   templateUrl: './new-announcement.component.html',
   styleUrls: ['./new-announcement.component.scss']
 })
-export class NewAnnouncementComponent {
-  router = inject(Router)
+export class NewAnnouncementComponent{
   form: FormGroup | any;
   newAnnouncementService = inject(NewAnnouncementService)
-
+  newAnnouncementValidatorHandlerService = inject(NewAnnouncementValidatorHandlerServiceTsService)
 
   constructor() {
     this.createForm();
@@ -29,17 +33,43 @@ export class NewAnnouncementComponent {
       title: new FormControl<string | null>('', Validators.required),
       description: new FormControl<string | null>('', Validators.required),
       points: new FormControl<string | null>('', Validators.required),
-      announcementType: new FormControl<string>(''),
-      tutoringService: new FormGroup({}),
-      project: new FormGroup({}),
-      teachingMaterial: new FormGroup({})
+      announcementType: new FormControl<string>('', Validators.required),
+      tutoringService: new FormGroup({
+        subject: new FormControl<string | null>(''),
+        startDate: new FormControl<string | null>(''),
+        endDate: new FormControl<string | null>(''),
+        hoursPerSession: new FormControl<number | null>(null),
+        tutoringType: new FormControl<TutoringTypeModel | null>(null)
+      }),
+      project: new FormGroup({
+        domain:  new FormControl<string | null>(''),
+        teamSize:  new FormControl<number | null>(null),
+        requiredSkills:  new FormArray<SkillDtoModel[] | any>([
+          this.createFormGroupForRequiredSkills()
+        ])
+      }),
+      teachingMaterial: new FormGroup({
+        name:  new FormControl<string | null>(''),
+        author: new FormControl<string | null>(''),
+        edition: new FormControl<number | null>(null)
+      })
+    })
+  }
+
+  createFormGroupForRequiredSkills() {
+    return new FormGroup({
+      id: new FormControl<number | any>(null),
+      projectId: new FormControl<number | any>(null),
+      skill: new FormControl<string | any>(''),
+      description: new FormControl<string | any>(''),
+      skillPoints: new FormControl<number | any>(null)
     })
   }
 
   onSubmit() {
-    if(this.form.valid) {
+    if (this.form.valid) {
       const announcementType = this.form.get('announcementType').value;
-      switch(announcementType) {
+      switch (announcementType) {
         case 'teachingMaterial':
           this.saveTeachingMaterial(this.form);
           break;
@@ -89,5 +119,29 @@ export class NewAnnouncementComponent {
     this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
       projectDto => console.log(projectDto)
     )
+  }
+
+  onAnnouncementTypeChange() {
+    const announcementType = this.form.get('announcementType').value;
+
+    this.newAnnouncementValidatorHandlerService.updateValidatorsForTutoringService(this.form.get('tutoringService') as FormGroup, Validators.required)
+    this.newAnnouncementValidatorHandlerService.updateValidatorsForProject(this.form.get('project') as FormGroup, Validators.required)
+
+    switch (announcementType) {
+      case 'teachingMaterial':
+        this.newAnnouncementValidatorHandlerService.clearValidatorsForTutoringService(this.form.get('tutoringService') as FormGroup);
+        this.newAnnouncementValidatorHandlerService.clearValidatorsForProject(this.form.get('project') as FormGroup);
+        break;
+      case 'tutoringService':
+        this.newAnnouncementValidatorHandlerService.updateValidatorsForTutoringService(this.form.get('tutoringService') as FormGroup, Validators.required)
+        this.newAnnouncementValidatorHandlerService.clearValidatorsForProject(this.form.get('project') as FormGroup);
+        break;
+      case 'project':
+        this.newAnnouncementValidatorHandlerService.updateValidatorsForProject(this.form.get('project') as FormGroup, Validators.required)
+        this.newAnnouncementValidatorHandlerService.clearValidatorsForTutoringService(this.form.get('tutoringService') as FormGroup);
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -1,23 +1,26 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {FormGroup} from "@angular/forms";
+import {FileUploadEvent} from "primeng/fileupload";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-teaching-material-form',
   templateUrl: './teaching-material-form.component.html',
-  styleUrls: ['./teaching-material-form.component.scss']
+  styleUrls: ['./teaching-material-form.component.scss'],
+  providers: [MessageService]
 })
-export class TeachingMaterialFormComponent implements OnInit{
+export class TeachingMaterialFormComponent implements OnInit, OnDestroy{
   @Input() form: FormGroup | any;
+  uploadedFiles: any[] = [];
 
   ngOnInit() {
-    this.createForm();
   }
 
-  createForm() {
-    this.form.addControl('name',  new FormControl<string | null>(''));
-    this.form.addControl('author',  new FormControl<string | null>(''));
-    this.form.addControl('edition',  new FormControl<number | null>(null));
+  onUpload($event: FileUploadEvent) {
+
   }
 
-
+  ngOnDestroy(): void {
+    this.form.reset(new FormGroup({}))
+  }
 }

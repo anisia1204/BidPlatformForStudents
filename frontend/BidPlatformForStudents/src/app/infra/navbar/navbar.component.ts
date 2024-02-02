@@ -3,11 +3,14 @@ import {NavbarService} from "./navbar.service";
 import {MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {NewAnnouncementComponent} from "../../announcements/new-announcement/new-announcement.component";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  providers: [DialogService]
 })
 export class NavbarComponent implements OnInit, OnDestroy{
   isLoggedIn: boolean = false;
@@ -16,6 +19,8 @@ export class NavbarComponent implements OnInit, OnDestroy{
   router = inject(Router)
   items: MenuItem[] | undefined
   private userSubscription: Subscription | undefined;
+  newAnnouncementDialog: DynamicDialogRef | undefined;
+  constructor(public dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.userSubscription = this.navbarService.isLoggedIn().subscribe(
@@ -59,6 +64,15 @@ export class NavbarComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe()
+  }
+
+  show() {
+    this.newAnnouncementDialog = this.dialogService.open(NewAnnouncementComponent, {
+      width: "90%",
+      height: "100%",
+      position: "center",
+      modal: true,
+    });
   }
 
 }

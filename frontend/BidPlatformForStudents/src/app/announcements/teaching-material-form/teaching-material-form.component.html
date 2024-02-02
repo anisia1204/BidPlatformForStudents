@@ -1,46 +1,64 @@
 <form [formGroup]="form">
-  <div class="col-12 pb-4">
-  <span class="p-float-label flex-grow-1">
-    <input
-      id="name"
-      name="name"
-      formControlName="name"
-      type="text"
-      pInputText
-    >
-    <label for="name">
-       Nume
-    </label>
-  </span>
-  </div>
+  <div class="row">
+      <div class="col-4 pb-4">
+        <span class="p-float-label flex-grow-1">
+          <input
+            id="name"
+            name="name"
+            formControlName="name"
+            type="text"
+            pInputText
+            style="width: 100%"
+          >
+          <label for="name">
+            Nume
+          </label>
+        </span>
+      </div>
 
-  <div class="col-12 pb-4">
-  <span class="p-float-label flex-grow-1">
-    <input
-      id="author"
-      name="author"
-      formControlName="author"
-      type="text"
-      pInputText
-    >
-    <label for="author">
-       Autor
-    </label>
-  </span>
-  </div>
+      <div class="col-4 pb-4">
+        <span class="p-float-label flex-grow-1">
+          <input
+            id="author"
+            name="author"
+            formControlName="author"
+            type="text"
+            pInputText
+            style="width: 100%"
+          >
+          <label for="author">
+            Autor
+          </label>
+        </span>
+      </div>
 
-  <div class="col-12 pb-4">
-  <span class="p-float-label flex-grow-1">
-    <input
-      id="edition"
-      name="edition"
-      formControlName="edition"
-      type="number"
-      pInputText
-    >
-    <label for="edition">
-       Editie
-    </label>
-  </span>
-  </div>
+      <div class="col-4 pb-4">
+        <span class="p-float-label flex-grow-1">
+          <input
+            id="edition"
+            name="edition"
+            formControlName="edition"
+            type="number"
+            pInputText
+            style="width: 100%"
+          >
+          <label for="edition">
+            Editie
+          </label>
+        </span>
+      </div>
+    </div>
+    <h5 class="pb-2 text-center">Fotografii*</h5>
+    <div class="col-12 d-flex justify-content-center pt-2">
+      <p-toast></p-toast>
+      <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)"
+                    [multiple]="true" accept="image/*" [style]="{'width':'100%'}">
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+
 </form>

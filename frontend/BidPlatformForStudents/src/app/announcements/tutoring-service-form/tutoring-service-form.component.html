@@ -1,21 +1,23 @@
 <form [formGroup]="form">
-  <div class="row">
-    <div class="col-md-6 pb-4">
+  <div class="row d-flex justify-content-center">
+    <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <input
           id="subject"
+          style="width: 100%"
           name="subject"
           formControlName="subject"
           type="text"
           pInputText
         >
-        <label for="subject">Subiect</label>
+        <label for="subject">Subiect*</label>
       </span>
     </div>
 
-    <div class="col-md-6 pb-4">
+    <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <input
+          style="width: 100%"
           id="hoursPerSession"
           name="hoursPerSession"
           formControlName="hoursPerSession"
@@ -27,23 +29,25 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-6 pb-4">
+  <div class="row d-flex justify-content-center">
+    <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <p-calendar [showClear]="true"
+                    [style]="{'width': '100%'}"
                     formControlName="startDate"
                     id="startDate"
                     dataType="string"
                     dateFormat="yy-mm-dd"
                     appendTo="body">
         </p-calendar>
-        <label for="startDate">De la</label>
+        <label for="startDate">De la*</label>
       </span>
     </div>
 
-    <div class="col-md-6 pb-4">
+    <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <p-calendar [showClear]="true"
+                    [style]="{'width': '100%'}"
                     formControlName="endDate"
                     id="endDate"
                     dataType="string"
@@ -55,16 +59,18 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12 pb-4">
+  <div class="row d-flex justify-content-center">
+    <div class="col-3">
       <span class="p-float-label flex-grow-1">
          <p-dropdown [options]="tutoringTypes"
+                     [style]="{'width': '100%'}"
                      formControlName="tutoringType"
                      placeholder="Modul de predare"
                      optionLabel="label"
+                     appendTo="body"
                      id="tutoringType">
          </p-dropdown>
-         <label for="tutoringType">Modul de predare</label>
+         <label for="tutoringType">Modul de predare*</label>
       </span>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <form [formGroup]="form">
-  <div class="row">
-    <div class="col-md-6 pb-4">
+  <div class="row d-flex justify-content-center">
+    <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <input
           id="domain"
@@ -8,14 +8,15 @@
           formControlName="domain"
           type="text"
           pInputText
+          style="width: 100%"
         >
         <label for="domain">
-          Domeniu
+          Domeniu*
         </label>
       </span>
     </div>
 
-    <div class="col-md-6 pb-4">
+    <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <input
           id="teamSize"
@@ -23,74 +24,94 @@
           formControlName="teamSize"
           type="number"
           pInputText
+          style="width: 100%"
         >
         <label for="teamSize">
-          Membrii echipei
+          Numar membrii*
         </label>
       </span>
     </div>
   </div>
-  <h6 class="text-center">Abilitati necesare</h6>
-    <div formArrayName="requiredSkills"
-          *ngFor="let skillControl of this.form.controls['requiredSkills']?.controls; let i = index">
-      <div [formGroup]="skillControl">
+  <div class="d-flex justify-content-center align-items-center pb-4">
+      <h5 class="me-2">Abilitati necesare</h5>
+      <button pButton icon="pi pi-plus" class="p-button-outlined" style="width: 2em;height: 2em" (click)="addSkill()"></button>
+  </div>
 
-        <div class="col-md-6 pb-4">
-          <span class="p-float-label flex-grow-1">
-            <input
-              id="skill"
-              name="skill"
-              formControlName="skill"
-              type="text"
-              pInputText
-            >
-            <label for="skill">
-              Abilitate
-            </label>
-          </span>
+  <div class="container">
+    <div class="row">
+      <div formArrayName="requiredSkills"
+           *ngFor="let skillControl of this.form.controls['requiredSkills']?.controls; let i = index"
+            class="col-md-6">
+        <div [formGroup]="skillControl">
+          <div class="row">
+            <div class="col-6">
+              <div class="col-12 pb-4">
+              <span class="p-float-label flex-grow-1">
+                <input
+                  id="skill"
+                  name="skill"
+                  formControlName="skill"
+                  type="text"
+                  pInputText
+                  style="width: 100%"
+                >
+                <label for="skill">
+                  Abilitate*
+                </label>
+              </span>
+              </div>
+              <div class="col-12 pb-4">
+              <span class="p-float-label flex-grow-1">
+                <input
+                  id="skillPoints"
+                  name="skillPoints"
+                  formControlName="skillPoints"
+                  type="number"
+                  pInputText
+                  style="width: 100%"
+                >
+                <label for="skillPoints">
+                  Punctele abilitatii*
+                </label>
+              </span>
+              </div>
+            </div>
+
+            <div class="col-6 d-flex align-items-center">
+              <div class="col-11 pb-4">
+              <span class="p-float-label flex-grow-1">
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  formControlName="description"
+                  type="text"
+                  pInputText
+                  style="width: 100%"
+                >
+                </textarea>
+                <label for="description">
+                  Descriere
+                </label>
+              </span>
+              </div>
+              <div class="col-1 pb-4">
+                <button *ngIf="this.form.controls['requiredSkills']?.controls.length > 1"
+                        pButton
+                        type="button"
+                        class="p-button-text"
+                        icon="pi pi-trash"
+                        (click)="removeSkill(i)"
+                >
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="col-md-6 pb-4">
-          <span class="p-float-label flex-grow-1">
-            <input
-              id="description"
-              name="description"
-              formControlName="description"
-              type="text"
-              pInputText
-            >
-            <label for="description">
-              Descriere
-            </label>
-          </span>
-        </div>
-
-        <div class="col-md-6 pb-4">
-          <span class="p-float-label flex-grow-1">
-            <input
-              id="skillPoints"
-              name="skillPoints"
-              formControlName="skillPoints"
-              type="number"
-              pInputText
-            >
-            <label for="skillPoints">
-              Punctele abilitatii
-            </label>
-          </span>
-        </div>
-
-        <div class="col-1">
-          <button *ngIf="this.form.controls['requiredSkills']?.controls.length > 1"
-                  pButton
-                  type="button"
-                  class="p-button-text"
-                  icon="pi pi-trash"
-                  >
-          </button>
-        </div>
-
       </div>
     </div>
+  </div>
+
+
 </form>
 

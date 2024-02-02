@@ -35,6 +35,7 @@ import { ProjectInputsComponent } from './announcements/project-inputs/project-i
 import {CalendarModule} from "primeng/calendar";
 import {DropdownModule} from "primeng/dropdown";
 import {StyleClassModule} from "primeng/styleclass";
+import {FileUploadModule} from "primeng/fileupload";
 
 const routes: Routes = [
   {
@@ -121,7 +122,8 @@ const routes: Routes = [
         FormsModule,
         CalendarModule,
         DropdownModule,
-        StyleClassModule
+        StyleClassModule,
+        FileUploadModule
     ],
   providers: [
     {

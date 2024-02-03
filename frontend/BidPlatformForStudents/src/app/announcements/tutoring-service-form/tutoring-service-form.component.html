@@ -33,6 +33,7 @@
     <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <p-calendar [showClear]="true"
+                    [minDate]="minDateForStartDate"
                     [style]="{'width': '100%'}"
                     formControlName="startDate"
                     id="startDate"
@@ -47,6 +48,7 @@
     <div class="col-3 pb-4">
       <span class="p-float-label flex-grow-1">
         <p-calendar [showClear]="true"
+                    [minDate]="minDateForEndDate"
                     [style]="{'width': '100%'}"
                     formControlName="endDate"
                     id="endDate"

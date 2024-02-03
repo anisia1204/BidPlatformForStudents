@@ -11,8 +11,12 @@ import {SelectItem} from "primeng/api";
 export class TutoringServiceFormComponent implements OnInit, OnDestroy{
   @Input() form: FormGroup | any;
   tutoringTypes: SelectItem[] = [];
+  minDateForStartDate: Date = new Date();
+  minDateForEndDate: Date = new Date();
 
   ngOnInit(): void {
+    this.minDateForStartDate = new Date()
+    this.minDateForEndDate.setDate(this.minDateForStartDate.getDate() + 1)
     this.initTutoringTypes();
   }
 

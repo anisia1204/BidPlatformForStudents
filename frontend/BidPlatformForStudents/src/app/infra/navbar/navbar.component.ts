@@ -68,8 +68,6 @@ export class NavbarComponent implements OnInit, OnDestroy{
 
   show() {
     this.newAnnouncementDialog = this.dialogService.open(NewAnnouncementComponent, {
-      width: "90%",
-      height: "100%",
       position: "center",
       modal: true,
     });

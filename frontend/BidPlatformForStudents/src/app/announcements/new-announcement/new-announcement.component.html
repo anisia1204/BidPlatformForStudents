@@ -1,6 +1,6 @@
-<div class="row d-flex justify-content-center align-items-center pb-5">
+<div class="row d-flex justify-content-center align-items-center">
   <div class="col-xl-11 col-lg-11">
-    <h3 class="text-center pb-2">Adauga un anunt</h3>
+    <h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Adauga un anunt</h3>
     <hr class="my-0 pb-4">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="row d-flex justify-content-center">
@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-      <h5 class="pb-2 text-center">Tipul anuntului *</h5>
+      <h5 class="pb-2 text-center" [style]="{color: 'var(--teal-500)'}">Tipul anuntului *</h5>
       <div class="flex flex-row gap-3 align-content-center justify-content-center d-flex col-12 pb-2">
         <div class="flex align-items-center">
           <p-radioButton name="announcementType" value="project" formControlName="announcementType"
@@ -113,8 +113,13 @@
       </div>
 
     </form>
-    <div class="d-flex justify-content-end">
-      <p-button [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text" [disabled]="form.invalid"></p-button>
+    <div class="row">
+      <div class="col-6 d-flex align-items-center" [style]="{color: 'var(--teal-500)'}">
+        <p>Campurile marcate cu * sunt obligatorii!</p>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <p-button [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text" [disabled]="form.invalid"></p-button>
+      </div>
     </div>
   </div>
 </div>

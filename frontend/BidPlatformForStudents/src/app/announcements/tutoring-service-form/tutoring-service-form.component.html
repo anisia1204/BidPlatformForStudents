@@ -12,6 +12,10 @@
         >
         <label for="subject">Subiect*</label>
       </span>
+      <small class="p-error"
+             *ngIf="form.get('subject')?.invalid && form.get('subject')?.dirty">
+        Subiectul este obligatoriu
+      </small>
     </div>
 
     <div class="col-3 pb-4">
@@ -43,6 +47,10 @@
         </p-calendar>
         <label for="startDate">De la*</label>
       </span>
+      <small class="p-error"
+             *ngIf="form.get('startDate')?.invalid && form.get('startDate')?.dirty">
+       Data de inceput este obligatorie
+      </small>
     </div>
 
     <div class="col-3 pb-4">
@@ -74,6 +82,10 @@
          </p-dropdown>
          <label for="tutoringType">Modul de predare*</label>
       </span>
+      <small class="p-error"
+             *ngIf="form.get('tutoringType')?.invalid && form.get('tutoringType')?.dirty">
+        Modul de predare este obligatoriu
+      </small>
     </div>
   </div>
 </form>

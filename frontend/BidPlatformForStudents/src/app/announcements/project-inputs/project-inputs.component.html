@@ -14,6 +14,10 @@
           Domeniu*
         </label>
       </span>
+      <small class="p-error"
+             *ngIf="form.get('domain')?.invalid && form.get('domain')?.dirty">
+        Domeniul este obligatoriu
+      </small>
     </div>
 
     <div class="col-3 pb-4">
@@ -30,10 +34,14 @@
           Numar membrii*
         </label>
       </span>
+      <small class="p-error"
+             *ngIf="form.get('teamSize')?.invalid && form.get('teamSize')?.dirty">
+        Numarul membrilor este obligatoriu
+      </small>
     </div>
   </div>
   <div class="d-flex justify-content-center align-items-center pb-4">
-      <h5 class="me-2">Abilitati necesare</h5>
+      <h5 class="me-2" [style]="{color: 'var(--teal-500)'}">Abilitati necesare*</h5>
       <button pButton icon="pi pi-plus" class="p-button-outlined" style="width: 2em;height: 2em" (click)="addSkill()"></button>
   </div>
 
@@ -59,6 +67,10 @@
                   Abilitate*
                 </label>
               </span>
+              <small class="p-error"
+                       *ngIf="skillControl.get('skill')?.invalid && skillControl.get('skill')?.dirty">
+                  Abilitatea este obligatorie
+              </small>
               </div>
               <div class="col-12 pb-4">
               <span class="p-float-label flex-grow-1">
@@ -75,6 +87,10 @@
                   Punctele abilitatii*
                 </label>
               </span>
+                <small class="p-error"
+                       *ngIf="skillControl.get('skillPoints')?.invalid && skillControl.get('skillPoints')?.dirty">
+                  Punctele abilitatii sunt obligatorii
+                </small>
               </div>
             </div>
 

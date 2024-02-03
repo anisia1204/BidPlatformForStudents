@@ -1,6 +1,5 @@
-import {AfterViewInit, ChangeDetectorRef, Component, inject} from '@angular/core';
-import {Router} from "@angular/router";
-import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {Component, inject} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TeachingMaterialDtoModel} from "../domain/teaching-material-dto.model";
 import {TutoringServiceDtoModel} from "../domain/tutoring-service-dto.model";
 import {NewAnnouncementService} from "./new-announcement.service";
@@ -81,6 +80,9 @@ export class NewAnnouncementComponent{
           break;
       }
     }
+    else {
+      this.form.markAllAsTouched();
+    }
   }
 
   saveTeachingMaterial(form: FormGroup) {
@@ -125,7 +127,7 @@ export class NewAnnouncementComponent{
     const announcementType = this.form.get('announcementType').value;
 
     this.newAnnouncementValidatorHandlerService.updateValidatorsForTutoringService(this.form.get('tutoringService') as FormGroup, Validators.required)
-    this.newAnnouncementValidatorHandlerService.updateValidatorsForProject(this.form.get('project') as FormGroup, Validators.required)
+    this.newAnnouncementValidatorHandlerService.updateValidatorsForProject(this.form.get('project') as FormGroup, Validators.required, this.form.get('points')?.value)
 
     switch (announcementType) {
       case 'teachingMaterial':
@@ -137,7 +139,7 @@ export class NewAnnouncementComponent{
         this.newAnnouncementValidatorHandlerService.clearValidatorsForProject(this.form.get('project') as FormGroup);
         break;
       case 'project':
-        this.newAnnouncementValidatorHandlerService.updateValidatorsForProject(this.form.get('project') as FormGroup, Validators.required)
+        this.newAnnouncementValidatorHandlerService.updateValidatorsForProject(this.form.get('project') as FormGroup, Validators.required, this.form.get('points')?.value)
         this.newAnnouncementValidatorHandlerService.clearValidatorsForTutoringService(this.form.get('tutoringService') as FormGroup);
         break;
       default:

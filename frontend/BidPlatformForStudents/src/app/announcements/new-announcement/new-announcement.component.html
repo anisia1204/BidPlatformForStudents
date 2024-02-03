@@ -2,10 +2,10 @@
   <div class="col-xl-11 col-lg-11">
     <h3 class="text-center pb-2">Adauga un anunt</h3>
     <hr class="my-0 pb-4">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="row d-flex justify-content-center">
-          <div class="col-3">
-            <div class="col-12 pb-4">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row d-flex justify-content-center">
+        <div class="col-3">
+          <div class="col-12 pb-4">
               <span class="p-float-label flex-grow-1">
                 <input
                   id="title"
@@ -20,9 +20,13 @@
                   Titlu*
                 </label>
               </span>
-            </div>
+            <small class="p-error"
+                   *ngIf="form.get('title')?.invalid && form.get('title')?.dirty">
+              Titlul este obligatoriu
+            </small>
+          </div>
 
-            <div class="col-12 pb-4">
+          <div class="col-12 pb-4">
               <span class="p-float-label flex-grow-1">
                 <input
                   id="points"
@@ -30,6 +34,7 @@
                   formControlName="points"
                   type="number"
                   pInputText
+                  [min]="1"
                   required
                   style="width: 100%"
                 >
@@ -37,10 +42,14 @@
                   Puncte*
                 </label>
               </span>
-            </div>
+            <small class="p-error"
+                   *ngIf="form.get('points')?.invalid && form.get('points')?.dirty">
+              Punctele sunt obligatorii
+            </small>
           </div>
-          <div class="col-9">
-            <div class="col-12 pb-4">
+        </div>
+        <div class="col-9">
+          <div class="col-12 pb-4">
               <span class="p-float-label flex-grow-1">
                 <textarea
                   rows="4"
@@ -58,47 +67,54 @@
                   Descriere*
                 </label>
               </span>
-            </div>
+            <small class="p-error"
+                   *ngIf="form.get('description')?.invalid && form.get('description')?.dirty">
+              Descrierea este obligatorie
+            </small>
           </div>
         </div>
-        <h5 class="pb-2 text-center">Tipul anuntului</h5>
-            <div class="flex flex-row gap-3 align-content-center justify-content-center d-flex col-12 pb-2">
-              <div class="flex align-items-center">
-                <p-radioButton name="announcementType" value="project" formControlName="announcementType"
-                               id="ingredient1" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
-                <label for="ingredient1" class="ml-2">Proiect</label>
-              </div>
-
-              <div class="flex align-items-center">
-                <p-radioButton name="announcementType" value="tutoringService" formControlName="announcementType"
-                               id="ingredient2" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
-                <label for="ingredient2" class="ml-2">Serviciu de tutorat</label>
-              </div>
-
-              <div class="flex align-items-center">
-                <p-radioButton name="announcementType" value="teachingMaterial" formControlName="announcementType"
-                               id="ingredient3" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
-                <label for="ingredient3" class="ml-2">Material didactic</label>
-              </div>
-            </div>
-{{form.valid | json}}
-        <div class="pt-3">
-              <ng-container *ngIf="form.get('announcementType').value === 'teachingMaterial'">
-                <app-teaching-material-form [form]="form.get('teachingMaterial')"></app-teaching-material-form>
-              </ng-container>
-
-              <ng-container *ngIf="form.get('announcementType').value === 'tutoringService'">
-                <app-tutoring-service-form [form]="form.get('tutoringService')"></app-tutoring-service-form>
-              </ng-container>
-
-              <ng-container *ngIf="form.get('announcementType').value === 'project'">
-                <app-project-inputs [form]="form.get('project')"></app-project-inputs>
-              </ng-container>
+      </div>
+      <h5 class="pb-2 text-center">Tipul anuntului *</h5>
+      <div class="flex flex-row gap-3 align-content-center justify-content-center d-flex col-12 pb-2">
+        <div class="flex align-items-center">
+          <p-radioButton name="announcementType" value="project" formControlName="announcementType"
+                         id="ingredient1" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
+          <label for="ingredient1" class="ml-2">Proiect</label>
         </div>
 
-      </form>
-        <div class="d-flex justify-content-end">
-          <p-button [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text"></p-button>
+        <div class="flex align-items-center">
+          <p-radioButton name="announcementType" value="tutoringService" formControlName="announcementType"
+                         id="ingredient2" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
+          <label for="ingredient2" class="ml-2">Serviciu de tutorat</label>
         </div>
+
+        <div class="flex align-items-center">
+          <p-radioButton name="announcementType" value="teachingMaterial" formControlName="announcementType"
+                         id="ingredient3" (ngModelChange)="onAnnouncementTypeChange()"></p-radioButton>
+          <label for="ingredient3" class="ml-2">Material didactic</label>
+        </div>
+      </div>
+      <small class="p-error"
+             *ngIf="form.get('announcementType')?.invalid && form.get('announcementType')?.dirty">
+        Tipul anuntului este obligatoriu
+      </small>
+      <div class="pt-3">
+        <ng-container *ngIf="form.get('announcementType').value === 'teachingMaterial'">
+          <app-teaching-material-form [form]="form.get('teachingMaterial')"></app-teaching-material-form>
+        </ng-container>
+
+        <ng-container *ngIf="form.get('announcementType').value === 'tutoringService'">
+          <app-tutoring-service-form [form]="form.get('tutoringService')"></app-tutoring-service-form>
+        </ng-container>
+
+        <ng-container *ngIf="form.get('announcementType').value === 'project'">
+          <app-project-inputs [form]="form.get('project')" [totalPoints]="form.get('points').value"></app-project-inputs>
+        </ng-container>
+      </div>
+
+    </form>
+    <div class="d-flex justify-content-end">
+      <p-button [label]="'Save'" type="submit" (click)="onSubmit()" class="p-button-text" [disabled]="form.invalid"></p-button>
+    </div>
   </div>
 </div>

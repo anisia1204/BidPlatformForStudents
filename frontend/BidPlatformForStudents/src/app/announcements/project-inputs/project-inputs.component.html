@@ -67,6 +67,7 @@
                   name="skillPoints"
                   formControlName="skillPoints"
                   type="number"
+                  [min]="1"
                   pInputText
                   style="width: 100%"
                 >
@@ -111,7 +112,11 @@
       </div>
     </div>
   </div>
-
-
+  <div *ngFor="let formGroup of form.get('requiredSkills').controls">
+    <small class="p-error"
+           *ngIf="formGroup.get('skillPoints')?.hasError('pointsSumExceeded')">
+      Suma punctelor abilitatilor nu coincide cu numarul total de puncte
+    </small>
+  </div>
 </form>
 

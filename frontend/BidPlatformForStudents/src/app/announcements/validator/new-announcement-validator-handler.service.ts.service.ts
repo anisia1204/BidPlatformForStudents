@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AbstractControl, FormArray, FormGroup, ValidatorFn} from "@angular/forms";
+import {ProjectInputsComponent} from "../project-inputs/project-inputs.component";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class NewAnnouncementValidatorHandlerServiceTsService {
     }
   }
 
-  updateValidatorsForProject(controls: FormGroup | null, validator: ValidatorFn) {
+  updateValidatorsForProject(controls: FormGroup | null, validator: ValidatorFn, totalPoints: number | undefined, ) {
     if (controls) {
       this.getNameControlEntries(controls.controls)
         .forEach(({name, control}) => {
@@ -34,7 +35,12 @@ export class NewAnnouncementValidatorHandlerServiceTsService {
               this.getNameControlEntries(formGroup.controls)
                 .filter(({name, control}) => name === 'skill' || name === 'skillPoints')
                 .forEach(({name, control}) => {
-                  control.setValidators([validator]);
+                  if(name === 'skillPoints') {
+                    control.setValidators([validator, this.validatePointsSum.bind(ProjectInputsComponent, totalPoints, formArray)]);
+                  }
+                  else {
+                    control.setValidators([validator]);
+                  }
                   control.updateValueAndValidity();
                 })
             })
@@ -78,5 +84,27 @@ export class NewAnnouncementValidatorHandlerServiceTsService {
         }
       });
     }
+  }
+
+  validatePointsSum(totalPoints: number | undefined, requiredSkills: FormArray | undefined) {
+    const pointsControl = totalPoints;
+
+    if (pointsControl && requiredSkills) {
+      const initialPoints = pointsControl;
+      const requiredSkillsSum = requiredSkills.controls.reduce((sum, control) => sum + control.get('skillPoints')?.value, 0);
+
+      console.log(requiredSkillsSum)
+
+      if(requiredSkillsSum > initialPoints || (requiredSkillsSum < initialPoints && requiredSkillsSum != 0)){
+        return {pointsSumExceeded: true};
+      }
+      else {
+        requiredSkills.controls.map(group => group.get('skillPoints')).forEach(skillPoints => skillPoints?.setErrors(null));
+        return null;
+      }
+
+    }
+
+    return null;
   }
 }

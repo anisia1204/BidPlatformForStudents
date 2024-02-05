@@ -25,6 +25,7 @@ public class ProjectDTOMapper {
         projectDTO.setCreatedAt(project.getCreatedAt());
         projectDTO.setTeamSize(project.getTeamSize());
         projectDTO.setDomain(project.getDomain());
+        projectDTO.setAnnouncementType("project");
 
         return projectDTO;
     }
@@ -41,7 +42,6 @@ public class ProjectDTOMapper {
     public void updateEntityFields(Project project, ProjectDTO projectDTO) {
         project.setTitle(projectDTO.getTitle());
         project.setDescription(projectDTO.getDescription());
-        project.setPoints(projectDTO.getPoints());
         project.setTeamSize(projectDTO.getTeamSize());
         project.setDomain(projectDTO.getDomain());
 

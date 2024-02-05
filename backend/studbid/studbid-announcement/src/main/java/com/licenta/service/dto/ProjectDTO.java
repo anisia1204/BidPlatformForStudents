@@ -17,6 +17,8 @@ public class ProjectDTO {
     private Integer teamSize;
     private List<SkillDTO> requiredSkills;
 
+    private String announcementType;
+
     public Long getId() {
         return id;
     }
@@ -95,5 +97,13 @@ public class ProjectDTO {
 
     public void setRequiredSkills(List<SkillDTO> requiredSkills) {
         this.requiredSkills = requiredSkills;
+    }
+
+    public String getAnnouncementType() {
+        return announcementType;
+    }
+
+    public void setAnnouncementType(String announcementType) {
+        this.announcementType = announcementType;
     }
 }

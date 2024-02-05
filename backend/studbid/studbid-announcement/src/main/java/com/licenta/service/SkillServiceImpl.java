@@ -6,6 +6,7 @@ import com.licenta.domain.SkillStatus;
 import com.licenta.domain.repository.SkillJPARepository;
 import com.licenta.service.dto.SkillDTO;
 import com.licenta.service.dto.SkillDTOMapper;
+import com.licenta.service.exception.SkillNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,10 +48,38 @@ public class SkillServiceImpl implements SkillService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<SkillDTO> getAllDTOsByProjectId(Long projectId) {
-        return skillJPARepository.findAllByProjectId(projectId)
+    public List<SkillDTO> getAllDTOsNotDeletedByProjectId(Long projectId) {
+        return skillJPARepository.findAllByProjectIdAndDeletedEquals(projectId, false)
                 .stream()
                 .map(skillDTOMapper::getDTOFromEntity)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public SkillDTO update(SkillDTO skillDTO) {
+        Skill skill = getById(skillDTO.getId());
+        skillDTOMapper.updateEntityFields(skill, skillDTO);
+        skillDTO = skillDTOMapper.getDTOFromEntity(skill);
+        return skillDTO;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Skill getById(Long id) {
+        return skillJPARepository.findById(id).orElseThrow(SkillNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Skill skill = getById(id);
+        skill.setDeleted(true);
+        skillJPARepository.save(skill);
+    }
+
+    @Override
+    public Double getPointsSumOfSkills(List<SkillDTO> projectSkillDTOS) {
+        return projectSkillDTOS.stream().mapToDouble(SkillDTO::getSkillPoints).sum();
     }
 }

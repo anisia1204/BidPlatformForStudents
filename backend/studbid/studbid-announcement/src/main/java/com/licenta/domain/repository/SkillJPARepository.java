@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SkillJPARepository extends JpaRepository<Skill, Long> {
-    List<Skill> findAllByProjectId(Long id);
+    List<Skill> findAllByProjectIdAndDeletedEquals(Long id, boolean deleted);
 }

@@ -26,7 +26,7 @@ export class ProjectInputsComponent implements OnInit, OnDestroy{
       projectId: new FormControl<number | any>(null),
       skill: new FormControl<string | any>('', Validators.required),
       description: new FormControl<string | any>(''),
-      skillPoints: new FormControl<number | any>(null, [Validators.required, this.newAnnouncementValidatorHandlerService.validatePointsSum.bind(this, this.totalPoints, this.requiredSkills)])
+      skillPoints: new FormControl<number | any>(null, [Validators.required])
     })
   }
 
@@ -40,14 +40,6 @@ export class ProjectInputsComponent implements OnInit, OnDestroy{
 
   removeSkill(i: number) {
     this.requiredSkills.removeAt(i);
-    this.checkIfSkillPointsSumCorrespondsToTotalPoints(i-1);
-  }
-
-  checkIfSkillPointsSumCorrespondsToTotalPoints(index: number){
-    const validationResponse = this.newAnnouncementValidatorHandlerService.validatePointsSum(this.totalPoints, this.requiredSkills);
-    if(validationResponse?.pointsSumExceeded) {
-      this.requiredSkills.at(index).get('skillPoints')?.setErrors(validationResponse)
-    }
   }
 
   ngOnDestroy(): void {

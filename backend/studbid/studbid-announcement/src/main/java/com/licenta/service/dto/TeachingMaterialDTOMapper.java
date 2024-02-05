@@ -27,6 +27,7 @@ public class TeachingMaterialDTOMapper {
         teachingMaterialDTO.setAuthor(teachingMaterial.getAuthor());
         teachingMaterialDTO.setName(teachingMaterial.getName());
         teachingMaterialDTO.setEdition(teachingMaterial.getEdition());
+        teachingMaterialDTO.setAnnouncementType("teachingMaterial");
 
         return teachingMaterialDTO;
     }

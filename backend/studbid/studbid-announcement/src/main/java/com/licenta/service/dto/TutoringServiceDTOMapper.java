@@ -29,6 +29,7 @@ public class TutoringServiceDTOMapper {
         tutoringServiceDTO.setEndDate(tutoringService.getEndDate());
         tutoringServiceDTO.setHoursPerSession(tutoringService.getHoursPerSession());
         tutoringServiceDTO.setTutoringType(tutoringService.getTutoringType());
+        tutoringServiceDTO.setAnnouncementType("tutoringService");
 
         return tutoringServiceDTO;
     }

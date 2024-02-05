@@ -16,6 +16,8 @@ public class TeachingMaterialDTO {
     private String author;
     private Integer edition;
 
+    private String announcementType;
+
     public Long getId() {
         return id;
     }
@@ -94,5 +96,13 @@ public class TeachingMaterialDTO {
 
     public void setEdition(Integer edition) {
         this.edition = edition;
+    }
+
+    public String getAnnouncementType() {
+        return announcementType;
+    }
+
+    public void setAnnouncementType(String announcementType) {
+        this.announcementType = announcementType;
     }
 }

@@ -19,6 +19,8 @@ public class TutoringServiceDTO {
     private LocalDate endDate;
     private Integer hoursPerSession;
     private TutoringType tutoringType;
+    private String announcementType;
+
 
     public Long getId() {
         return id;
@@ -114,5 +116,13 @@ public class TutoringServiceDTO {
 
     public void setTutoringType(TutoringType tutoringType) {
         this.tutoringType = tutoringType;
+    }
+
+    public String getAnnouncementType() {
+        return announcementType;
+    }
+
+    public void setAnnouncementType(String announcementType) {
+        this.announcementType = announcementType;
     }
 }

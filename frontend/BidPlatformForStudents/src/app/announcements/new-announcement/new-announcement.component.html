@@ -1,6 +1,11 @@
 <div class="row d-flex justify-content-center align-items-center">
   <div class="col-xl-11 col-lg-11">
-    <h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Adauga un anunt</h3>
+    <ng-container *ngIf="isNew">
+      <h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Adauga un anunt</h3>
+    </ng-container>
+    <ng-container *ngIf="!isNew">
+      <h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Editeaza anuntul</h3>
+    </ng-container>
     <hr class="my-0 pb-4">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="row d-flex justify-content-center">
@@ -26,7 +31,7 @@
             </small>
           </div>
 
-          <div class="col-12 pb-4">
+          <div class="col-12 pb-4" *ngIf="form.get('announcementType').value !== 'project' || (form.get('announcementType').value === 'project' && !isNew)">
               <span class="p-float-label flex-grow-1">
                 <input
                   id="points"

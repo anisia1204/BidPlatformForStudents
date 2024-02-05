@@ -14,4 +14,12 @@ export class TutoringServiceResourceService {
   save(tutoringServiceDto: TutoringServiceDtoModel) {
     return this.httpClient.post<TutoringServiceDtoModel>(`${this.url}`, tutoringServiceDto);
   }
+
+  update(tutoringServiceDto: TutoringServiceDtoModel) {
+    return this.httpClient.put<TutoringServiceDtoModel>(`${this.url}`, tutoringServiceDto);
+  }
+
+  getTemplate(id: string) {
+    return this.httpClient.get<TutoringServiceDtoModel>(`${this.url}/template/${id}`);
+  }
 }

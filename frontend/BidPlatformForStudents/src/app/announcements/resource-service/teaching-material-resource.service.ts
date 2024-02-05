@@ -14,4 +14,12 @@ export class TeachingMaterialResourceService {
   save(teachingMaterialDto: TeachingMaterialDtoModel) {
     return this.httpClient.post<TeachingMaterialDtoModel>(`${this.url}`, teachingMaterialDto);
   }
+
+  update(teachingMaterialDto: TeachingMaterialDtoModel) {
+    return this.httpClient.put<TeachingMaterialDtoModel>(`${this.url}`, teachingMaterialDto);
+  }
+
+  getTemplate(id: string) {
+    return this.httpClient.get<TeachingMaterialDtoModel>(`${this.url}/template/${id}`);
+  }
 }

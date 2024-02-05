@@ -11,4 +11,5 @@ export class TeachingMaterialDtoModel {
   name: string | undefined;
   author: string | undefined;
   edition: number | undefined;
+  announcementType: string | undefined;
 }

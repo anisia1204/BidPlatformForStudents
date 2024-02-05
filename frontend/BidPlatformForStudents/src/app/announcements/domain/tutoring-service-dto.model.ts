@@ -14,4 +14,5 @@ export class TutoringServiceDtoModel {
   endDate: string | undefined;
   hoursPerSession: number | undefined;
   tutoringType: TutoringTypeModel | undefined;
+  announcementType: string | undefined;
 }

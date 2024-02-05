@@ -12,4 +12,5 @@ export class ProjectDtoModel {
   domain: string | undefined;
   teamSize: number | undefined;
   requiredSkills: SkillDtoModel[] | undefined;
+  announcementType: string | undefined;
 }

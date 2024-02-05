@@ -14,4 +14,12 @@ export class ProjectResourceService {
   save(projectDto: ProjectDtoModel) {
     return this.httpClient.post<ProjectDtoModel>(`${this.url}`, projectDto);
   }
+
+  update(projectDto: ProjectDtoModel) {
+    return this.httpClient.put<ProjectDtoModel>(`${this.url}`, projectDto);
+  }
+
+  getTemplate(id: string) {
+    return this.httpClient.get<ProjectDtoModel>(`${this.url}/template/${id}`);
+  }
 }

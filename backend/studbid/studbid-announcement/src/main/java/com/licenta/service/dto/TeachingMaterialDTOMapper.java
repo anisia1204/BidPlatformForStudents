@@ -1,8 +1,11 @@
 package com.licenta.service.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.domain.TeachingMaterial;
 import com.licenta.service.UserService;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 
 @Component
@@ -48,5 +51,16 @@ public class TeachingMaterialDTOMapper {
         teachingMaterial.setAuthor(teachingMaterialDTO.getAuthor());
         teachingMaterial.setName(teachingMaterialDTO.getName());
         teachingMaterial.setEdition(teachingMaterialDTO.getEdition());
+    }
+
+    public TeachingMaterialDTO getDTOFromString(String teachingMaterialDTO) {
+        TeachingMaterialDTO teachingMaterialDTO1 = new TeachingMaterialDTO();
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            teachingMaterialDTO1 = objectMapper.readValue(teachingMaterialDTO, TeachingMaterialDTO.class);
+        } catch (IOException e) {
+            System.out.print("Error");
+        }
+        return teachingMaterialDTO1;
     }
 }

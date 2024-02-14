@@ -5,12 +5,14 @@ import com.licenta.domain.TeachingMaterial;
 import com.licenta.domain.repository.AttachmentJPARepository;
 import com.licenta.service.dto.AttachmentDTO;
 import com.licenta.service.dto.AttachmentDTOMapper;
+import com.licenta.service.exception.AttachmentNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService{
@@ -46,5 +48,51 @@ public class AttachmentServiceImpl implements AttachmentService{
         attachmentDTO = attachmentDTOMapper.getDTOFromEntity(attachment);
         return  attachmentDTO;
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Attachment> getAttachmentsByTeachingMaterialId(Long id) {
+        return attachmentJPARepository.findAllByTeachingMaterialId(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AttachmentDTO> getAllDTOSNotDeletedByTeachingMaterialId(Long id) {
+        return attachmentJPARepository.findAllByTeachingMaterialIdAndDeletedEquals(id, false)
+                .stream()
+                .map(attachmentDTOMapper::getDTOFromEntity)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Attachment attachment = getById(id);
+        attachment.setDeleted(true);
+        attachmentJPARepository.save(attachment);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Attachment getById(Long id) {
+        return attachmentJPARepository.findById(id).orElseThrow(AttachmentNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public void updateAll(List<Attachment> existingAttachments, List<AttachmentDTO> attachmentDTOS) {
+        existingAttachments.forEach(
+                existingAttachment -> {
+                    boolean deleted = true;
+                    for(AttachmentDTO attachmentDTO : attachmentDTOS) {
+                        if(Objects.equals(attachmentDTO.getId(), existingAttachment.getId()))
+                            deleted = false;
+                    }
+                    if(deleted){
+                        delete(existingAttachment.getId());
+                    }
+                }
+        );
     }
 }

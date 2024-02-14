@@ -1,15 +1,13 @@
 package com.licenta.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.service.TeachingMaterialService;
 import com.licenta.service.dto.TeachingMaterialDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+
 
 @RestController
 @RequestMapping("/api/teaching-material")
@@ -23,20 +21,13 @@ public class TeachingMaterialController {
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     @ResponseBody
     public ResponseEntity<TeachingMaterialDTO> save(@RequestPart String teachingMaterialDTO, @RequestPart("files") MultipartFile[] files){
-        TeachingMaterialDTO teachingMaterialDTO1 = new TeachingMaterialDTO();
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            teachingMaterialDTO1 = objectMapper.readValue(teachingMaterialDTO, TeachingMaterialDTO.class);
-        } catch (IOException e) {
-            System.out.print("Error");
-        }
-        return ResponseEntity.ok(teachingMaterialService.save(teachingMaterialDTO1, files));
+        return ResponseEntity.ok(teachingMaterialService.save(teachingMaterialDTO, files));
     }
 
-    @PutMapping
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     @ResponseBody
-    public ResponseEntity<TeachingMaterialDTO> update(@RequestBody TeachingMaterialDTO teachingMaterialDTO, BindingResult bindingResult){
-        return ResponseEntity.ok(teachingMaterialService.update(teachingMaterialDTO));
+    public ResponseEntity<TeachingMaterialDTO> update(@RequestPart String teachingMaterialDTO, @RequestPart("files") MultipartFile[] files){
+        return ResponseEntity.ok(teachingMaterialService.update(teachingMaterialDTO, files));
     }
 
     @DeleteMapping(value = "/{id}")

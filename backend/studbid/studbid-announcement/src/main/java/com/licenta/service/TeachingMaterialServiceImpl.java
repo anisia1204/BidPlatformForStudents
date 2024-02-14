@@ -2,6 +2,7 @@ package com.licenta.service;
 
 import com.licenta.context.UserContextHolder;
 import com.licenta.domain.AnnouncementStatus;
+import com.licenta.domain.Attachment;
 import com.licenta.domain.TeachingMaterial;
 import com.licenta.domain.repository.TeachingMaterialJPARepository;
 import com.licenta.service.dto.AttachmentDTO;
@@ -29,7 +30,8 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
 
     @Override
     @Transactional
-    public TeachingMaterialDTO save(TeachingMaterialDTO teachingMaterialDTO, MultipartFile[] files) {
+    public TeachingMaterialDTO save(String teachingMaterialString, MultipartFile[] files) {
+        TeachingMaterialDTO teachingMaterialDTO = teachingMaterialDTOMapper.getDTOFromString(teachingMaterialString);
         teachingMaterialDTO.setUserId(UserContextHolder.getUserContext().getUserId());
         TeachingMaterial teachingMaterial = teachingMaterialDTOMapper.getEntityFromDTO(teachingMaterialDTO);
         teachingMaterial.setStatus(AnnouncementStatus.ACTIVE);
@@ -48,11 +50,25 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
 
     @Override
     @Transactional
-    public TeachingMaterialDTO update(TeachingMaterialDTO teachingMaterialDTO) {
+    public TeachingMaterialDTO update(String teachingMaterialString, MultipartFile[] files) {
+        TeachingMaterialDTO teachingMaterialDTO = teachingMaterialDTOMapper.getDTOFromString(teachingMaterialString);
         TeachingMaterial teachingMaterial = getById(teachingMaterialDTO.getId());
         teachingMaterialDTOMapper.updateEntityFields(teachingMaterial, teachingMaterialDTO);
+        List<Attachment> existingAttachments = attachmentService.getAttachmentsByTeachingMaterialId(teachingMaterial.getId());
+        saveNewAttachments(files, teachingMaterial);
+        updateOldAttachments(existingAttachments, teachingMaterialDTO.getAttachmentDTOs());
+        List<AttachmentDTO> updatedAttachmentDTOs = attachmentService.getAllDTOSNotDeletedByTeachingMaterialId(teachingMaterial.getId());
         teachingMaterialDTO = teachingMaterialDTOMapper.getDTOFromEntity(teachingMaterial);
+        teachingMaterialDTO.setAttachmentDTOs(updatedAttachmentDTOs);
         return teachingMaterialDTO;
+    }
+
+    private void saveNewAttachments(MultipartFile[] files, TeachingMaterial teachingMaterial) {
+        saveAttachments(files, teachingMaterial);
+    }
+
+    private void updateOldAttachments(List<Attachment> existingAttachments, List<AttachmentDTO> attachmentDTOS) {
+        attachmentService.updateAll(existingAttachments, attachmentDTOS);
     }
 
     @Transactional(readOnly = true)
@@ -65,6 +81,7 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
     public void delete(Long id) {
         TeachingMaterial teachingMaterial = getById(id);
         teachingMaterial.setDeleted(true);
+        attachmentService.getAttachmentsByTeachingMaterialId(id).forEach(attachment -> attachmentService.delete(id));
         teachingMaterialJPARepository.save(teachingMaterial);
     }
 
@@ -72,6 +89,8 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
     @Transactional(readOnly = true)
     public TeachingMaterialDTO getTemplate(Long id) {
         TeachingMaterial teachingMaterial = getById(id);
-        return teachingMaterialDTOMapper.getDTOFromEntity(teachingMaterial);
+        TeachingMaterialDTO teachingMaterialDTO = teachingMaterialDTOMapper.getDTOFromEntity(teachingMaterial);
+        teachingMaterialDTO.setAttachmentDTOs(attachmentService.getAllDTOSNotDeletedByTeachingMaterialId(id));
+        return teachingMaterialDTO;
     }
 }

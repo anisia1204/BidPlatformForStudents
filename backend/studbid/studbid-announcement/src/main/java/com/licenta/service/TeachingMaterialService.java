@@ -5,9 +5,9 @@ import com.licenta.service.dto.TeachingMaterialDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface TeachingMaterialService {
-    TeachingMaterialDTO save(TeachingMaterialDTO teachingMaterialDTO, MultipartFile[] files);
+    TeachingMaterialDTO save(String teachingMaterialString, MultipartFile[] files);
 
-    TeachingMaterialDTO update(TeachingMaterialDTO teachingMaterialDTO);
+    TeachingMaterialDTO update(String teachingMaterialString, MultipartFile[] files);
 
     TeachingMaterial getById(Long id);
 

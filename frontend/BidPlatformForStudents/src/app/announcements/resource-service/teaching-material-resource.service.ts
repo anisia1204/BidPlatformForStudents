@@ -22,8 +22,15 @@ export class TeachingMaterialResourceService {
     return this.httpClient.post<TeachingMaterialDtoModel>(`${this.url}`, formData);
   }
 
-  update(teachingMaterialDto: TeachingMaterialDtoModel) {
-    return this.httpClient.put<TeachingMaterialDtoModel>(`${this.url}`, teachingMaterialDto);
+  update(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    const formData: FormData = new FormData();
+    for (let file of files) {
+      formData.append('files', file);
+    }
+    formData.append('teachingMaterialDTO', new Blob([JSON.stringify(teachingMaterialDto)], {
+      type: "application/json"
+    }));
+    return this.httpClient.put<TeachingMaterialDtoModel>(`${this.url}`, formData);
   }
 
   getTemplate(id: string) {

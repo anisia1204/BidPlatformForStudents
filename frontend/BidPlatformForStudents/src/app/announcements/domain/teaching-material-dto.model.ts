@@ -1,4 +1,5 @@
 import {AnnouncementStatusModel} from "./announcement-status.model";
+import {AttachmentDtoModel} from "./attachment-dto.model";
 
 export class TeachingMaterialDtoModel {
   id: number | undefined;
@@ -12,4 +13,5 @@ export class TeachingMaterialDtoModel {
   author: string | undefined;
   edition: number | undefined;
   announcementType: string | undefined;
+  attachmentDTOs: AttachmentDtoModel[] | undefined;
 }

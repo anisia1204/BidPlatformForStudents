@@ -10,6 +10,7 @@ import {
   NewAnnouncementValidatorHandlerServiceTsService
 } from "../validator/new-announcement-validator-handler.service.ts.service";
 import {ActivatedRoute} from "@angular/router";
+import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 
 
 @Component({
@@ -21,6 +22,9 @@ export class NewAnnouncementComponent implements OnInit {
   form: FormGroup | any;
   id: string | undefined;
   isNew = false;
+  attachments: File[] = []
+  attachmentDTOs: AttachmentDtoModel[] | undefined = []
+
   newAnnouncementService = inject(NewAnnouncementService)
   newAnnouncementValidatorHandlerService = inject(NewAnnouncementValidatorHandlerServiceTsService)
   route = inject(ActivatedRoute)
@@ -34,8 +38,7 @@ export class NewAnnouncementComponent implements OnInit {
       this.id = params['id']
     })
 
-
-    const routerState = "project"
+    const routerState = "teachingMaterial"
 
     if (this.id) {
       this.newAnnouncementService.getAnnouncementTemplate(this.id, routerState)?.subscribe(
@@ -44,8 +47,8 @@ export class NewAnnouncementComponent implements OnInit {
           this.form.patchValue(announcementDTO);
           this.patchValueOfCorrespondingAnnouncementType(announcementDTO);
           this.form.get('announcementType').disable()
-          if(routerState === 'project')
-            this.form.get('points').disable();
+          // if(routerState === 'project')
+          //   this.form.get('points').disable();
         }
       );
     } else {
@@ -120,7 +123,8 @@ export class NewAnnouncementComponent implements OnInit {
       edition: form.get('teachingMaterial')?.get('edition')?.value,
     };
     if(this.id) {
-      this.editTeachingMaterial(teachingMaterialDto)
+      teachingMaterialDto.attachmentDTOs = this.attachmentDTOs
+      this.editTeachingMaterial(teachingMaterialDto, this.attachments)
     }
     else {
       this.saveTeachingMaterial(teachingMaterialDto, this.attachments)
@@ -193,6 +197,7 @@ export class NewAnnouncementComponent implements OnInit {
       case 'teachingMaterial':
         const teachingMaterialDTO = announcementDTO as TeachingMaterialDtoModel
         this.form.get('teachingMaterial').patchValue(teachingMaterialDTO)
+        this.attachmentDTOs = teachingMaterialDTO.attachmentDTOs
         break;
       case 'tutoringService':
         const tutoringServiceDTO = announcementDTO as TutoringServiceDtoModel
@@ -213,45 +218,42 @@ export class NewAnnouncementComponent implements OnInit {
     }
   }
 
-  editTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel) {
-    this.newAnnouncementService.updateTeachingMaterialDto(teachingMaterialDto).subscribe(
+  saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
+        teachingMaterialDto => console.log(teachingMaterialDto)
+    )
+  }
+  editTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    this.newAnnouncementService.updateTeachingMaterialDto(teachingMaterialDto, files).subscribe(
       teachingMaterialDto => console.log(teachingMaterialDto)
     )
   }
+  onAttachmentsUploaded(attachments: File[]) {
+    this.attachments = [...attachments]
+  }
+  onDeleteAttachmentDTO(id: number) {
+    this.attachmentDTOs = this.attachmentDTOs?.filter(attachment => attachment.id !== id);
+  }
 
+  saveTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
+    this.newAnnouncementService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
+        tutoringServiceDto => console.log(tutoringServiceDto)
+    )
+  }
   editTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
     this.newAnnouncementService.updateTutoringServiceDto(tutoringServiceDto).subscribe(
       tutoringServiceDto => console.log(tutoringServiceDto)
     )
   }
 
+  saveProject(projectDto: ProjectDtoModel) {
+    this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
+        projectDto => console.log(projectDto)
+    )
+  }
   editProject(projectDto: ProjectDtoModel) {
     this.newAnnouncementService.updateProjectDto(projectDto).subscribe(
       projectDto => console.log(projectDto)
     )
-  }
-
-  saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
-    this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
-      teachingMaterialDto => console.log(teachingMaterialDto)
-    )
-  }
-
-  saveTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
-    this.newAnnouncementService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
-      tutoringServiceDto => console.log(tutoringServiceDto)
-    )
-  }
-
-  saveProject(projectDto: ProjectDtoModel) {
-    this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
-      projectDto => console.log(projectDto)
-    )
-  }
-
-  attachments: File[] = []
-
-  onAttachmentsUploaded(attachments: File[]) {
-    this.attachments = [...attachments]
   }
 }

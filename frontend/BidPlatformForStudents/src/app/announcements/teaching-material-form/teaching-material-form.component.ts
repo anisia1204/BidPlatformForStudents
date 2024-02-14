@@ -1,8 +1,9 @@
 import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {FileRemoveEvent, FileSelectEvent, FileUploadEvent, FileUploadHandlerEvent} from "primeng/fileupload";
+import {FileRemoveEvent, FileUploadHandlerEvent} from "primeng/fileupload";
 import {MessageService} from "primeng/api";
 import {Subject} from "rxjs";
+import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 
 @Component({
   selector: 'app-teaching-material-form',
@@ -12,30 +13,31 @@ import {Subject} from "rxjs";
 })
 export class TeachingMaterialFormComponent implements OnInit, OnDestroy{
   @Input() form: FormGroup | any;
+  @Input() attachmentDTOs: AttachmentDtoModel[] | any;
   localFiles: File[] = [];
   @Output() attachmentsUploaded: Subject<File[]> = new Subject<File[]>();
+  @Output() deleteAttachmentDTO: Subject<number> = new Subject<number>();
 
   ngOnInit() {
-    console.log(this.form.value)
+    console.log(this.attachmentDTOs)
   }
 
-  onSelect(event: FileSelectEvent) {
-    console.log(event)
-    this.localFiles = event.currentFiles;
-    this.form.patchValue({ attachmentDTOs: this.localFiles });
-    console.log(this.form.get('attachmentDTOs').value)
-  }
-
-  ngOnDestroy(): void {
-    this.form.reset(new FormGroup({}))
-  }
-
-  onRemove($event: FileRemoveEvent) {
-
+  onRemove(event: FileRemoveEvent) {
+    const removedFile: File = event.file;
+    this.localFiles = this.localFiles.filter(file => file !== removedFile);
+    this.attachmentsUploaded.next(this.localFiles)
   }
 
   uploadHandler(event: FileUploadHandlerEvent) {
     this.localFiles = event.files as File[]
     this.attachmentsUploaded.next(this.localFiles)
+  }
+
+  onRemoveAttachmentDTO(id: number) {
+    this.deleteAttachmentDTO.next(id)
+  }
+
+  ngOnDestroy(): void {
+    this.form.reset(new FormGroup({}))
   }
 }

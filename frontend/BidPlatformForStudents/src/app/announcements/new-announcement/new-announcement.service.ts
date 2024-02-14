@@ -31,8 +31,8 @@ export class NewAnnouncementService {
     return this.projectResourceService.update(projectDto);
   }
 
-  updateTeachingMaterialDto(teachingMaterialDto: TeachingMaterialDtoModel) {
-    return this.teachingMaterialResourceService.update(teachingMaterialDto);
+  updateTeachingMaterialDto(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    return this.teachingMaterialResourceService.update(teachingMaterialDto, files);
   }
 
   updateTutoringServiceDto(tutoringServiceDto: TutoringServiceDtoModel) {

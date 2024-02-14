@@ -105,7 +105,11 @@
       </small>
       <div class="pt-3">
         <ng-container *ngIf="form.get('announcementType').value === 'teachingMaterial'">
-          <app-teaching-material-form [form]="form.get('teachingMaterial')" (attachmentsUploaded)="onAttachmentsUploaded($event)"></app-teaching-material-form>
+          <app-teaching-material-form [form]="form.get('teachingMaterial')"
+                                      [attachmentDTOs]="attachmentDTOs"
+                                      (attachmentsUploaded)="onAttachmentsUploaded($event)"
+                                      (deleteAttachmentDTO)="onDeleteAttachmentDTO($event)">
+          </app-teaching-material-form>
         </ng-container>
 
         <ng-container *ngIf="form.get('announcementType').value === 'tutoringService'">

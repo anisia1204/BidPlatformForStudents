@@ -19,8 +19,8 @@ export class NewAnnouncementService {
     return this.projectResourceService.save(projectDto);
   }
 
-  saveTeachingMaterialDto(teachingMaterialDto: TeachingMaterialDtoModel) {
-    return this.teachingMaterialResourceService.save(teachingMaterialDto);
+  saveTeachingMaterialDto(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    return this.teachingMaterialResourceService.save(teachingMaterialDto, files);
   }
 
   saveTutoringServiceDto(tutoringServiceDto: TutoringServiceDtoModel) {

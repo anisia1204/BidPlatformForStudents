@@ -11,8 +11,15 @@ export class TeachingMaterialResourceService {
   constructor(private httpClient: HttpClient) {
   }
 
-  save(teachingMaterialDto: TeachingMaterialDtoModel) {
-    return this.httpClient.post<TeachingMaterialDtoModel>(`${this.url}`, teachingMaterialDto);
+  save(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    const formData: FormData = new FormData();
+    for (let file of files) {
+      formData.append('files', file);
+    }
+    formData.append('teachingMaterialDTO', new Blob([JSON.stringify(teachingMaterialDto)], {
+      type: "application/json"
+    }));
+    return this.httpClient.post<TeachingMaterialDtoModel>(`${this.url}`, formData);
   }
 
   update(teachingMaterialDto: TeachingMaterialDtoModel) {

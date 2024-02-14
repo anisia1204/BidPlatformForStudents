@@ -1,8 +1,12 @@
 package com.licenta.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.licenta.domain.AnnouncementStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 public class TeachingMaterialDTO {
     private Long id;
@@ -15,6 +19,7 @@ public class TeachingMaterialDTO {
     private String name;
     private String author;
     private Integer edition;
+    private List<AttachmentDTO> attachmentDTOs;
 
     private String announcementType;
 
@@ -104,5 +109,13 @@ public class TeachingMaterialDTO {
 
     public void setAnnouncementType(String announcementType) {
         this.announcementType = announcementType;
+    }
+
+    public List<AttachmentDTO> getAttachmentDTOs() {
+        return attachmentDTOs;
+    }
+
+    public void setAttachmentDTOs(List<AttachmentDTO> attachmentDTOs) {
+        this.attachmentDTOs = attachmentDTOs;
     }
 }

@@ -51,11 +51,21 @@
     <h5 class="pb-2 text-center" [style]="{color: 'var(--teal-500)'}">Fotografii*</h5>
     <div class="col-12 d-flex justify-content-center pt-2">
       <p-toast></p-toast>
-      <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)"
-                    [multiple]="true" accept="image/*" [style]="{'width':'100%'}">
+      <p-fileUpload
+                    name="files"
+                    [showUploadButton]="false"
+                    [showCancelButton]="false"
+                    [auto]="true"
+                    [customUpload]="true"
+                    (onRemove)="onRemove($event)"
+                    (uploadHandler)=uploadHandler($event)
+                    [multiple]="true"
+                    [chooseLabel]="'Alege'"
+                    accept="image/*"
+                    [style]="{'width':'100%'}">
         <ng-template pTemplate="content">
-          <ul *ngIf="uploadedFiles.length">
-            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+          <ul *ngIf="localFiles.length">
+            <li *ngFor="let file of localFiles">{{ file.name }} - {{ file.size }} bytes</li>
           </ul>
         </ng-template>
       </p-fileUpload>

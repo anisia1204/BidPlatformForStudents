@@ -123,7 +123,7 @@ export class NewAnnouncementComponent implements OnInit {
       this.editTeachingMaterial(teachingMaterialDto)
     }
     else {
-      this.saveTeachingMaterial(teachingMaterialDto)
+      this.saveTeachingMaterial(teachingMaterialDto, this.attachments)
     }
 
   }
@@ -231,8 +231,8 @@ export class NewAnnouncementComponent implements OnInit {
     )
   }
 
-  saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel) {
-    this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto).subscribe(
+  saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
+    this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
       teachingMaterialDto => console.log(teachingMaterialDto)
     )
   }
@@ -247,5 +247,11 @@ export class NewAnnouncementComponent implements OnInit {
     this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
       projectDto => console.log(projectDto)
     )
+  }
+
+  attachments: File[] = []
+
+  onAttachmentsUploaded(attachments: File[]) {
+    this.attachments = [...attachments]
   }
 }

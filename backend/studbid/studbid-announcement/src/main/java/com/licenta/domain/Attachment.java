@@ -20,9 +20,6 @@ public class Attachment {
     @Column(name = "size")
     private Long size;
 
-    @Column(name = "object_url")
-    private String objectUrl;
-
     @Column(name = "deleted")
     private Boolean deleted;
 
@@ -63,14 +60,6 @@ public class Attachment {
 
     public void setSize(Long size) {
         this.size = size;
-    }
-
-    public String getObjectUrl() {
-        return objectUrl;
-    }
-
-    public void setObjectUrl(String objectUrl) {
-        this.objectUrl = objectUrl;
     }
 
     public Boolean getDeleted() {

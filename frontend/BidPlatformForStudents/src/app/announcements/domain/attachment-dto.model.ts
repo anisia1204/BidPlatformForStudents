@@ -4,4 +4,5 @@ export class AttachmentDtoModel {
     name: string | undefined
     size: number | undefined
     fileContent: string | undefined
+    base64EncodedStringOfFileContent: string | undefined
 }

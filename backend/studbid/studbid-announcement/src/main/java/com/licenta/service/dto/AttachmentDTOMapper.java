@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 
 
 @Component
@@ -25,6 +26,7 @@ public class AttachmentDTOMapper {
         attachmentDTO.setName(attachment.getName());
         attachmentDTO.setSize(attachment.getSize());
         attachmentDTO.setFileContent(attachment.getFileContent());
+        attachmentDTO.setBase64EncodedStringOfFileContent(Base64.getEncoder().encodeToString(attachment.getFileContent()));
 
         return attachmentDTO;
     }

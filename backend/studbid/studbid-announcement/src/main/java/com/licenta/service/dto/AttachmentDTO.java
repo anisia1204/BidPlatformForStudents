@@ -6,8 +6,8 @@ public class AttachmentDTO {
     private Long teachingMaterialId;
     private String name;
     private Long size;
-    private String objectURL;
     private byte[] fileContent;
+    private String base64EncodedStringOfFileContent;
 
     public Long getId() {
         return id;
@@ -41,19 +41,19 @@ public class AttachmentDTO {
         this.size = size;
     }
 
-    public String getObjectURL() {
-        return objectURL;
-    }
-
-    public void setObjectURL(String objectURL) {
-        this.objectURL = objectURL;
-    }
-
     public byte[] getFileContent() {
         return fileContent;
     }
 
     public void setFileContent(byte[] fileContent) {
         this.fileContent = fileContent;
+    }
+
+    public String getBase64EncodedStringOfFileContent() {
+        return base64EncodedStringOfFileContent;
+    }
+
+    public void setBase64EncodedStringOfFileContent(String base64EncodedStringOfFileContent) {
+        this.base64EncodedStringOfFileContent = base64EncodedStringOfFileContent;
     }
 }

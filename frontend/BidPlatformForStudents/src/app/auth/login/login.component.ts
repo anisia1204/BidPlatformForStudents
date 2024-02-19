@@ -6,6 +6,7 @@ import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {RegistrationComponent} from "../registration/registration.component";
+import {UserContextService} from "../user-context-service/user-context.service";
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ import {RegistrationComponent} from "../registration/registration.component";
 export class LoginComponent implements OnDestroy{
   form: any;
   loginService = inject(LoginService)
+  userContextService = inject(UserContextService)
   userDto : UserDtoModel | undefined
   messageService = inject(MessageService)
   router = inject(Router)
@@ -37,6 +39,7 @@ export class LoginComponent implements OnDestroy{
       this.userDto = <UserDtoModel>this.form.value
       this.loginService.login(this.userDto).subscribe(
         loggedInUserDto => {
+          this.userContextService.setLoggedInUser(loggedInUserDto)
           this.loginService.isLoggedIn(loggedInUserDto);
           this.router.navigate(['/dashboard'])
         },

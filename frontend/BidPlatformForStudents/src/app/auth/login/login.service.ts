@@ -3,7 +3,6 @@ import {UserResourceService} from "../resource-service/user-resource.service";
 import {UserDtoModel} from "../domain/user-dto.model";
 import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
-import {AuthenticationResponseModel} from "../domain/authentication-response.model";
 import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
 
 @Injectable({

@@ -9,7 +9,7 @@ import {SkillDtoModel} from "../domain/skill-dto.model";
 import {
   NewAnnouncementValidatorHandlerServiceTsService
 } from "../validator/new-announcement-validator-handler.service.ts.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 
 
@@ -20,7 +20,7 @@ import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 })
 export class NewAnnouncementComponent implements OnInit {
   form: FormGroup | any;
-  id: string | undefined;
+  id: string | null = null;
   isNew = false;
   attachments: File[] = []
   attachmentDTOs: AttachmentDtoModel[] | undefined = []
@@ -28,33 +28,41 @@ export class NewAnnouncementComponent implements OnInit {
   newAnnouncementService = inject(NewAnnouncementService)
   newAnnouncementValidatorHandlerService = inject(NewAnnouncementValidatorHandlerServiceTsService)
   route = inject(ActivatedRoute)
+  router = inject(Router)
+  announcementType = ""
 
   constructor() {
     this.createForm();
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.id = params['id']
-    })
+    this.route.paramMap.subscribe(
+      param => console.log(param)
+    )
 
-    const routerState = "teachingMaterial"
-
-    if (this.id) {
-      this.newAnnouncementService.getAnnouncementTemplate(this.id, routerState)?.subscribe(
-        (announcementDTO: TutoringServiceDtoModel | TeachingMaterialDtoModel | ProjectDtoModel) => {
-          console.log(announcementDTO)
-          this.form.patchValue(announcementDTO);
-          this.patchValueOfCorrespondingAnnouncementType(announcementDTO);
-          this.form.get('announcementType').disable()
-          // if(routerState === 'project')
-          //   this.form.get('points').disable();
-        }
-      );
-    } else {
-      this.isNew = true;
+    //this.announcementType = "teachingMaterial"
+    //const routerState = this.router.getCurrentNavigation()?.extras.state;
+    //if (routerState && routerState['type']) {
+      this.announcementType = history.state.type
+    //}
+    console.log(this.announcementType)
+    console.log(this.id)
+      if (this.id) {
+        this.newAnnouncementService.getAnnouncementTemplate(this.id, this.announcementType)?.subscribe(
+            (announcementDTO: TutoringServiceDtoModel | TeachingMaterialDtoModel | ProjectDtoModel) => {
+              console.log(announcementDTO)
+              this.form.patchValue(announcementDTO);
+              this.patchValueOfCorrespondingAnnouncementType(announcementDTO);
+              this.form.get('announcementType').disable()
+              // if(routerState === 'project')
+              //   this.form.get('points').disable();
+            }
+        );
+      } else {
+        this.isNew = true;
+      }
     }
-  }
+
 
   createForm() {
     this.form = new FormGroup({

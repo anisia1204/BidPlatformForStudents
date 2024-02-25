@@ -1,0 +1,24 @@
+import {Injectable} from "@angular/core";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {AnnouncementVoModel} from "../domain/announcement-vo.model";
+import {Page} from "../domain/page.model";
+
+@Injectable({
+    providedIn: "root"
+})
+export class AnnouncementResourceService {
+    private url = "http://localhost:8081/api/announcements"
+
+    constructor(private httpClient: HttpClient) {
+    }
+
+    getMyAnnouncements(page: number, size: number, sort: string[]) {
+      let params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+      sort.forEach(s => {
+        params = params.append('sort', s);
+      });
+        return this.httpClient.get<Page<AnnouncementVoModel>>(`${this.url}`, {params})
+    }
+}

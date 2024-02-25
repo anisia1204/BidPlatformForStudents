@@ -36,6 +36,12 @@ import {CalendarModule} from "primeng/calendar";
 import {DropdownModule} from "primeng/dropdown";
 import {StyleClassModule} from "primeng/styleclass";
 import {FileUploadModule} from "primeng/fileupload";
+import { MyAnnouncementsComponent } from './announcements/my-announcements/my-announcements.component';
+import {DataViewModule} from "primeng/dataview";
+import {TagModule} from "primeng/tag";
+import {CarouselModule} from "primeng/carousel";
+import {GalleriaModule} from "primeng/galleria";
+import {SpeedDialModule} from "primeng/speeddial";
 
 const routes: Routes = [
   {
@@ -68,7 +74,13 @@ const routes: Routes = [
   },
   {
     path: "my-announcements",
-    component: AnnouncementListComponent
+    component: MyAnnouncementsComponent,
+    children: [
+      {
+        path: "edit/:id",
+        component: NewAnnouncementComponent
+      }
+    ]
   },
   {
     path: "favourites",
@@ -100,7 +112,8 @@ const routes: Routes = [
     PageNotFoundComponent,
     TeachingMaterialFormComponent,
     TutoringServiceFormComponent,
-    ProjectInputsComponent
+    ProjectInputsComponent,
+    MyAnnouncementsComponent
   ],
     imports: [
         BrowserModule,
@@ -123,7 +136,12 @@ const routes: Routes = [
         CalendarModule,
         DropdownModule,
         StyleClassModule,
-        FileUploadModule
+        FileUploadModule,
+        DataViewModule,
+        TagModule,
+        CarouselModule,
+        GalleriaModule,
+        SpeedDialModule
     ],
   providers: [
     {

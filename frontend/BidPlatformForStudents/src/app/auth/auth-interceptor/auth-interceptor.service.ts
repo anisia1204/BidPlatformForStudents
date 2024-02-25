@@ -6,10 +6,10 @@ import {UserContextService} from "../user-context-service/user-context.service";
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor{
-  constructor(private userContextService: UserContextService) {
+  constructor(private userContextService: UserContextService, private loginService: LoginService) {
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.userContextService.getLoggedInUser().pipe(
+    return this.loginService.loggedInUser$.pipe( //this.userContextService.getLoggedInUser() ca sa pot avea mai multi useri logati in diferite taburi dar la refresh se pierde useru, trb vazut care e problema, cu varianta actuala nu se pierde useru da nu pot fi logata cu mai multi
       take(1),
       exhaustMap(
         loggedInUserDto => {

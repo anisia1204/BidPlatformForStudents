@@ -1,24 +1,24 @@
 <nav class="custom-navbar fixed-top">
   <div class="flex-row d-flex align-content-center">
-    <div class="col-2 mt-3 ms-3">
+    <div class="col-2 mt-2 ms-3">
       <h5 class="text-white">
         BidPlatform
       </h5>
     </div>
 
     <ng-container *ngIf="isLoggedIn" class="flex-row d-inline-flex col-10 flex-grow-1">
-      <div  class="col-4 mt-1">
+      <div  class="col-4">
         <input [style]="{'width': '400px'}" type="text" pInputText placeholder="Cauta..." class="w-full"/>
       </div>
 
       <div class="col-6 d-inline-flex align-content-between justify-content-end pe-3">
-        <p-button class="mt-1 pe-1"
+        <p-button class="pe-1"
                   label="Creaza un anunt"
                   icon="pi pi-pencil"
                   (onClick)="show()"
         >
         </p-button>
-        <p-button class="mt-1 pe-1"
+        <p-button class="pe-1"
                   label="Conversatii"
                   icon="pi pi-comment"
         >
@@ -33,12 +33,12 @@
         <p-splitButton label="Profil"
                        [model]="this.items"
                        (onClick)="goToMyProfile()"
-                       styleClass="mr-2 mb-2 custom-link mt-1 pe-1"
+                       styleClass="mr-2 mb-2 custom-link pe-1"
                        icon="pi pi-user"
         >
         </p-splitButton>
 
-        <p-button class="mt-1 pe-1"
+        <p-button class=" pe-1"
                   icon="pi pi-power-off"
                   (onClick)="logout()"
         >

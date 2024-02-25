@@ -11,6 +11,7 @@ public interface AttachmentService {
     List<AttachmentDTO> saveAll(MultipartFile[] files, TeachingMaterial teachingMaterial);
     AttachmentDTO save(AttachmentDTO attachmentDTO, TeachingMaterial teachingMaterial);
     List<Attachment> getAttachmentsByTeachingMaterialId(Long id);
+    List<Attachment> getAttachmentsNotDeletedByTeachingMaterialId(Long id);
     List<AttachmentDTO> getAllDTOSNotDeletedByTeachingMaterialId(Long id);
     void delete(Long id);
     Attachment getById(Long id);

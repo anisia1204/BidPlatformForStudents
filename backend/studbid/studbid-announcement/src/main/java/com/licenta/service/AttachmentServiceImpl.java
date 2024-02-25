@@ -58,6 +58,12 @@ public class AttachmentServiceImpl implements AttachmentService{
 
     @Override
     @Transactional(readOnly = true)
+    public List<Attachment> getAttachmentsNotDeletedByTeachingMaterialId(Long id) {
+        return attachmentJPARepository.findAllByTeachingMaterialIdAndDeletedEquals(id, false);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<AttachmentDTO> getAllDTOSNotDeletedByTeachingMaterialId(Long id) {
         return attachmentJPARepository.findAllByTeachingMaterialIdAndDeletedEquals(id, false)
                 .stream()

@@ -29,4 +29,11 @@ public class AnnouncementController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return ResponseEntity.ok(announcementService.getMyAnnouncements(pageable));
     }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseBody
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        announcementService.delete(id);
+        return ResponseEntity.ok(true);
+    }
 }

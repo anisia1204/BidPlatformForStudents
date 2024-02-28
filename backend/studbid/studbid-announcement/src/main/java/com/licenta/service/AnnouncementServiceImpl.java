@@ -4,15 +4,16 @@ import com.licenta.context.UserContextHolder;
 import com.licenta.domain.Announcement;
 import com.licenta.domain.Attachment;
 import com.licenta.domain.TeachingMaterial;
+import com.licenta.domain.TutoringService;
 import com.licenta.domain.repository.AnnouncementJPARepository;
 import com.licenta.domain.vo.AnnouncementVO;
 import com.licenta.domain.vo.AnnouncementVOMapper;
+import com.licenta.service.exception.AnnouncementNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 
 
 @Service
@@ -20,11 +21,17 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     private final AnnouncementJPARepository announcementJPARepository;
     private final AnnouncementVOMapper announcementVOMapper;
     private final AttachmentService attachmentService;
+    private final TeachingMaterialService teachingMaterialService;
+    private final TutoringServiceService tutoringServiceService;
+    private final ProjectService projectService;
 
-    public AnnouncementServiceImpl(AnnouncementJPARepository announcementJPARepository, AnnouncementVOMapper announcementVOMapper, AttachmentService attachmentService) {
+    public AnnouncementServiceImpl(AnnouncementJPARepository announcementJPARepository, AnnouncementVOMapper announcementVOMapper, AttachmentService attachmentService, TeachingMaterialService teachingMaterialService, TutoringServiceService tutoringServiceService, ProjectService projectService) {
         this.announcementJPARepository = announcementJPARepository;
         this.announcementVOMapper = announcementVOMapper;
         this.attachmentService = attachmentService;
+        this.teachingMaterialService = teachingMaterialService;
+        this.tutoringServiceService = tutoringServiceService;
+        this.projectService = projectService;
     }
 
     @Override
@@ -39,4 +46,24 @@ public class AnnouncementServiceImpl implements AnnouncementService{
             }
         });
     }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Announcement announcement = getById(id);
+        if(announcement instanceof TeachingMaterial)
+            teachingMaterialService.delete(id);
+        else if (announcement instanceof TutoringService)
+            tutoringServiceService.delete(id);
+        else
+            projectService.delete(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Announcement getById(Long id) {
+        return announcementJPARepository.findById(id).orElseThrow(AnnouncementNotFoundException::new);
+    }
+
+
 }

@@ -27,13 +27,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.update(projectDTO));
     }
 
-    @DeleteMapping(value = "/{id}")
-    @ResponseBody
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        projectService.delete(id);
-        return ResponseEntity.ok(true);
-    }
-
     @GetMapping(value = {"/template/{id}"})
     @ResponseBody
     public ResponseEntity<?> getTemplate(@PathVariable Long id) {

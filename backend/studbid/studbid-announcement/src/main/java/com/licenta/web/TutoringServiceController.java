@@ -28,13 +28,6 @@ public class TutoringServiceController {
         return ResponseEntity.ok(tutoringServiceService.update(tutoringServiceDTO));
     }
 
-    @DeleteMapping(value = "/{id}")
-    @ResponseBody
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        tutoringServiceService.delete(id);
-        return ResponseEntity.ok(true);
-    }
-
     @GetMapping(value = {"/template/{id}"})
     @ResponseBody
     public ResponseEntity<?> getTemplate(@PathVariable Long id) {

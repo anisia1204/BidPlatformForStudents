@@ -30,13 +30,6 @@ public class TeachingMaterialController {
         return ResponseEntity.ok(teachingMaterialService.update(teachingMaterialDTO, files));
     }
 
-    @DeleteMapping(value = "/{id}")
-    @ResponseBody
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        teachingMaterialService.delete(id);
-        return ResponseEntity.ok(true);
-    }
-
     @GetMapping(value = {"/template/{id}"})
     @ResponseBody
     public ResponseEntity<?> getTemplate(@PathVariable Long id) {

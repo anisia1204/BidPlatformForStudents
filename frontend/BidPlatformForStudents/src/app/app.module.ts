@@ -42,6 +42,7 @@ import {TagModule} from "primeng/tag";
 import {CarouselModule} from "primeng/carousel";
 import {GalleriaModule} from "primeng/galleria";
 import {SpeedDialModule} from "primeng/speeddial";
+import {DialogModule} from "primeng/dialog";
 
 const routes: Routes = [
   {
@@ -115,34 +116,35 @@ const routes: Routes = [
     ProjectInputsComponent,
     MyAnnouncementsComponent
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        ChipsModule,
-        RouterLink,
-        RouterModule.forRoot(routes),
-        ToastModule,
-        ConfirmDialogModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        HttpClientModule,
-        MenubarModule,
-        SplitButtonModule,
-        InputTextareaModule,
-        RadioButtonModule,
-        FormsModule,
-        CalendarModule,
-        DropdownModule,
-        StyleClassModule,
-        FileUploadModule,
-        DataViewModule,
-        TagModule,
-        CarouselModule,
-        GalleriaModule,
-        SpeedDialModule
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    ChipsModule,
+    RouterLink,
+    RouterModule.forRoot(routes),
+    ToastModule,
+    ConfirmDialogModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    HttpClientModule,
+    MenubarModule,
+    SplitButtonModule,
+    InputTextareaModule,
+    RadioButtonModule,
+    FormsModule,
+    CalendarModule,
+    DropdownModule,
+    StyleClassModule,
+    FileUploadModule,
+    DataViewModule,
+    TagModule,
+    CarouselModule,
+    GalleriaModule,
+    SpeedDialModule,
+    DialogModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

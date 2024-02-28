@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TeachingMaterialDtoModel} from "../domain/teaching-material-dto.model";
 import {TutoringServiceDtoModel} from "../domain/tutoring-service-dto.model";
@@ -11,6 +11,7 @@ import {
 } from "../validator/new-announcement-validator-handler.service.ts.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AttachmentDtoModel} from "../domain/attachment-dto.model";
+import {Subject, takeUntil} from "rxjs";
 
 
 @Component({
@@ -18,12 +19,13 @@ import {AttachmentDtoModel} from "../domain/attachment-dto.model";
   templateUrl: './new-announcement.component.html',
   styleUrls: ['./new-announcement.component.scss']
 })
-export class NewAnnouncementComponent implements OnInit {
+export class NewAnnouncementComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
   id: string | null = null;
   isNew = false;
   attachments: File[] = []
   attachmentDTOs: AttachmentDtoModel[] | undefined = []
+  destroy$: Subject<boolean> = new Subject<boolean>()
 
   newAnnouncementService = inject(NewAnnouncementService)
   newAnnouncementValidatorHandlerService = inject(NewAnnouncementValidatorHandlerServiceTsService)
@@ -36,31 +38,27 @@ export class NewAnnouncementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      param => console.log(param)
-    )
-
-    //this.announcementType = "teachingMaterial"
-    //const routerState = this.router.getCurrentNavigation()?.extras.state;
-    //if (routerState && routerState['type']) {
+    this.route.params.subscribe(params => {
+      this.id = params['id']
       this.announcementType = history.state.type
-    //}
-    console.log(this.announcementType)
-    console.log(this.id)
       if (this.id) {
-        this.newAnnouncementService.getAnnouncementTemplate(this.id, this.announcementType)?.subscribe(
+        this.newAnnouncementService
+          .getAnnouncementTemplate(this.id, this.announcementType)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(
             (announcementDTO: TutoringServiceDtoModel | TeachingMaterialDtoModel | ProjectDtoModel) => {
               console.log(announcementDTO)
               this.form.patchValue(announcementDTO);
               this.patchValueOfCorrespondingAnnouncementType(announcementDTO);
               this.form.get('announcementType').disable()
-              // if(routerState === 'project')
-              //   this.form.get('points').disable();
+              if(this.announcementType === 'project')
+                this.form.get('points').disable();
             }
-        );
+          );
       } else {
         this.isNew = true;
       }
+    })
     }
 
 
@@ -263,5 +261,9 @@ export class NewAnnouncementComponent implements OnInit {
     this.newAnnouncementService.updateProjectDto(projectDto).subscribe(
       projectDto => console.log(projectDto)
     )
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true)
   }
 }

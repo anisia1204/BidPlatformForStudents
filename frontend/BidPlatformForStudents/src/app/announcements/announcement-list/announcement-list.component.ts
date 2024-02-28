@@ -1,9 +1,7 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
-import {MenuItem} from "primeng/api";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {NewAnnouncementComponent} from "../new-announcement/new-announcement.component";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DialogService} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-announcement-list',
@@ -15,45 +13,31 @@ export class AnnouncementListComponent implements OnInit {
     @Input() announcements : any[] | undefined //Page<AnnouncementVoModel> | null = null;
     @Output() lazyLoad = new EventEmitter<{page: number, size: number}>();
     @Input() totalRecords: number | undefined;
-    items: MenuItem[] | null = null;
-    route = inject(ActivatedRoute)
-  routeQueryParams$: Subscription | undefined;
-  constructor(public dialogService: DialogService) {}
+    @Output() delete = new EventEmitter<number>();
+
+  route = inject(ActivatedRoute)
+    router = inject(Router)
+    routeQueryParams$: Subscription | undefined;
+    visible = false;
 
   onLazyLoad(page: number, size: any) {
     this.lazyLoad.emit({page, size});
   }
 
   ngOnInit(): void {
-    this.items = [
-      {
-        icon: 'pi pi-pencil',
-        tooltipOptions: {
-          tooltipLabel: 'Editeaza'
-        },
-      },
-      {
-        icon: 'pi pi-trash',
-        tooltipOptions: {
-          tooltipLabel: 'Sterge'
-        },
-      }
-    ]
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
-      console.log(params)
       if (params['dialog']) {
-        console.log("a")
-
-        this.openDialog();
+        this.visible = true;
       }
     });
   }
-  newAnnouncementDialog: DynamicDialogRef | undefined;
 
-  private openDialog() {
-    this.newAnnouncementDialog = this.dialogService.open(NewAnnouncementComponent, {
-      position: "center",
-      modal: true,
-    });
+  closeDialog() {
+    this.visible = false
+    this.router.navigate(['/', 'my-announcements'])
+  }
+
+  onDelete(id: number) {
+    this.delete.emit(id)
   }
 }

@@ -23,4 +23,10 @@ export class MyAnnouncementsComponent{
       }
     )
   }
+
+  onDelete(id: number) {
+    this.myAnnouncementsService.delete(id).subscribe(
+      res => console.log(res)
+    )
+  }
 }

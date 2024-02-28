@@ -10,4 +10,8 @@ export class MyAnnouncementsService {
     getMyAnnouncements(page: number, size: number, sort: string[]) {
        return this.announcementResourceService.getMyAnnouncements(page, size, sort);
     }
+
+    delete(id: number) {
+      return this.announcementResourceService.delete(id)
+    }
 }

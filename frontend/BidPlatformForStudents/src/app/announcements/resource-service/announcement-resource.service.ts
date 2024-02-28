@@ -21,4 +21,8 @@ export class AnnouncementResourceService {
       });
         return this.httpClient.get<Page<AnnouncementVoModel>>(`${this.url}`, {params})
     }
+
+  delete(id: number) {
+    return this.httpClient.delete(`${this.url}/${id}`)
+  }
 }

@@ -81,6 +81,7 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
     public void delete(Long id) {
         TeachingMaterial teachingMaterial = getById(id);
         teachingMaterial.setDeleted(true);
+        teachingMaterial.setStatus(AnnouncementStatus.INACTIVE);
         attachmentService.getAttachmentsByTeachingMaterialId(id).forEach(attachment -> attachmentService.delete(id));
         teachingMaterialJPARepository.save(teachingMaterial);
     }

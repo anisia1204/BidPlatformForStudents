@@ -62,6 +62,7 @@ public class TutoringServiceServiceImpl implements TutoringServiceService{
     public void delete(Long id) {
         TutoringService tutoringService = getById(id);
         tutoringService.setDeleted(true);
+        tutoringService.setStatus(AnnouncementStatus.INACTIVE);
         tutoringServiceJPARepository.save(tutoringService);
     }
 }

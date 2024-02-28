@@ -98,6 +98,7 @@ public class ProjectServiceImpl implements ProjectService{
     public void delete(Long id) {
         Project project = getById(id);
         project.setDeleted(true);
+        project.setStatus(AnnouncementStatus.INACTIVE);
         project.getRequiredSkills().forEach(skill -> skillService.delete(skill.getId()));
         projectJPARepository.save(project);
     }

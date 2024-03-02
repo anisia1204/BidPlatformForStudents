@@ -11,4 +11,6 @@ public interface AnnouncementService {
 
     void delete(Long id);
     Announcement getById(Long id);
+
+    Announcement markAsSold(Long announcementId);
 }

@@ -15,4 +15,6 @@ public interface UserService {
     void confirmUser(String confirmationToken);
 
     User findById(Long userId);
+
+    void updateUserPoints(User user, Double amount);
 }

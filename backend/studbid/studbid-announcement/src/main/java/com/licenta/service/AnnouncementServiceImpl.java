@@ -1,10 +1,7 @@
 package com.licenta.service;
 
 import com.licenta.context.UserContextHolder;
-import com.licenta.domain.Announcement;
-import com.licenta.domain.Attachment;
-import com.licenta.domain.TeachingMaterial;
-import com.licenta.domain.TutoringService;
+import com.licenta.domain.*;
 import com.licenta.domain.repository.AnnouncementJPARepository;
 import com.licenta.domain.vo.AnnouncementVO;
 import com.licenta.domain.vo.AnnouncementVOMapper;
@@ -63,6 +60,14 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     @Transactional(readOnly = true)
     public Announcement getById(Long id) {
         return announcementJPARepository.findById(id).orElseThrow(AnnouncementNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public Announcement markAsSold(Long announcementId) {
+        Announcement announcement = getById(announcementId);
+        announcement.setStatus(AnnouncementStatus.SOLD);
+        return announcementJPARepository.saveAndFlush(announcement);
     }
 
 

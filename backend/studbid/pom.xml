@@ -19,6 +19,7 @@
 		<module>studbid-web</module>
         <module>studbid-auth</module>
         <module>studbid-announcement</module>
+        <module>studbid-order</module>
     </modules>
 
 	<dependencyManagement>
@@ -31,6 +32,11 @@
 			<dependency>
 				<groupId>com.licenta</groupId>
 				<artifactId>studbid-announcement</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.licenta</groupId>
+				<artifactId>studbid-order</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 		</dependencies>

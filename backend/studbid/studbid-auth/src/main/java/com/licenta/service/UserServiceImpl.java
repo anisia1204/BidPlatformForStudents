@@ -148,6 +148,13 @@ public class UserServiceImpl implements UserService{
         return userJPARepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
+    @Override
+    @Transactional
+    public void updateUserPoints(User user, Double amount) {
+        user.setPoints(user.getPoints() + amount);
+        userJPARepository.save(user);
+    }
+
     @Transactional
     public void enableUser(User user) {
         user.setEnabled(true);

@@ -82,4 +82,12 @@ public class SkillServiceImpl implements SkillService{
     public Double getPointsSumOfSkills(List<SkillDTO> projectSkillDTOS) {
         return projectSkillDTOS.stream().mapToDouble(SkillDTO::getSkillPoints).sum();
     }
+
+    @Override
+    @Transactional
+    public Skill markAsSold(Skill skill) {
+        skill.setStatus(SkillStatus.SOLD);
+        skillJPARepository.save(skill);
+        return skill;
+    }
 }

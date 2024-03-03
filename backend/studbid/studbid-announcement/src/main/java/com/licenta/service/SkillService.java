@@ -13,6 +13,6 @@ public interface SkillService {
     SkillDTO update(SkillDTO skillDTO);
     Skill getById(Long id);
     void delete(Long id);
-
     Double getPointsSumOfSkills(List<SkillDTO> projectSkillDTOS);
+    Skill markAsSold(Skill skill);
 }

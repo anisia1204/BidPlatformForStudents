@@ -19,6 +19,10 @@ public class Transaction {
     @JoinColumn(name = "announcement_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__ANNOUNCEMENT"))
     private Announcement announcement;
 
+    @ManyToOne
+    @JoinColumn(name = "skill_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__SKILL"))
+    private Skill skill;
+
     @Column(name = "type", nullable = false)
     private TransactionType type;
 
@@ -53,6 +57,14 @@ public class Transaction {
 
     public void setAnnouncement(Announcement announcement) {
         this.announcement = announcement;
+    }
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 
     public TransactionType getType() {

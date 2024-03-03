@@ -34,6 +34,22 @@ public class TransactionController {
             });
             return ResponseEntity.badRequest().body(errors);
         }
-        return ResponseEntity.ok(transactionService.save(transactionDTO));
+        return ResponseEntity.ok(transactionService.buyTeachingMaterialOrTutoringService(transactionDTO));
+    }
+
+    @PostMapping(value = "/project")
+    @ResponseBody
+    public ResponseEntity<?> buyProject(@RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
+        transactionValidator.validate(transactionDTO, bindingResult);
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getAllErrors().forEach(error -> {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getCode();
+                errors.put(fieldName, errorMessage);
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(transactionService.buyProject(transactionDTO));
     }
 }

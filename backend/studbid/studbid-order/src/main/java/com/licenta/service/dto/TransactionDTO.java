@@ -3,11 +3,13 @@ package com.licenta.service.dto;
 import com.licenta.domain.TransactionType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TransactionDTO {
     private Long id;
     private Long userId;
     private Long announcementId;
+    private List<Long> skillIds;
     private TransactionType type;
     private Double amount;
     private LocalDateTime createdAt;
@@ -37,6 +39,14 @@ public class TransactionDTO {
 
     public void setAnnouncementId(Long announcementId) {
         this.announcementId = announcementId;
+    }
+
+    public List<Long> getSkillIds() {
+        return skillIds;
+    }
+
+    public void setSkillIds(List<Long> skillIds) {
+        this.skillIds = skillIds;
     }
 
     public TransactionType getType() {

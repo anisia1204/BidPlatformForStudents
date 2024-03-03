@@ -1,5 +1,7 @@
 package com.licenta.service.dto;
 
+import com.licenta.domain.Project;
+import com.licenta.domain.Skill;
 import com.licenta.domain.Transaction;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,14 @@ public class TransactionDTOMapper {
         transactionDTO.setAmount(transaction.getAmount());
         transactionDTO.setType(transaction.getType());
         transactionDTO.setCreatedAt(transaction.getCreatedAt());
+
+        if(transaction.getAnnouncement() instanceof Project){
+            transactionDTO.setSkillIds(((Project) transaction.getAnnouncement()).getRequiredSkills()
+                    .stream()
+                    .map(Skill::getId)
+                    .toList());
+        }
+
         return transactionDTO;
     }
 }

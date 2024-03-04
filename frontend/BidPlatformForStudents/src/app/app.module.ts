@@ -65,13 +65,7 @@ const routes: Routes = [
   },
   {
     path: "new-announcement",
-    component: NewAnnouncementComponent,
-    children: [
-      {
-        path: "tutoring-service",
-        component: TutoringServiceFormComponent
-      }
-    ]
+    component: NewAnnouncementComponent
   },
   {
     path: "my-announcements",

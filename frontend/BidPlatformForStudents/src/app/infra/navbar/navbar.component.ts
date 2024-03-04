@@ -1,8 +1,8 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {NavbarService} from "./navbar.service";
-import {MenuItem} from "primeng/api";
+import {MenuItem, MessageService} from "primeng/api";
 import {Router} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Subject, Subscription, takeUntil} from "rxjs";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {NewAnnouncementComponent} from "../../announcements/new-announcement/new-announcement.component";
 
@@ -10,7 +10,7 @@ import {NewAnnouncementComponent} from "../../announcements/new-announcement/new
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService, MessageService]
 })
 export class NavbarComponent implements OnInit, OnDestroy{
   isLoggedIn: boolean = false;
@@ -20,7 +20,9 @@ export class NavbarComponent implements OnInit, OnDestroy{
   items: MenuItem[] | undefined
   private userSubscription: Subscription | undefined;
   newAnnouncementDialog: DynamicDialogRef | undefined;
-  constructor(public dialogService: DialogService) {}
+  destroy$: Subject<boolean> = new Subject<boolean>()
+
+  constructor(public dialogService: DialogService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.userSubscription = this.navbarService.isLoggedIn().subscribe(
@@ -62,15 +64,23 @@ export class NavbarComponent implements OnInit, OnDestroy{
     this.router.navigate(['/profile'])
   }
 
-  ngOnDestroy(): void {
-    this.userSubscription?.unsubscribe()
-  }
-
   show() {
     this.newAnnouncementDialog = this.dialogService.open(NewAnnouncementComponent, {
       position: "center",
       modal: true,
     });
+    this.newAnnouncementDialog.onClose
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Success',
+          detail: 'Anuntul a fost creat cu succes!'
+        })
+      })
   }
-
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe()
+    this.destroy$.next(true)
+  }
 }

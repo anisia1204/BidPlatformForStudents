@@ -12,12 +12,16 @@ import {
 import {ActivatedRoute, Router} from "@angular/router";
 import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 import {Subject, takeUntil} from "rxjs";
+import {GoBackService} from "../../utils/go-back.service";
+import {MessageService} from "primeng/api";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 
 
 @Component({
   selector: 'app-new-announcement',
   templateUrl: './new-announcement.component.html',
-  styleUrls: ['./new-announcement.component.scss']
+  styleUrls: ['./new-announcement.component.scss'],
+  providers: [MessageService, DialogService, DynamicDialogRef]
 })
 export class NewAnnouncementComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
@@ -31,6 +35,9 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
   newAnnouncementValidatorHandlerService = inject(NewAnnouncementValidatorHandlerServiceTsService)
   route = inject(ActivatedRoute)
   router = inject(Router)
+  messageService = inject(MessageService)
+  goBackService = inject(GoBackService)
+  dynamicDialogRef = inject(DynamicDialogRef)
   announcementType = ""
 
   constructor() {
@@ -226,12 +233,17 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
 
   saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
     this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
-        teachingMaterialDto => console.log(teachingMaterialDto)
+        teachingMaterialDto => this.dynamicDialogRef.close(true)
     )
   }
   editTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
     this.newAnnouncementService.updateTeachingMaterialDto(teachingMaterialDto, files).subscribe(
-      teachingMaterialDto => console.log(teachingMaterialDto)
+      teachingMaterialDto => {
+        this.goBackService.back('Ati editat anuntul cu succes!')
+      },
+      error => {
+        this.showErrorMessage()
+      }
     )
   }
   onAttachmentsUploaded(attachments: File[]) {
@@ -243,26 +255,42 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
 
   saveTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
     this.newAnnouncementService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
-        tutoringServiceDto => console.log(tutoringServiceDto)
+        tutoringServiceDto => this.dynamicDialogRef.close(true)
     )
   }
   editTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
     this.newAnnouncementService.updateTutoringServiceDto(tutoringServiceDto).subscribe(
-      tutoringServiceDto => console.log(tutoringServiceDto)
+      tutoringServiceDto => {
+        this.goBackService.back('Ati editat anuntul cu succes!')
+      },
+      error => {
+        this.showErrorMessage()
+      }
     )
   }
 
   saveProject(projectDto: ProjectDtoModel) {
     this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
-        projectDto => console.log(projectDto)
+        projectDto => this.dynamicDialogRef.close(true)
     )
   }
   editProject(projectDto: ProjectDtoModel) {
     this.newAnnouncementService.updateProjectDto(projectDto).subscribe(
-      projectDto => console.log(projectDto)
+      projectDto => {
+        this.goBackService.back('Ati editat anuntul cu succes!')
+      },
+      error => {
+        this.showErrorMessage()
+      }
     )
   }
-
+  private showErrorMessage() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Eroare',
+      detail: 'Nu ati putut edita anuntul!'
+    })
+  }
   ngOnDestroy(): void {
     this.destroy$.next(true)
   }

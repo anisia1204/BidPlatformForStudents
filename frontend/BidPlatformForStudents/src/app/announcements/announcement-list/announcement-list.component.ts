@@ -26,9 +26,7 @@ export class AnnouncementListComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
-      if (params['dialog']) {
-        this.visible = true;
-      }
+      this.visible = !!params['dialog'];
     });
   }
 

@@ -13,4 +13,6 @@ public interface AnnouncementService {
     Announcement getById(Long id);
 
     Announcement markAsSold(Long announcementId);
+
+    AnnouncementVO getDetails(Long id);
 }

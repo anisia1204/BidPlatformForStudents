@@ -70,5 +70,12 @@ public class AnnouncementServiceImpl implements AnnouncementService{
         return announcementJPARepository.saveAndFlush(announcement);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public AnnouncementVO getDetails(Long id) {
+        Announcement announcement = getById(id);
+        return announcementVOMapper.getVOFromEntity(announcement);
+    }
+
 
 }

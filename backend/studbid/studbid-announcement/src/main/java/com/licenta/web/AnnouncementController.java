@@ -30,6 +30,12 @@ public class AnnouncementController {
         return ResponseEntity.ok(announcementService.getMyAnnouncements(pageable));
     }
 
+    @GetMapping(value = {"/{id}"})
+    @ResponseBody
+    public ResponseEntity<AnnouncementVO> getDetails(@PathVariable Long id) {
+        return ResponseEntity.ok(announcementService.getDetails(id));
+    }
+
     @DeleteMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<?> delete(@PathVariable Long id) {

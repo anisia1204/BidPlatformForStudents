@@ -21,7 +21,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
   selector: 'app-new-announcement',
   templateUrl: './new-announcement.component.html',
   styleUrls: ['./new-announcement.component.scss'],
-  providers: [MessageService, DialogService, DynamicDialogRef]
+  providers: [MessageService, DynamicDialogRef]
 })
 export class NewAnnouncementComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
@@ -233,13 +233,13 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
 
   saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
     this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
-        teachingMaterialDto => this.dynamicDialogRef.close(true)
+        teachingMaterialDto => this.dynamicDialogRef?.close(true)
     )
   }
   editTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
     this.newAnnouncementService.updateTeachingMaterialDto(teachingMaterialDto, files).subscribe(
       teachingMaterialDto => {
-        this.goBackService.back('Ati editat anuntul cu succes!')
+        this.goBackService.goBack(teachingMaterialDto)
       },
       error => {
         this.showErrorMessage()
@@ -255,13 +255,13 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
 
   saveTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
     this.newAnnouncementService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
-        tutoringServiceDto => this.dynamicDialogRef.close(true)
+        tutoringServiceDto => this.dynamicDialogRef?.close(true)
     )
   }
   editTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
     this.newAnnouncementService.updateTutoringServiceDto(tutoringServiceDto).subscribe(
       tutoringServiceDto => {
-        this.goBackService.back('Ati editat anuntul cu succes!')
+        this.goBackService.goBack(tutoringServiceDto)
       },
       error => {
         this.showErrorMessage()
@@ -271,13 +271,13 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
 
   saveProject(projectDto: ProjectDtoModel) {
     this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
-        projectDto => this.dynamicDialogRef.close(true)
+        projectDto => this.dynamicDialogRef?.close(true)
     )
   }
   editProject(projectDto: ProjectDtoModel) {
     this.newAnnouncementService.updateProjectDto(projectDto).subscribe(
-      projectDto => {
-        this.goBackService.back('Ati editat anuntul cu succes!')
+      () => {
+        this.goBackService.goBack(projectDto)
       },
       error => {
         this.showErrorMessage()

@@ -71,15 +71,19 @@ export class NavbarComponent implements OnInit, OnDestroy{
     });
     this.newAnnouncementDialog.onClose
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Success',
-          detail: 'Anuntul a fost creat cu succes!'
-        })
+      .subscribe((data: boolean) => {
+        if(data){
+          this.newAnnouncementDialog?.close()
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Success',
+            detail: 'Anuntul a fost creat cu succes!'
+          })
+        }
       })
   }
   ngOnDestroy(): void {
+    this.newAnnouncementDialog?.close()
     this.userSubscription?.unsubscribe()
     this.destroy$.next(true)
   }

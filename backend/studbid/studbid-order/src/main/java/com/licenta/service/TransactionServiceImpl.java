@@ -3,14 +3,21 @@ package com.licenta.service;
 import com.licenta.context.UserContextHolder;
 import com.licenta.domain.*;
 import com.licenta.domain.repository.TransactionJPARepository;
+import com.licenta.domain.vo.TransactionVO;
+import com.licenta.domain.vo.TransactionVOMapper;
 import com.licenta.service.dto.TransactionDTO;
 import com.licenta.service.dto.TransactionDTOMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -19,13 +26,15 @@ public class TransactionServiceImpl implements TransactionService {
     private final SkillService skillService;
     private final UserService userService;
     private final TransactionDTOMapper transactionDTOMapper;
+    private final TransactionVOMapper transactionVOMapper;
 
-    public TransactionServiceImpl(TransactionJPARepository transactionJPARepository, AnnouncementService announcementService, SkillService skillService, UserService userService, TransactionDTOMapper transactionDTOMapper) {
+    public TransactionServiceImpl(TransactionJPARepository transactionJPARepository, AnnouncementService announcementService, SkillService skillService, UserService userService, TransactionDTOMapper transactionDTOMapper, TransactionVOMapper transactionVOMapper) {
         this.transactionJPARepository = transactionJPARepository;
         this.announcementService = announcementService;
         this.skillService = skillService;
         this.userService = userService;
         this.transactionDTOMapper = transactionDTOMapper;
+        this.transactionVOMapper = transactionVOMapper;
     }
 
     @Override
@@ -69,6 +78,44 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TransactionVO> getMyTransactions(String id,
+                                                 String createdAt,
+                                                 String amount,
+                                                 String title,
+                                                 int page,
+                                                 int size,
+                                                 List<String> sortList,
+                                                 String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        Page<Transaction> transactions = transactionJPARepository
+                .getAll(
+
+                        !Objects.equals(id, "") ? Long.valueOf(id) : null,
+                        !Objects.equals(createdAt, "") ? LocalDateTime.parse(createdAt) : null,
+                        !Objects.equals(amount, "") ? Double.valueOf(amount) : null,
+                        title,
+                        UserContextHolder.getUserContext().getUserId(),
+
+                        pageable);
+        return transactions.map(transactionVOMapper::getVOFromEntity);
+    }
+
+    private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        Sort.Direction direction;
+        for (String sort : sortList) {
+            if (sortDirection != null) {
+                direction = Sort.Direction.fromString(sortDirection);
+            } else {
+                direction = Sort.Direction.DESC;
+            }
+            sorts.add(new Sort.Order(direction, sort));
+        }
+        return sorts;
+    }
+
     private double getAmountOfSkills(List<Transaction> transactions) {
         return transactions.stream()
                 .mapToDouble(Transaction::getAmount)
@@ -83,6 +130,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .forEach(skill -> {
                     Transaction buyerTransaction = getEarnTransactionEntity(project, transactionCurrentDateAndTime, getBuyer());
                     buyerTransaction.setAmount(skill.getSkillPoints());
+                    buyerTransaction.setSkill(skill);
                     transactionJPARepository.saveAndFlush(buyerTransaction);
                     buyerTransactions.add(buyerTransaction);
                 });
@@ -97,6 +145,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .forEach(skill -> {
                     Transaction sellerTransaction = getSpendTransactionEntity(project, transactionCurrentDateAndTime, getSellerOfAnnouncement(project));
                     sellerTransaction.setAmount(-skill.getSkillPoints());
+                    sellerTransaction.setSkill(skill);
                     transactionJPARepository.saveAndFlush(sellerTransaction);
                     sellerTransactions.add(sellerTransaction);
                 });

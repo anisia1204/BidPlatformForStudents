@@ -82,7 +82,6 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
         TeachingMaterial teachingMaterial = getById(id);
         teachingMaterial.setDeleted(true);
         teachingMaterial.setStatus(AnnouncementStatus.INACTIVE);
-        attachmentService.getAttachmentsByTeachingMaterialId(id).forEach(attachment -> attachmentService.delete(attachment.getId()));
         teachingMaterialJPARepository.save(teachingMaterial);
     }
 

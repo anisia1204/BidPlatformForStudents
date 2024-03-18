@@ -1,9 +1,7 @@
 <h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Anunturile mele</h3>
-<app-announcement-list [announcements]="announcements"
-                       [totalRecords]="totalRecords"
-                       (lazyLoad)="onLazyLoad($event)"
-                       (delete)="onDelete($event)">
+<app-announcement-list  [myAnnouncements]="true"
+                        [announcements]="announcements"
+                        [totalRecords]="totalRecords"
+                        (lazyLoad)="onLazyLoad($event)"
+                        (delete)="onDelete($event)">
 </app-announcement-list>
-<p-toast
-  position="top-right">
-</p-toast>

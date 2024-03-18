@@ -10,9 +10,17 @@
               <i class="pi pi-calendar"></i>
               <span class="font-semibold">{{ announcement.createdAt | date }}</span>
             </span>
-            <p-tag
-              [value]="announcement.status === 'ACTIVE' ? 'ACTIV' : (announcement.status === 'INACTIVE' ? 'INACTIV' : 'VANDUT')"
-              [severity]="announcement.status === 'ACTIVE' ? 'success' : (announcement.status === 'INACTIVE' ? 'danger' : 'info')"></p-tag>
+            <ng-container *ngIf="myAnnouncements; else addToFavorites">
+              <p-tag
+                [value]="announcement.status === 'ACTIVE' ? 'ACTIV' : (announcement.status === 'INACTIVE' ? 'INACTIV' : 'VANDUT')"
+                [severity]="announcement.status === 'ACTIVE' ? 'success' : (announcement.status === 'INACTIVE' ? 'danger' : 'info')"></p-tag>
+            </ng-container>
+            <ng-template #addToFavorites>
+              <button *ngIf="favorite" pButton icon="pi pi-heart" class="p-button-text"
+                      (click)="onAddToFavorites(announcement.id)"></button>
+              <button *ngIf="!favorite" pButton icon="pi pi-heart-fill" class="p-button-text"
+                      (click)="onAddToFavorites(announcement.id)"></button>
+            </ng-template>
           </div>
           <div class="flex flex-column align-items-center py-5">
             <ng-container *ngIf="announcement.announcementType==='teachingMaterial' && announcement.attachmentVOs">
@@ -37,15 +45,29 @@
           <div class="flex align-items-center justify-content-between pt-3 mt-3 announcement-footer">
             <span class="text-2xl font-semibold">{{ announcement.points + ' puncte' }}</span>
             <div class="row d-flex justify-content-end">
-              <div class="col-3">
-                <button pButton icon="pi pi-pencil" class="mb-2 p-button-text"
-                        [routerLink]="['./edit', announcement.id]" [queryParams]="{dialog: true}"
-                        [state]="{type: announcement.announcementType}"></button>
-              </div>
-              <div class="col-3">
-                <button pButton icon="pi pi-trash" class=" mb-2 p-button-text"
-                        (click)="onDelete(announcement.id)"></button>
-              </div>
+              <ng-container *ngIf="myAnnouncements; else buyingContext">
+                <div class="col-3">
+                  <button pButton icon="pi pi-pencil" class="mb-2 p-button-text"
+                          [routerLink]="['./edit', announcement.id]" [queryParams]="{dialog: true}"
+                          [state]="{type: announcement.announcementType}"></button>
+                </div>
+                <div class="col-3">
+                  <button pButton icon="pi pi-trash" class=" mb-2 p-button-text"
+                          (click)="onDelete(announcement.id)"></button>
+                </div>
+              </ng-container>
+              <ng-template #buyingContext>
+                <div class="col-3">
+                  <button pButton icon="pi pi-eye" class="mb-2 p-button-text"
+                          [routerLink]="['./details']" [queryParams]="{dialog: true}"
+                          [state]="{type: announcement.announcementType, id: announcement.id}"></button>
+                </div>
+                <div class="col-3">
+                  <button pButton icon="pi pi-cart-plus" class=" mb-2 p-button-text"
+                          (click)="onDelete(announcement.id)"></button>
+                </div>
+              </ng-template>
+
             </div>
           </div>
         </div>
@@ -56,3 +78,5 @@
 <p-dialog [(visible)]="visible" [blockScroll]="true" [closable]="true" [modal]="true" (onHide)="closeDialog()">
   <router-outlet></router-outlet>
 </p-dialog>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

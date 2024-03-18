@@ -43,6 +43,8 @@ import {CarouselModule} from "primeng/carousel";
 import {GalleriaModule} from "primeng/galleria";
 import {SpeedDialModule} from "primeng/speeddial";
 import {DialogModule} from "primeng/dialog";
+import { AnnouncementDetailsComponent } from './announcements/announcement-details/announcement-details.component';
+import {TableModule} from "primeng/table";
 
 const routes: Routes = [
   {
@@ -74,6 +76,10 @@ const routes: Routes = [
       {
         path: "edit/:id",
         component: NewAnnouncementComponent
+      },
+      {
+        path: "details",
+        component: AnnouncementDetailsComponent
       }
     ]
   },
@@ -108,37 +114,39 @@ const routes: Routes = [
     TeachingMaterialFormComponent,
     TutoringServiceFormComponent,
     ProjectInputsComponent,
-    MyAnnouncementsComponent
+    MyAnnouncementsComponent,
+    AnnouncementDetailsComponent
   ],
-  imports: [
-    BrowserModule,
-    CardModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    ChipsModule,
-    RouterLink,
-    RouterModule.forRoot(routes),
-    ToastModule,
-    ConfirmDialogModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    HttpClientModule,
-    MenubarModule,
-    SplitButtonModule,
-    InputTextareaModule,
-    RadioButtonModule,
-    FormsModule,
-    CalendarModule,
-    DropdownModule,
-    StyleClassModule,
-    FileUploadModule,
-    DataViewModule,
-    TagModule,
-    CarouselModule,
-    GalleriaModule,
-    SpeedDialModule,
-    DialogModule
-  ],
+    imports: [
+        BrowserModule,
+        CardModule,
+        ButtonModule,
+        ReactiveFormsModule,
+        ChipsModule,
+        RouterLink,
+        RouterModule.forRoot(routes),
+        ToastModule,
+        ConfirmDialogModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        HttpClientModule,
+        MenubarModule,
+        SplitButtonModule,
+        InputTextareaModule,
+        RadioButtonModule,
+        FormsModule,
+        CalendarModule,
+        DropdownModule,
+        StyleClassModule,
+        FileUploadModule,
+        DataViewModule,
+        TagModule,
+        CarouselModule,
+        GalleriaModule,
+        SpeedDialModule,
+        DialogModule,
+        TableModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

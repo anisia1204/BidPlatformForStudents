@@ -1,0 +1,94 @@
+<main class="col-lg-6">
+  <div class="ps-lg-3">
+    <h4 class="title text-dark">
+      {{announcement?.title}}
+    </h4>
+    <div class="d-flex flex-row my-3">
+      <div class="text-warning mb-1 me-2">
+        <span class="ms-1">
+                {{announcement?.createdAt | date}}
+              </span>
+      </div>
+      <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>User</span>
+      <span class="text-success ms-2">{{announcement?.status}}</span>
+    </div>
+
+    <div class="mb-3">
+      <span class="h5">{{announcement?.points}} puncte</span>
+    </div>
+
+    <p>
+      {{announcement?.description}}
+    </p>
+
+    <div class="row">
+      <ng-container *ngIf="announcementType === 'teachingMaterial'">
+        <dt class="col-3">Nume</dt>
+        <dd class="col-9">{{(announcement?.name) ? announcement?.name : "-"}}</dd>
+
+        <dt class="col-3">Autor</dt>
+        <dd class="col-9">{{announcement?.author ? announcement?.author : "-"}}</dd>
+
+        <dt class="col-3">Editie</dt>
+        <dd class="col-9">{{announcement?.edition ? announcement?.edition : "-"}}</dd>
+      </ng-container>
+      <ng-container *ngIf="announcementType === 'tutoringService'">
+        <dt class="col-4">Subiect</dt>
+        <dd class="col-8">{{announcement?.subject}}</dd>
+
+        <dt class="col-4">De la</dt>
+        <dd class="col-8">{{announcement?.startDate}}</dd>
+
+        <dt class="col-4">Pana la</dt>
+        <dd class="col-8">{{announcement?.endDate ? announcement?.endDate : "-"}}</dd>
+
+        <dt class="col-4">Ore per sesiune</dt>
+        <dd class="col-8">{{announcement?.hoursPerSession ? announcement?.hoursPerSession : "-"}}</dd>
+
+        <dt class="col-4">Mod de predare</dt>
+        <dd class="col-8">{{announcement?.tutoringType}}</dd>
+      </ng-container>
+      <ng-container *ngIf="announcementType === 'project'">
+        <dt class="col-3">Domeniu</dt>
+        <dd class="col-9">{{announcement?.domain}}</dd>
+
+        <dt class="col-3">Numar membrii</dt>
+        <dd class="col-9">{{announcement?.teamSize}}</dd>
+
+        <div class="container">
+          <div class="row">
+            <div *ngFor="let skillControl of announcement?.requiredSkills; let i = index"
+                 class="col-md-6">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="col-12 pb-4">
+                      <dt class="col-4">Abilitate</dt>
+                      <dd class="col-8">{{skillControl.skill}}</dd>
+                    </div>
+                    <div class="col-12 pb-4">
+                      <dt class="col-4">Puncte</dt>
+                      <dd class="col-8">{{skillControl.skillPoints}}</dd>
+                    </div>
+                  </div>
+                  <div class="col-6 d-flex align-items-center">
+                    <div class="col-11 pb-4">
+                      <dt class="col-4">Descriere</dt>
+                      <dd class="col-8">{{skillControl.description}}</dd>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </ng-container>
+
+    </div>
+
+    <hr />
+    <div class="row">
+      <div class="col-12 d-flex justify-content-end">
+        <button pButton icon="pi pi-cart-plus" type="button" (click)="announcementType === 'project' ? onBuyProject(announcement?.id) : onBuy(announcement?.id)" class="p-button-text"></button>
+      </div>
+    </div>
+  </div>
+</main>

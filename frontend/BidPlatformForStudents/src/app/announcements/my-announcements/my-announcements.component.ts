@@ -3,8 +3,8 @@ import {MyAnnouncementsService} from "./my-announcements.service";
 import {AnnouncementVoModel} from "../domain/announcement-vo.model";
 import {GoBackService} from "../../utils/go-back.service";
 import {Subject, takeUntil} from "rxjs";
-import {MessageService} from "primeng/api";
 import {Router} from "@angular/router";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-my-announcements',
@@ -19,24 +19,22 @@ export class MyAnnouncementsComponent implements OnInit, OnDestroy{
   messageService = inject(MessageService)
 
   totalRecords: number | undefined;
-  size = 10;
+  size = 9;
   sort = ['createdAt'];
   announcements: AnnouncementVoModel[] = []
   destroy$: Subject<boolean> = new Subject<boolean>()
+  lazyLoadEvent: {page: number, size: number} = {page: 0, size: this.size};
 
   ngOnInit(): void {
-    this.goBackService.back$
+    this.goBackService
+      .getNavData()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((message) => {
-      this.router.navigate(['/my-announcements'])
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Success',
-        detail: message
-      })
+      .subscribe(() => {
+        this.onLazyLoad(this.lazyLoadEvent)
     })
   }
   onLazyLoad(lazyLoadEvent: {page: number, size: number}) {
+    this.lazyLoadEvent = lazyLoadEvent
     this.myAnnouncementsService.getMyAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, this.sort).subscribe(
       announcements => {
         this.announcements = announcements.content
@@ -47,7 +45,10 @@ export class MyAnnouncementsComponent implements OnInit, OnDestroy{
 
   onDelete(id: number) {
     this.myAnnouncementsService.delete(id).subscribe(
-      res => console.log(res)
+      () => {
+        this.onLazyLoad(this.lazyLoadEvent)
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Anunt sters cu succes' });
+      }
     )
   }
 

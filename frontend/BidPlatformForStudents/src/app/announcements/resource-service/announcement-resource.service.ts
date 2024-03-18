@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AnnouncementVoModel} from "../domain/announcement-vo.model";
 import {Page} from "../domain/page.model";
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: "root"
@@ -24,5 +25,9 @@ export class AnnouncementResourceService {
 
   delete(id: number) {
     return this.httpClient.delete(`${this.url}/${id}`)
+  }
+
+  getDetails(id: number | null) : Observable<AnnouncementVoModel> {
+      return this.httpClient.get<AnnouncementVoModel>(`${this.url}/${id}`)
   }
 }

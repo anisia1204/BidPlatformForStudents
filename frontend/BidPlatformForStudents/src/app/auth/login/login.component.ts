@@ -56,8 +56,6 @@ export class LoginComponent implements OnDestroy{
 
   private handleErrorMessage(errorResponse: any): string {
     let message = 'Nu v-ati putut loga!';
-    console.log(errorResponse.error);
-
     if (errorResponse.status === 403) {
       message = 'Nu exista niciun cont inregistrat cu acest email!';
     } else if (errorResponse.error.password) {
@@ -65,8 +63,6 @@ export class LoginComponent implements OnDestroy{
     } else if (errorResponse.error.emailAlreadySent) {
       message = errorResponse.error.emailAlreadySent;
     }
-
-    console.log(message);
     return message;
   }
 

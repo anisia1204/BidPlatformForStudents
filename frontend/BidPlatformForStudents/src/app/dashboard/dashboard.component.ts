@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
   dashboardService = inject(DashboardService)
   goBackService = inject(GoBackService)
   router = inject(Router)
+  messageService = inject(MessageService)
+
   totalRecords: number | undefined;
   size = 9;
   sort = ['status'];
@@ -49,11 +51,35 @@ export class DashboardComponent implements OnInit, OnDestroy{
     const transactionDto = new TransactionDtoModel()
     transactionDto.announcementId = announcementId
     this.dashboardService.buy(transactionDto).subscribe(
-      res => this.goBackService.goBack(transactionDto)
+      res => {
+        this.onLazyLoad(this.lazyLoadEvent)
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Anunt cumparat cu succes' });
+      },
+      errorResponse => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Tranzactie esuata!',
+          detail: this.handleErrorMessage(errorResponse)
+        })
+      }
     )
   }
+  private handleErrorMessage(errorResponse: any) {
+    let message = 'Nu ati putut cumpara anuntul!';
 
+    if (errorResponse.error.amount) {
+      message = errorResponse.error.amount;
+    } else if (errorResponse.error.announcementId) {
+      message = errorResponse.error.announcementId;
+    } else if (errorResponse.error.skillIds) {
+      message = errorResponse.error.skillIds;
+    }
+
+    return message;
+  }
   ngOnDestroy(): void {
     this.destroy$.next(true)
   }
+
+
 }

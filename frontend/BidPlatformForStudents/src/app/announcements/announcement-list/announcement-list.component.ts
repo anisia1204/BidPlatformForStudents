@@ -39,11 +39,17 @@ export class AnnouncementListComponent implements OnInit {
 
   closeDialog() {
     this.visible = false
-    const currentUrl = this.router.url;
-    const parts = currentUrl.split('/');
-    parts.pop(); // Remove the last segment
-    const parentUrl = parts.join('/');
-    this.router.navigateByUrl(parentUrl);
+    if(this.myAnnouncements) {
+      this.router.navigate(['my-announcements'])
+    }
+    else {
+      this.router.navigate(['dashboard'])
+    }
+    // const currentUrl = this.router.url;
+    // const parts = currentUrl.split('/');
+    // parts.pop(); // Remove the last segment
+    // const parentUrl = parts.join('/');
+    // this.router.navigateByUrl(parentUrl);
   }
 
   onDelete(event: MouseEvent, id: number) {

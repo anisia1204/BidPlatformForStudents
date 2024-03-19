@@ -77,5 +77,18 @@ public class AnnouncementServiceImpl implements AnnouncementService{
         return announcementVOMapper.getVOFromEntity(announcement);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<AnnouncementVO> getDashboardAnnouncements(Pageable pageable) {
+        Page<Announcement> announcements = announcementJPARepository.findAllByUserIdIsNot(UserContextHolder.getUserContext().getUserId(), pageable);
+        return announcements.map(announcement -> {
+            if(announcement instanceof TeachingMaterial)
+                return announcementVOMapper.getVOFromEntity(announcement, attachmentService.getAttachmentsNotDeletedByTeachingMaterialId(announcement.getId()).toArray(new Attachment[0]));
+            else {
+                return announcementVOMapper.getVOFromEntity(announcement);
+            }
+        });
+    }
+
 
 }

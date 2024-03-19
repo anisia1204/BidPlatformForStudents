@@ -15,4 +15,6 @@ public interface AnnouncementService {
     Announcement markAsSold(Long announcementId);
 
     AnnouncementVO getDetails(Long id);
+
+    Page<AnnouncementVO> getDashboardAnnouncements(Pageable pageable);
 }

@@ -30,6 +30,17 @@ public class AnnouncementController {
         return ResponseEntity.ok(announcementService.getMyAnnouncements(pageable));
     }
 
+    @GetMapping(value = "/dashboard")
+    @ResponseBody
+    public ResponseEntity<Page<AnnouncementVO>> getDashboardAnnouncements(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "status") String[] sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return ResponseEntity.ok(announcementService.getDashboardAnnouncements(pageable));
+    }
+
     @GetMapping(value = {"/{id}"})
     @ResponseBody
     public ResponseEntity<AnnouncementVO> getDetails(@PathVariable Long id) {

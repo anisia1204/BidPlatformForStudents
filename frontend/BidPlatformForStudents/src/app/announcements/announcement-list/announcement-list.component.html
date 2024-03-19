@@ -4,7 +4,8 @@
               [layout]="'grid'">
     <ng-template let-announcement pTemplate="gridItem">
       <div class="col-4 p-2">
-        <div class="p-4 border-1 surface-border surface-card border-round h-100 announcement-card">
+        <div class="p-4 border-1 surface-border surface-card border-round h-100 announcement-card card-border" [routerLink]="['./details']" [queryParams]="{dialog: true}"
+           [state]="{type: announcement.announcementType, id: announcement.id}">
           <div class="flex flex-wrap align-items-center justify-content-between gap-2">
             <span class="flex align-items-center gap-2">
               <i class="pi pi-calendar"></i>
@@ -45,28 +46,22 @@
           <div class="flex align-items-center justify-content-between pt-3 mt-3 announcement-footer">
             <span class="text-2xl font-semibold">{{ announcement.points + ' puncte' }}</span>
             <div class="row d-flex justify-content-end">
-              <ng-container *ngIf="myAnnouncements; else buyingContext">
+              <ng-container *ngIf="myAnnouncements && announcement.status === 'ACTIVE'">
                 <div class="col-3">
                   <button pButton icon="pi pi-pencil" class="mb-2 p-button-text"
-                          [routerLink]="['./edit', announcement.id]" [queryParams]="{dialog: true}"
-                          [state]="{type: announcement.announcementType}"></button>
+                          (click)="onEdit($event, announcement.id, announcement.announcementType)"></button>
                 </div>
                 <div class="col-3">
                   <button pButton icon="pi pi-trash" class=" mb-2 p-button-text"
-                          (click)="onDelete(announcement.id)"></button>
+                          (click)="onDelete($event, announcement.id)"></button>
                 </div>
               </ng-container>
-              <ng-template #buyingContext>
-                <div class="col-3">
-                  <button pButton icon="pi pi-eye" class="mb-2 p-button-text"
-                          [routerLink]="['./details']" [queryParams]="{dialog: true}"
-                          [state]="{type: announcement.announcementType, id: announcement.id}"></button>
-                </div>
+              <ng-container *ngIf="!myAnnouncements && announcement.status === 'ACTIVE'">
                 <div class="col-3">
                   <button pButton icon="pi pi-cart-plus" class=" mb-2 p-button-text"
-                          (click)="onDelete(announcement.id)"></button>
+                          (click)="onBuy($event, announcement.id, announcement.announcementType)"></button>
                 </div>
-              </ng-template>
+              </ng-container>
 
             </div>
           </div>

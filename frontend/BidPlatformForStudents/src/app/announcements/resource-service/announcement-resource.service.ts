@@ -30,4 +30,14 @@ export class AnnouncementResourceService {
   getDetails(id: number | null) : Observable<AnnouncementVoModel> {
       return this.httpClient.get<AnnouncementVoModel>(`${this.url}/${id}`)
   }
+
+  getDashboardAnnouncements(page: number, size: number, sort: string[]) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    sort.forEach(s => {
+      params = params.append('sort', s);
+    });
+    return this.httpClient.get<Page<AnnouncementVoModel>>(`${this.url}/dashboard`, {params})
+  }
 }

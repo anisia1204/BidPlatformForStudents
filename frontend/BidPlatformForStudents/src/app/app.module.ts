@@ -59,7 +59,13 @@ const routes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent,
-    canActivate: [authGuardFn]
+    canActivate: [authGuardFn],
+    children: [
+      {
+        path: "details",
+        component: AnnouncementDetailsComponent
+      }
+    ]
   },
   {
     path:"profile",

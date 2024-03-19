@@ -26,12 +26,11 @@
   flex-direction: column;
   height: 100%;
   border: 1px solid var(--surface-d);
-
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
 }
 
-:host ::ng-deep .announcement-card:hover{
-  background-color: #f5f4f2;
-}
 .announcement-footer {
   position: absolute;
   bottom: 0;
@@ -46,4 +45,8 @@
   border-radius: 10px;
   margin-bottom: 1rem;
 
+}
+
+.card-border:hover {
+  box-shadow: 0 0 10px #aaa;
 }

@@ -16,6 +16,8 @@ export class AnnouncementListComponent implements OnInit {
     @Output() lazyLoad = new EventEmitter<{page: number, size: number}>();
     @Input() totalRecords: number | undefined;
     @Output() delete = new EventEmitter<number>();
+    @Output() buy = new EventEmitter<number>();
+    @Output() buyProject = new EventEmitter<number>();
     @Output() favorites = new EventEmitter<number>();
 
   route = inject(ActivatedRoute)
@@ -37,10 +39,15 @@ export class AnnouncementListComponent implements OnInit {
 
   closeDialog() {
     this.visible = false
-    this.router.navigate(['/', 'my-announcements'])
+    const currentUrl = this.router.url;
+    const parts = currentUrl.split('/');
+    parts.pop(); // Remove the last segment
+    const parentUrl = parts.join('/');
+    this.router.navigateByUrl(parentUrl);
   }
 
-  onDelete(id: number) {
+  onDelete(event: MouseEvent, id: number) {
+    event.stopPropagation();
     this.confirmationService.confirm({
       message: 'Esti sigur ca vrei sa stergi anuntul? Aceasta actiune este ireversibila!',
       header: 'Confirmare de stergere',
@@ -53,11 +60,40 @@ export class AnnouncementListComponent implements OnInit {
         this.delete.emit(id)
       }
     });
+  }
 
+  onEdit(event: MouseEvent, id: number, announcementType: string) {
+    event.stopPropagation();
+    this.router.navigate(['edit', id], {
+      relativeTo: this.route,
+      state: {type: announcementType},
+      queryParams: {dialog: true}
+    })
   }
 
   onAddToFavorites(id: number) {
     this.favorites.emit(id);
     this.favorite = !this.favorite;
+  }
+
+  onBuy(event: MouseEvent, id: number, announcementType: any) {
+    event.stopPropagation();
+    this.confirmationService.confirm({
+      message: 'Doresti sa cumperi anuntul? Aceasta actiune este ireversibila!',
+      header: 'Confirmare de cumparare',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass:"p-button-danger p-button-text",
+      rejectButtonStyleClass:"p-button-text p-button-text",
+      acceptIcon:"none",
+      rejectIcon:"none",
+      accept: () => {
+        if(announcementType === 'project') {
+          this.buyProject.emit(id)
+        }
+        else {
+          this.buy.emit(id)
+        }      }
+    });
+
   }
 }

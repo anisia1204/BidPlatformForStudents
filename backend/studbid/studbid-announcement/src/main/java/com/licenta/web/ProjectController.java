@@ -32,4 +32,10 @@ public class ProjectController {
     public ResponseEntity<?> getTemplate(@PathVariable Long id) {
         return ResponseEntity.ok(projectService.getTemplate(id));
     }
+
+    @GetMapping(value = {"/{id}"})
+    @ResponseBody
+    public ResponseEntity<?> getSkillVOsByProjectId(@PathVariable Long id) {
+        return ResponseEntity.ok(projectService.getSkillVOsByProjectId(id));
+    }
 }

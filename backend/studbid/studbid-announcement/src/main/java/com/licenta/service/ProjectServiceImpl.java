@@ -5,6 +5,7 @@ import com.licenta.domain.AnnouncementStatus;
 import com.licenta.domain.Project;
 import com.licenta.domain.Skill;
 import com.licenta.domain.repository.ProjectJPARepository;
+import com.licenta.domain.vo.SkillVO;
 import com.licenta.service.dto.ProjectDTO;
 import com.licenta.service.dto.ProjectDTOMapper;
 import com.licenta.service.dto.SkillDTO;
@@ -116,5 +117,11 @@ public class ProjectServiceImpl implements ProjectService{
         ProjectDTO projectDTO = projectDTOMapper.getDTOFromEntity(project);
         projectDTO.setRequiredSkills(skillService.getAllDTOsNotDeletedByProjectId(id));
         return projectDTO;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SkillVO> getSkillVOsByProjectId(Long id) {
+        return skillService.getAllVOsNotDeletedByProjectId(id);
     }
 }

@@ -4,6 +4,8 @@ import com.licenta.domain.Project;
 import com.licenta.domain.Skill;
 import com.licenta.domain.SkillStatus;
 import com.licenta.domain.repository.SkillJPARepository;
+import com.licenta.domain.vo.SkillVO;
+import com.licenta.domain.vo.SkillVOMapper;
 import com.licenta.service.dto.SkillDTO;
 import com.licenta.service.dto.SkillDTOMapper;
 import com.licenta.service.exception.SkillNotFoundException;
@@ -17,10 +19,12 @@ import java.util.List;
 public class SkillServiceImpl implements SkillService{
     private final SkillJPARepository skillJPARepository;
     private final SkillDTOMapper skillDTOMapper;
+    private final SkillVOMapper skillVOMapper;
 
-    public SkillServiceImpl(SkillJPARepository skillJPARepository, SkillDTOMapper skillDTOMapper) {
+    public SkillServiceImpl(SkillJPARepository skillJPARepository, SkillDTOMapper skillDTOMapper, SkillVOMapper skillVOMapper) {
         this.skillJPARepository = skillJPARepository;
         this.skillDTOMapper = skillDTOMapper;
+        this.skillVOMapper = skillVOMapper;
     }
 
     @Override
@@ -52,6 +56,15 @@ public class SkillServiceImpl implements SkillService{
         return skillJPARepository.findAllByProjectIdAndDeletedEquals(projectId, false)
                 .stream()
                 .map(skillDTOMapper::getDTOFromEntity)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SkillVO> getAllVOsNotDeletedByProjectId(Long projectId) {
+        return skillJPARepository.findAllByProjectIdAndDeletedEquals(projectId, false)
+                .stream()
+                .map(skillVOMapper::getVOFromEntity)
                 .toList();
     }
 

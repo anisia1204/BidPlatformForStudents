@@ -1,3 +1,4 @@
 export enum SkillStatusModel {
-  ACTIVE
+  ACTIVE= 'ACTIVE',
+  SOLD='SOLD'
 }

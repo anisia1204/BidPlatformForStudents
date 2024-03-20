@@ -17,7 +17,6 @@ export class AnnouncementListComponent implements OnInit {
     @Input() totalRecords: number | undefined;
     @Output() delete = new EventEmitter<number>();
     @Output() buy = new EventEmitter<number>();
-    @Output() buyProject = new EventEmitter<number>();
     @Output() favorites = new EventEmitter<number>();
 
   route = inject(ActivatedRoute)
@@ -84,22 +83,26 @@ export class AnnouncementListComponent implements OnInit {
 
   onBuy(event: MouseEvent, id: number, announcementType: any) {
     event.stopPropagation();
-    this.confirmationService.confirm({
-      message: 'Doresti sa cumperi anuntul? Aceasta actiune este ireversibila!',
-      header: 'Confirmare de cumparare',
-      icon: 'pi pi-info-circle',
-      acceptButtonStyleClass:"p-button-danger p-button-text",
-      rejectButtonStyleClass:"p-button-text p-button-text",
-      acceptIcon:"none",
-      rejectIcon:"none",
-      accept: () => {
-        if(announcementType === 'project') {
-          this.buyProject.emit(id)
-        }
-        else {
+    if(announcementType === 'project') {
+      this.router.navigate(['project-transaction'], {
+        relativeTo: this.route,
+        state: {id: id},
+        queryParams: {dialog: true}
+      })
+    }
+    else {
+      this.confirmationService.confirm({
+        message: 'Doresti sa cumperi anuntul? Aceasta actiune este ireversibila!',
+        header: 'Confirmare de cumparare',
+        icon: 'pi pi-info-circle',
+        acceptButtonStyleClass:"p-button-success p-button-text",
+        rejectButtonStyleClass:"p-button-danger p-button-text",
+        acceptIcon:"none",
+        rejectIcon:"none",
+        accept: () => {
           this.buy.emit(id)
-        }      }
-    });
-
+        }
+      });
+    }
   }
 }

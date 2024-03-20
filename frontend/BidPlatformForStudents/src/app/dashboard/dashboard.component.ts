@@ -43,9 +43,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
       }
     )
   }
-  onBuyProject($event: number) {
-
-  }
 
   onBuy(announcementId: number) {
     const transactionDto = new TransactionDtoModel()

@@ -1,0 +1,51 @@
+<h3>
+  La ce abilitati vrei sa participi?
+</h3>
+<div class="container mt-3">
+  <div class="flex flex-column gap-2">
+    <ul>
+      <li class="mb-3"
+          *ngFor="let skill of skillVos"
+          [ngClass]="{ 'skill-border': isSelected(skill) && skill.status === SkillStatusModel.ACTIVE,
+                       'active-skill': skill.status === SkillStatusModel.ACTIVE,
+                       'sold-skill': skill.status === SkillStatusModel.SOLD
+                       }"
+          (click)="skill.status === SkillStatusModel.ACTIVE ? toggleItemSelection(skill) : null">
+        <div class="row">
+          <div class="col-3">
+            {{skill.skill}}
+          </div>
+          <div class="col-3">
+            {{skill.description}}
+          </div>
+          <div class="col-3">
+            {{skill.skillPoints}}
+          </div>
+          <div class="col-3">
+            <p-tag
+              [value]="skill.status === SkillStatusModel.ACTIVE ? 'ACTIV' : 'VANDUT'"
+              [severity]="skill.status === SkillStatusModel.ACTIVE ? 'success' : 'danger'"></p-tag>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <p *ngIf="totalPrice!==0" >
+      Vei incasa: {{totalPrice}} {{totalPrice === 1 ? 'punct' : 'puncte'}}
+    </p>
+  </div>
+  <div class="col-6">
+    <button pButton
+            class="p-button-outlined"
+            icon="pi pi-cart-plus"
+            [disabled]="selectedSkillIds.length < 1"
+            [label]="'Cumpar'"
+            (click)="onBuyProject()">
+    </button>
+  </div>
+</div>
+{{selectedSkillIds | json}}
+

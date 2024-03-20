@@ -1,0 +1,22 @@
+li.active-skill {
+  padding: 12px;
+  list-style-type: none;
+  border: 1px solid #E3E1D9;
+  border-radius: 20px;
+}
+li.sold-skill {
+  padding: 12px;
+  list-style-type: none;
+  border-radius: 20px;
+  border: 1px solid #E3E1D9;
+  color: #B4B4B8;
+ }
+li.active-skill:hover {
+  box-shadow: 0 0 10px #aaa;
+  border: 1px solid #B4B4B8;
+  cursor: pointer;
+}
+
+.skill-border {
+  box-shadow: 0 0 10px #aaa;
+}

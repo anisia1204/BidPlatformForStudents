@@ -17,8 +17,4 @@ export class DashboardService {
   buy(transactionDto: TransactionDtoModel | undefined) {
     return this.transactionResourceService.onBuy(transactionDto)
   }
-
-  onBuyProject(transactionDto: TransactionDtoModel | undefined) {
-    return this.transactionResourceService.onBuyProject(transactionDto)
-  }
 }

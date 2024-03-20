@@ -45,6 +45,7 @@ import {SpeedDialModule} from "primeng/speeddial";
 import {DialogModule} from "primeng/dialog";
 import { AnnouncementDetailsComponent } from './announcements/announcement-details/announcement-details.component';
 import {TableModule} from "primeng/table";
+import { ProjectTransactionComponent } from './transactions/project-transaction/project-transaction.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
       {
         path: "details",
         component: AnnouncementDetailsComponent
+      },
+      {
+        path: 'project-transaction',
+        component: ProjectTransactionComponent
       }
     ]
   },
@@ -121,7 +126,8 @@ const routes: Routes = [
     TutoringServiceFormComponent,
     ProjectInputsComponent,
     MyAnnouncementsComponent,
-    AnnouncementDetailsComponent
+    AnnouncementDetailsComponent,
+    ProjectTransactionComponent
   ],
     imports: [
         BrowserModule,

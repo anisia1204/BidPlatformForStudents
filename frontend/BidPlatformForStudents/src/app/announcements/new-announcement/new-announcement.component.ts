@@ -14,7 +14,7 @@ import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 import {Subject, takeUntil} from "rxjs";
 import {GoBackService} from "../../utils/go-back.service";
 import {MessageService} from "primeng/api";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DynamicDialogRef} from "primeng/dynamicdialog";
 
 
 @Component({

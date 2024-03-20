@@ -153,11 +153,20 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private boolean allSkillsAreSold(Project project) {
-        long soldSkillsOfProject = project.getRequiredSkills()
+        long soldSkillsOfProject = getSoldSkillsNotDeletedCountOf(project);
+        return soldSkillsOfProject == getSizeOfNotDeletedSkills(project);
+    }
+
+    private int getSizeOfNotDeletedSkills(Project project) {
+        return project.getRequiredSkills().stream().filter(skill -> !skill.getDeleted()).toList().size();
+    }
+
+    private long getSoldSkillsNotDeletedCountOf(Project project) {
+        return project.getRequiredSkills()
                 .stream()
+                .filter(skill -> !skill.getDeleted())
                 .filter(skill -> skill.getStatus() == SkillStatus.SOLD)
                 .count();
-        return soldSkillsOfProject == project.getRequiredSkills().size();
     }
 
 

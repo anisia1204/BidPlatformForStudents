@@ -5,6 +5,8 @@ import com.licenta.domain.Skill;
 import com.licenta.domain.Transaction;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class TransactionDTOMapper {
     public TransactionDTO getDTOFromEntity(Transaction transaction){
@@ -17,10 +19,8 @@ public class TransactionDTOMapper {
         transactionDTO.setCreatedAt(transaction.getCreatedAt());
 
         if(transaction.getAnnouncement() instanceof Project){
-            transactionDTO.setSkillIds(((Project) transaction.getAnnouncement()).getRequiredSkills()
-                    .stream()
-                    .map(Skill::getId)
-                    .toList());
+            transactionDTO.setSkillIds(new ArrayList<>());
+            transactionDTO.getSkillIds().add(transaction.getSkill().getId());
         }
 
         return transactionDTO;

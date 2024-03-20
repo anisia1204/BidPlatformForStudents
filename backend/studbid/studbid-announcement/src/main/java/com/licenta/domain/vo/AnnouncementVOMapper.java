@@ -26,7 +26,7 @@ public class AnnouncementVOMapper {
                 announcement.getCreatedAt(),
                 (announcement instanceof Project) ? ((Project) announcement).getDomain() : null,
                 (announcement instanceof Project) ? ((Project) announcement).getTeamSize() : null,
-                (announcement instanceof Project) ? skillVOMapper.getVOsFromEntities(((Project) announcement).getRequiredSkills()) : null,
+                (announcement instanceof Project) ? skillVOMapper.getVOsFromEntities(((Project) announcement).getRequiredSkills().stream().filter(skill -> !skill.getDeleted()).toList()) : null,
                 (announcement instanceof Project) ? "project" : (announcement instanceof TeachingMaterial ? "teachingMaterial" : "tutoringService"),
                 (announcement instanceof TeachingMaterial) ? ((TeachingMaterial) announcement).getName() : null,
                 (announcement instanceof TeachingMaterial) ? ((TeachingMaterial) announcement).getAuthor() : null,

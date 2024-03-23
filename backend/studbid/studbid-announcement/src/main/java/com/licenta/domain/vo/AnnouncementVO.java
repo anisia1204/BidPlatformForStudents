@@ -29,8 +29,10 @@ public class AnnouncementVO {
     private LocalDate endDate;
     private Integer hoursPerSession;
     private TutoringType tutoringType;
+    private UserDetailsVO userDetailsVO;
 
-    public AnnouncementVO(Long id, Long userId, String title, String description, Double points, AnnouncementStatus status, LocalDateTime createdAt, String domain, Integer teamSize, List<SkillVO> requiredSkills, String announcementType, String name, String author, Integer edition, List<String> attachmentVOs, String subject, LocalDate startDate, LocalDate endDate, Integer hoursPerSession, TutoringType tutoringType) {
+
+    public AnnouncementVO(Long id, Long userId, String title, String description, Double points, AnnouncementStatus status, LocalDateTime createdAt, UserDetailsVO userDetailsVO, String domain, Integer teamSize, List<SkillVO> requiredSkills, String announcementType, String name, String author, Integer edition, List<String> attachmentVOs, String subject, LocalDate startDate, LocalDate endDate, Integer hoursPerSession, TutoringType tutoringType) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -38,6 +40,7 @@ public class AnnouncementVO {
         this.points = points;
         this.status = status;
         this.createdAt = createdAt;
+        this.userDetailsVO = userDetailsVO;
         this.domain = domain;
         this.teamSize = teamSize;
         this.requiredSkills = requiredSkills;
@@ -79,6 +82,10 @@ public class AnnouncementVO {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public UserDetailsVO getUserDetailsVO() {
+        return userDetailsVO;
     }
 
     public String getDomain() {

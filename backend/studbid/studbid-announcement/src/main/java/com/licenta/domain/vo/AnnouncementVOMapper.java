@@ -9,10 +9,12 @@ import java.util.List;
 public class AnnouncementVOMapper {
     private final SkillVOMapper skillVOMapper;
     private final AttachmentVOMapper attachmentVOMapper;
+    private final UserDetailsVOMapper userDetailsVOMapper;
 
-    public AnnouncementVOMapper(SkillVOMapper skillVOMapper, AttachmentVOMapper attachmentVOMapper) {
+    public AnnouncementVOMapper(SkillVOMapper skillVOMapper, AttachmentVOMapper attachmentVOMapper, UserDetailsVOMapper userDetailsVOMapper) {
         this.skillVOMapper = skillVOMapper;
         this.attachmentVOMapper = attachmentVOMapper;
+        this.userDetailsVOMapper = userDetailsVOMapper;
     }
 
     public AnnouncementVO getVOFromEntity(Announcement announcement, Attachment... attachments) {
@@ -24,6 +26,7 @@ public class AnnouncementVOMapper {
                 announcement.getPoints(),
                 announcement.getStatus(),
                 announcement.getCreatedAt(),
+                userDetailsVOMapper.getVOFromEntity(announcement.getUser()),
                 (announcement instanceof Project) ? ((Project) announcement).getDomain() : null,
                 (announcement instanceof Project) ? ((Project) announcement).getTeamSize() : null,
                 (announcement instanceof Project) ? skillVOMapper.getVOsFromEntities(((Project) announcement).getRequiredSkills().stream().filter(skill -> !skill.getDeleted()).toList()) : null,

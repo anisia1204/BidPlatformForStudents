@@ -1,4 +1,3 @@
-import {AuthenticationResponseModel} from "./authentication-response.model";
 
 export class UserDtoModel {
   constructor(

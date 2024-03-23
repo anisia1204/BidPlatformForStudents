@@ -3,8 +3,7 @@ package com.licenta.service;
 import com.licenta.context.UserContextHolder;
 import com.licenta.domain.*;
 import com.licenta.domain.repository.AnnouncementJPARepository;
-import com.licenta.domain.vo.AnnouncementVO;
-import com.licenta.domain.vo.AnnouncementVOMapper;
+import com.licenta.domain.vo.*;
 import com.licenta.service.exception.AnnouncementNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +20,6 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     private final TeachingMaterialService teachingMaterialService;
     private final TutoringServiceService tutoringServiceService;
     private final ProjectService projectService;
-
     public AnnouncementServiceImpl(AnnouncementJPARepository announcementJPARepository, AnnouncementVOMapper announcementVOMapper, AttachmentService attachmentService, TeachingMaterialService teachingMaterialService, TutoringServiceService tutoringServiceService, ProjectService projectService) {
         this.announcementJPARepository = announcementJPARepository;
         this.announcementVOMapper = announcementVOMapper;
@@ -80,7 +78,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     @Override
     @Transactional(readOnly = true)
     public Page<AnnouncementVO> getDashboardAnnouncements(Pageable pageable) {
-        Page<Announcement> announcements = announcementJPARepository.findAllByUserIdIsNot(UserContextHolder.getUserContext().getUserId(), pageable);
+        Page<Announcement> announcements = announcementJPARepository.findAllByUserIdIsNotAndDeletedIsFalse(UserContextHolder.getUserContext().getUserId(), pageable);
         return announcements.map(announcement -> {
             if(announcement instanceof TeachingMaterial)
                 return announcementVOMapper.getVOFromEntity(announcement, attachmentService.getAttachmentsNotDeletedByTeachingMaterialId(announcement.getId()).toArray(new Attachment[0]));

@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnnouncementJPARepository extends JpaRepository<Announcement, Long> {
     Page<Announcement> findAllByUserId(Long id, Pageable pageable);
-    Page<Announcement> findAllByUserIdIsNot(Long id, Pageable pageable);
+    Page<Announcement> findAllByUserIdIsNotAndDeletedIsFalse(Long id, Pageable pageable);
 }

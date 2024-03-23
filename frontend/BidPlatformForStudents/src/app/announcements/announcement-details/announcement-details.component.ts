@@ -17,12 +17,14 @@ export class AnnouncementDetailsComponent implements OnInit, OnDestroy{
   goBackService = inject(GoBackService)
   announcement: AnnouncementVoModel | null = null;
   announcementType: string | null = null;
+  myAnnouncements: boolean = false;
   id: number | null = null
   destroy$: Subject<boolean> = new Subject<boolean>()
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.announcementType = history.state.type
       this.id = history.state.id
+      this.myAnnouncements = history.state.myAnnouncements
       this.announcementDetailsService
         .getDetails(this.id)
         .pipe(takeUntil(this.destroy$))
@@ -31,17 +33,5 @@ export class AnnouncementDetailsComponent implements OnInit, OnDestroy{
   }
   ngOnDestroy(): void {
     this.destroy$.next(true)
-  }
-
-  onBuy(announcementId: number | undefined) {
-    const transactionDto = new TransactionDtoModel();
-    transactionDto.announcementId = announcementId
-    this.announcementDetailsService.onBuy(transactionDto).subscribe(
-      transactionDto => this.goBackService.goBack(transactionDto)
-    )
-  }
-
-  onBuyProject(announcementId: number | undefined) {
-
   }
 }

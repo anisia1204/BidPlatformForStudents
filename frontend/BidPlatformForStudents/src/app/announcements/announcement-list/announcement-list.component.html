@@ -5,7 +5,7 @@
     <ng-template let-announcement pTemplate="gridItem">
       <div class="col-4 p-2">
         <div class="p-4 border-1 surface-border surface-card border-round h-100 announcement-card card-border" [routerLink]="['./details']" [queryParams]="{dialog: true}"
-           [state]="{type: announcement.announcementType, id: announcement.id}">
+           [state]="{type: announcement.announcementType, id: announcement.id, myAnnouncements: myAnnouncements}">
           <div class="flex flex-wrap align-items-center justify-content-between gap-2">
             <span class="flex align-items-center gap-2">
               <i class="pi pi-calendar"></i>

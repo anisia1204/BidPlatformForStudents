@@ -46,6 +46,8 @@ import {DialogModule} from "primeng/dialog";
 import { AnnouncementDetailsComponent } from './announcements/announcement-details/announcement-details.component';
 import {TableModule} from "primeng/table";
 import { ProjectTransactionComponent } from './transactions/project-transaction/project-transaction.component';
+import {AvatarModule} from "primeng/avatar";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 const routes: Routes = [
   {
@@ -129,36 +131,38 @@ const routes: Routes = [
     AnnouncementDetailsComponent,
     ProjectTransactionComponent
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        ChipsModule,
-        RouterLink,
-        RouterModule.forRoot(routes),
-        ToastModule,
-        ConfirmDialogModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        HttpClientModule,
-        MenubarModule,
-        SplitButtonModule,
-        InputTextareaModule,
-        RadioButtonModule,
-        FormsModule,
-        CalendarModule,
-        DropdownModule,
-        StyleClassModule,
-        FileUploadModule,
-        DataViewModule,
-        TagModule,
-        CarouselModule,
-        GalleriaModule,
-        SpeedDialModule,
-        DialogModule,
-        TableModule
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    ChipsModule,
+    RouterLink,
+    RouterModule.forRoot(routes),
+    ToastModule,
+    ConfirmDialogModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    HttpClientModule,
+    MenubarModule,
+    SplitButtonModule,
+    InputTextareaModule,
+    RadioButtonModule,
+    FormsModule,
+    CalendarModule,
+    DropdownModule,
+    StyleClassModule,
+    FileUploadModule,
+    DataViewModule,
+    TagModule,
+    CarouselModule,
+    GalleriaModule,
+    SpeedDialModule,
+    DialogModule,
+    TableModule,
+    AvatarModule,
+    OverlayPanelModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

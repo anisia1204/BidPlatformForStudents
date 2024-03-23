@@ -9,7 +9,14 @@
                 {{announcement?.createdAt | date}}
               </span>
       </div>
-      <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>User</span>
+      <span class="text-muted" *ngIf="!myAnnouncements">
+        <p-avatar [label]="announcement?.userDetailsVO?.firstName?.[0]"
+                  styleClass="mr-2" size="large"
+                  [style]="{ 'background-color': '#2196F3', color: '#ffffff', 'cursor': 'pointer' }"
+                  (click)="op.toggle($event)"
+                  shape="circle">
+        </p-avatar>
+      </span>
       <span class="text-success ms-2">{{announcement?.status}}</span>
     </div>
 
@@ -81,14 +88,19 @@
             </div>
           </div>
       </ng-container>
-
-    </div>
-
-    <hr />
-    <div class="row">
-      <div class="col-12 d-flex justify-content-end">
-        <button pButton icon="pi pi-cart-plus" type="button" (click)="announcementType === 'project' ? onBuyProject(announcement?.id) : onBuy(announcement?.id)" class="p-button-text"></button>
-      </div>
     </div>
   </div>
+
 </main>
+
+<p-overlayPanel #op>
+  <p>
+    Anunt publicat de: {{announcement?.userDetailsVO?.firstName}} {{announcement?.userDetailsVO?.lastName}}
+  </p>
+  <p>
+    {{announcement?.userDetailsVO?.email}}
+  </p>
+  <button pButton
+          [label]="'Lasa un mesaj!'">
+  </button>
+</p-overlayPanel>

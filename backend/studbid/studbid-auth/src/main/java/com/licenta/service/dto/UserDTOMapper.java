@@ -26,6 +26,7 @@ public class UserDTOMapper {
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
         userDTO.setPoints(user.getPoints());
+        userDTO.setCreatedAt(user.getCreatedAt());
 
         return userDTO;
     }

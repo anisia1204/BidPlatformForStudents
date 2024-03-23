@@ -1,10 +1,13 @@
 package com.licenta.service;
 
 import com.licenta.config.service.JwtService;
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.ConfirmationToken;
 import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import com.licenta.domain.repository.UserJPARepository;
+import com.licenta.domain.vo.UserVO;
+import com.licenta.domain.vo.UserVOMapper;
 import com.licenta.email.EmailSender;
 import com.licenta.service.dto.LoggedInUserDTO;
 import com.licenta.service.dto.LoggedInUserDTOMapper;
@@ -34,10 +37,10 @@ public class UserServiceImpl implements UserService{
     private final AuthenticationManager authenticationManager;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
-
+    private final UserVOMapper userVOMapper;
     private final LoggedInUserDTOMapper loggedInUserDTOMapper;
 
-    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, LoggedInUserDTOMapper loggedInUserDTOMapper) {
+    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, UserVOMapper userVOMapper, LoggedInUserDTOMapper loggedInUserDTOMapper) {
         this.userJPARepository = userJPARepository;
         this.userDTOMapper = userDTOMapper;
         this.passwordEncoder = passwordEncoder;
@@ -45,6 +48,7 @@ public class UserServiceImpl implements UserService{
         this.authenticationManager = authenticationManager;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
+        this.userVOMapper = userVOMapper;
         this.loggedInUserDTOMapper = loggedInUserDTOMapper;
     }
 
@@ -57,6 +61,7 @@ public class UserServiceImpl implements UserService{
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = userDTOMapper.getEntityFromDTO(userDTO);
 
+        user.setCreatedAt(LocalDateTime.now());
         user.setPoints(100.0);
         user.setEnabled(false);
         userJPARepository.save(user);
@@ -72,9 +77,11 @@ public class UserServiceImpl implements UserService{
 
     private void sendConfirmationEmail(UserDTO userDTO, String token) {
         String link = "http://localhost:8081/api/user/confirm?token=" + token;
+        String subject = "Confirmare adresa email";
         emailSender.send(
                 userDTO.getEmail(),
-                buildEmail(userDTO.getFirstName(), link));
+                buildEmail(userDTO.getFirstName(), link),
+                subject);
     }
 
     private static String generateConfirmationToken() {
@@ -153,6 +160,29 @@ public class UserServiceImpl implements UserService{
     public void updateUserPoints(User user, Double amount) {
         user.setPoints(user.getPoints() + amount);
         userJPARepository.save(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserVO getProfileInformation() {
+        User user = findById(UserContextHolder.getUserContext().getUserId());
+        return userVOMapper.getVOFromEntity(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDTO editProfileInformation(UserDTO userDTO) {
+        User user = getById(UserContextHolder.getUserContext().getUserId());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        userJPARepository.save(user);
+        return userDTOMapper.getDTOFromEntity(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getById(Long id) {
+        return userJPARepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     @Transactional

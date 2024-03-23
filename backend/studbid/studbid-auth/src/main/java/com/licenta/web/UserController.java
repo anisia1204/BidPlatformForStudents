@@ -1,5 +1,6 @@
 package com.licenta.web;
 
+import com.licenta.domain.vo.UserVO;
 import com.licenta.service.UserService;
 import com.licenta.service.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +63,17 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
         return ResponseEntity.ok(userService.login(userDTO));
+    }
+
+    @GetMapping("/profile")
+    @ResponseBody
+    public ResponseEntity<UserVO> getProfileInformation() {
+        return ResponseEntity.ok(userService.getProfileInformation());
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<UserDTO> editProfileInformation(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.editProfileInformation(userDTO));
     }
 }

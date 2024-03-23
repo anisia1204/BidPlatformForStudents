@@ -2,6 +2,8 @@ package com.licenta.service.dto;
 
 import com.licenta.service.AuthenticationResponse;
 
+import java.time.LocalDateTime;
+
 public class UserDTO {
     private Long id;
     private String firstName;
@@ -9,6 +11,7 @@ public class UserDTO {
     private String email;
     private String password;
     private Double points;
+    private LocalDateTime createdAt;
     private AuthenticationResponse authenticationResponse;
 
     public Long getId() {
@@ -57,6 +60,14 @@ public class UserDTO {
 
     public void setPoints(Double points) {
         this.points = points;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public AuthenticationResponse getAuthenticationResponse() {

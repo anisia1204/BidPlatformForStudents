@@ -8,5 +8,5 @@ import java.util.List;
 public interface ChatMessageService {
     ChatMessage save(ChatMessageDTO chatMessageDTO);
 
-    List<ChatMessage> findChatMessages(Long senderId, Long recipientId);
+    List<ChatMessage> findChatMessages(Long recipientId);
 }

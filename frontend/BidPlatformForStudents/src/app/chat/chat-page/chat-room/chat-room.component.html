@@ -1,0 +1,16 @@
+<div class="row chat-area">
+  <ng-container *ngIf="showChatArea">
+    <div class="chat-area chat-messages" *ngFor="let message of chatMessages">
+      <div [style]="message.recipientId === recipientId ? 'recipient-message' : 'sender-message'">
+        {{message.content}}
+      </div>
+    </div>
+    <div class="message-input">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input pInputText placeholder="Scrie..."  formControlName="message" name="chatMessageDto">
+        <button pButton type="submit">Trimite</button>
+      </form>
+    </div>
+  </ng-container>
+</div>
+

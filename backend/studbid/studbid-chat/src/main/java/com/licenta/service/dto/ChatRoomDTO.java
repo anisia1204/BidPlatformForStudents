@@ -1,16 +1,12 @@
 package com.licenta.service.dto;
 
-import java.time.LocalDateTime;
-
-public class ChatMessageDTO {
+public class ChatRoomDTO {
     private Long id;
     private String chatId;
     private Long senderId;
     private Long recipientId;
-    private String content;
-    private LocalDateTime timestamp;
 
-    public ChatMessageDTO() {
+    public ChatRoomDTO() {
     }
 
     public Long getId() {
@@ -43,21 +39,5 @@ public class ChatMessageDTO {
 
     public void setRecipientId(Long recipientId) {
         this.recipientId = recipientId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
     }
 }

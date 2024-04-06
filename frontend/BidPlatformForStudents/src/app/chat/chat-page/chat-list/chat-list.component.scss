@@ -1,0 +1,14 @@
+li.chat-room {
+  padding: 12px;
+  list-style-type: none;
+  box-sizing: content-box;
+  margin: 0 0 0 -42px;
+}
+li.chat-room:hover {
+  cursor: pointer;
+  background-color: var(--teal-500);
+}
+
+li.selected-chatroom {
+  background-color: var(--teal-500);
+}

@@ -1,5 +1,6 @@
 package com.licenta.service;
 
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.ChatMessage;
 import com.licenta.domain.repository.ChatMessageJPARepository;
 import com.licenta.service.dto.ChatMessageDTO;
@@ -43,9 +44,9 @@ public class ChatMessageServiceImpl implements ChatMessageService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<ChatMessage> findChatMessages(Long senderId, Long recipientId) {
+    public List<ChatMessage> findChatMessages(Long recipientId) {
         var chatId = chatRoomService.getId(
-                senderId,
+                UserContextHolder.getUserContext().getUserId(),
                 recipientId,
                 false);
         return chatId.map(chatMessageJPARepository::findByChatId).orElse(new ArrayList<>());

@@ -1,0 +1,21 @@
+<div class="container mt-3">
+  <div class="flex flex-column gap-2">
+    <ul *ngFor="let chat of chats">
+      <li class="mb-0 chat-room"
+          [ngClass]="{'selected-chatroom' : isSelected(chat.recipientId)}"
+          (click)="getChatRoomMessages(chat.recipientId)">
+        <div class="row">
+          <div class="col-3">
+            {{chat.id}}
+          </div>
+          <div class="col-3">
+            {{chat.name}}
+          </div>
+          <div class="col-3">
+            {{chat.recipientId}}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

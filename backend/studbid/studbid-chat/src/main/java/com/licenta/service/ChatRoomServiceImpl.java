@@ -1,19 +1,26 @@
 package com.licenta.service;
 
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.ChatRoom;
 import com.licenta.domain.repository.ChatRoomJPARepository;
+import com.licenta.domain.vo.ChatRoomVO;
+import com.licenta.domain.vo.ChatRoomVOMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomJPARepository chatRoomJPARepository;
     private final UserService userService;
+    private final ChatRoomVOMapper chatRoomVOMapper;
 
-    public ChatRoomServiceImpl(ChatRoomJPARepository chatRoomJPARepository, UserService userService) {
+    public ChatRoomServiceImpl(ChatRoomJPARepository chatRoomJPARepository, UserService userService, ChatRoomVOMapper chatRoomVOMapper) {
         this.chatRoomJPARepository = chatRoomJPARepository;
         this.userService = userService;
+        this.chatRoomVOMapper = chatRoomVOMapper;
     }
 
     @Override
@@ -47,5 +54,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         chatRoomJPARepository.save(recipientSender);
 
         return chatId;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ChatRoomVO> findMyChatRooms() {
+        return chatRoomJPARepository.findAllBySender_Id(UserContextHolder.getUserContext().getUserId())
+                .stream()
+                .map(chatRoomVOMapper::getVOFromEntity)
+                .toList();
     }
 }

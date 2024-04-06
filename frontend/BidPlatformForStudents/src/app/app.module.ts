@@ -48,6 +48,9 @@ import {TableModule} from "primeng/table";
 import { ProjectTransactionComponent } from './transactions/project-transaction/project-transaction.component';
 import {AvatarModule} from "primeng/avatar";
 import {OverlayPanelModule} from "primeng/overlaypanel";
+import { ChatPageComponent } from './chat/chat-page/chat-page.component';
+import { ChatRoomComponent } from './chat/chat-page/chat-room/chat-room.component';
+import { ChatListComponent } from './chat/chat-page/chat-list/chat-list.component';
 
 const routes: Routes = [
   {
@@ -81,6 +84,10 @@ const routes: Routes = [
   {
     path: "new-announcement",
     component: NewAnnouncementComponent
+  },
+  {
+    path: "chat",
+    component: ChatPageComponent
   },
   {
     path: "my-announcements",
@@ -129,7 +136,10 @@ const routes: Routes = [
     ProjectInputsComponent,
     MyAnnouncementsComponent,
     AnnouncementDetailsComponent,
-    ProjectTransactionComponent
+    ProjectTransactionComponent,
+    ChatPageComponent,
+    ChatRoomComponent,
+    ChatListComponent
   ],
   imports: [
     BrowserModule,

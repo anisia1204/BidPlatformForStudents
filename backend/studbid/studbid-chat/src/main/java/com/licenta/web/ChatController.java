@@ -1,6 +1,7 @@
 package com.licenta.web;
 
 import com.licenta.domain.ChatMessage;
+import com.licenta.domain.vo.ChatMessageVO;
 import com.licenta.domain.vo.ChatRoomVO;
 import com.licenta.service.ChatMessageService;
 import com.licenta.service.ChatRoomService;
@@ -37,14 +38,17 @@ public class ChatController {
                         savedMessage.getChatId(),
                         savedMessage.getSender().getId(),
                         savedMessage.getRecipient().getId(),
-                        savedMessage.getContent()
+                        savedMessage.getContent(),
+                        savedMessage.getTimestamp().toString()
                 )
         );
     }
 
     @GetMapping("/messages/{recipientId}")
-    public ResponseEntity<List<ChatMessage>> findChatMessages(@PathVariable Long recipientId) {
-        return ResponseEntity.ok(chatMessageService.findChatMessages(recipientId));
+    public ResponseEntity<List<ChatMessageVO>> findChatMessages(@PathVariable Long recipientId,
+                                                                @RequestParam(defaultValue = "0") int page,
+                                                                @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(chatMessageService.findChatMessages(recipientId, page, size));
     }
 
     @GetMapping("/chat-rooms")

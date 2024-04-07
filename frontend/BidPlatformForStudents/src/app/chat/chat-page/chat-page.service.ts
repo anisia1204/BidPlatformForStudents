@@ -6,7 +6,7 @@ import {inject, Injectable} from "@angular/core";
 export class ChatPageService {
   chatRoomResourceService = inject(ChatRoomResourceService)
 
-  getChatRoomMessages(recipientId: number | undefined) {
-    return this.chatRoomResourceService.findChatRoomMessages(recipientId)
+  getChatRoomMessages(recipientId: number | undefined, page?: number) {
+    return this.chatRoomResourceService.findChatRoomMessages(recipientId, page)
   }
 }

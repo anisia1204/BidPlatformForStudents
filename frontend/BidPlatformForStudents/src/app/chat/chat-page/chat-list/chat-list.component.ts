@@ -12,7 +12,7 @@ export class ChatListComponent implements OnInit, OnDestroy{
 
   chatListService = inject(ChatListService)
   destroy$: Subject<boolean> = new Subject<boolean>()
-  @Output() chatRoomSelect: EventEmitter<number> = new EventEmitter<number>()
+  @Output() chatRoomSelect: EventEmitter<{recipientId: number | undefined, page?: number}> = new EventEmitter<{recipientId: number | undefined, page?: number}>()
   chats: ChatRoomVoModel[] = []
   selectedChatRoom : number | undefined
 
@@ -34,6 +34,6 @@ export class ChatListComponent implements OnInit, OnDestroy{
 
   getChatRoomMessages(recipientId: number | undefined) {
     this.selectedChatRoom = recipientId
-    this.chatRoomSelect.emit(recipientId)
+    this.chatRoomSelect.emit({recipientId: recipientId})
   }
 }

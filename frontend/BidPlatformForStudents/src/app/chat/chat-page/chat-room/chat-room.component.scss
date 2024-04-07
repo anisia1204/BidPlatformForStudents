@@ -1,12 +1,38 @@
-.chat-messages {
+.chat-area {
   padding: 40px;
 }
 
-.recipient-message  {
-  background-color: red;
+.chat-messages {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.message-container {
+  max-width: 70%;
+  margin-bottom: 10px;
+}
+
+.message-content {
+  border-radius: 20px;
+  padding: 10px 15px;
+  word-wrap: break-word;
+}
+
+.recipient-message {
+  justify-content: start;
 }
 
 .sender-message {
-  background-color: green;
-
+  align-self: flex-end;
 }
+
+.message-time {
+  font-size: 12px;
+  color: #777;
+  margin-top: 5px;
+}
+
+.input-form {
+  margin-top: 20px;
+}
+

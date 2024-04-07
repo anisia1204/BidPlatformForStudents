@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {ChatRoomVoModel} from "../domain/chat-room-vo.model";
 import {ChatMessageVoModel} from "../domain/chat-message-vo.model";
 
@@ -14,7 +14,12 @@ export class ChatRoomResourceService {
     return this.httpClient.get<ChatRoomVoModel[]>(`${this.url}/chat-rooms`)
   }
 
-  findChatRoomMessages(recipientId: number | undefined) {
-    return this.httpClient.get<ChatMessageVoModel[]>(`${this.url}/messages/${recipientId}`)
+  findChatRoomMessages(recipientId: number | undefined, page? : number) {
+    let params: HttpParams = new HttpParams()
+    if(page) {
+        params = new HttpParams()
+            .set('page', page.toString())
+    }
+    return this.httpClient.get<ChatMessageVoModel[]>(`${this.url}/messages/${recipientId}`, {params})
   }
 }

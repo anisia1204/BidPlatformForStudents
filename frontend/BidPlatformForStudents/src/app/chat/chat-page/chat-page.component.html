@@ -1,12 +1,17 @@
-<div class="row chat">
-  <div class="col-3 chat-list">
-    <app-chat-list (chatRoomSelect)="onChatRoomSelect($event)"></app-chat-list>
-  </div>
-  <div class="col-9">
-    <app-chat-room  [chatMessages]="chatRoomMessages"
-                    [showChatArea]="showChatArea"
-                    [recipientId]="recipientId"
-                    (submit)="onSubmit($event)">
-    </app-chat-room>
+<div class="container">
+  <div class="row chat">
+    <div class="col-3 chat-list">
+      <app-chat-list (chatRoomSelect)="onChatRoomSelect($event)"></app-chat-list>
+    </div>
+    <div class="col-9">
+      <ng-container *ngIf="recipientId">
+        <app-chat-room  [chatMessages]="chatRoomMessages"
+                        [recipientId]="recipientId"
+                        (submit)="onSubmit($event)"
+                        (loadMessages)="onChatRoomSelect($event)">
+        </app-chat-room>
+      </ng-container>
+    </div>
   </div>
 </div>
+

@@ -1,9 +1,10 @@
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {inject, Injectable, Input} from "@angular/core";
-import {Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {UserContextService} from "../../auth/user-context-service/user-context.service";
 import {ChatMessageDtoModel} from "../domain/chat-message-dto.model";
+import {ChatMessageVoModel} from "../domain/chat-message-vo.model";
 @Injectable({
   providedIn: "root"
 })
@@ -15,7 +16,7 @@ export class ChatRoomStompService {
   id: number | undefined
   token: string | undefined | null
   _recipientId: number | undefined
-  @Input() set recipientId(id: number) {
+  @Input() set recipientId(id: number | undefined) {
     this._recipientId = id
   }
   get recipientId() : number | undefined{
@@ -39,10 +40,13 @@ export class ChatRoomStompService {
     });
   }
 
+  private receivedMessageSubject = new BehaviorSubject<ChatMessageVoModel | null>(null)
+  receivedMessage$ = this.receivedMessageSubject.asObservable()
+
   onMessageReceived = (payload: any) => {
     const message = JSON.parse(payload.body);
     if (this.recipientId && this.recipientId === message.senderId) {
-      console.log(message.content);
+      this.receivedMessageSubject.next(message)
     }
   }
 
@@ -51,6 +55,7 @@ export class ChatRoomStompService {
     if(this.stompClient) {
       chatMessageDto.senderId = this.id
       this.stompClient.send('/app/chat', {}, JSON.stringify(chatMessageDto))
+      this.receivedMessageSubject.next(chatMessageDto)
     }
   }
 }

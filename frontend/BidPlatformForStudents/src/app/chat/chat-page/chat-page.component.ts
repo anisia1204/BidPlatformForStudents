@@ -15,19 +15,19 @@ export class ChatPageComponent implements OnDestroy{
   chatRoomStompService = inject(ChatRoomStompService)
   destroy$: Subject<boolean> = new Subject<boolean>()
   chatRoomMessages: ChatMessageVoModel[] = []
-  showChatArea = false;
   recipientId: number | undefined
-  onChatRoomSelect(recipientId: number) {
+  onChatRoomSelect(value: {recipientId: number | undefined, page?: number}) {
     this.chatPageService
-      .getChatRoomMessages(recipientId)
+      .getChatRoomMessages(value.recipientId, value.page)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        this.chatRoomMessages = res
-        this.showChatArea = true
-        this.recipientId = recipientId
-        this.chatRoomStompService.recipientId = this.recipientId
-        console.log(this.chatRoomStompService.recipientId)
-        this.chatRoomStompService.connectToChat()
+        this.chatRoomMessages = res.reverse()
+        if(!value.page) {
+          this.recipientId = value.recipientId
+          this.chatRoomStompService.recipientId = this.recipientId
+          this.chatRoomStompService.connectToChat()
+        }
+
       })
   }
 

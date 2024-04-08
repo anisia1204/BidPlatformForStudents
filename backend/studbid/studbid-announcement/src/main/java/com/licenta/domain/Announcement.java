@@ -2,6 +2,7 @@ package com.licenta.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -32,6 +33,9 @@ public class Announcement {
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted;
+
+    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
+    private List<FavoriteAnnouncement> favoriteAnnouncements;
 
     public Announcement() {
     }
@@ -98,5 +102,13 @@ public class Announcement {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public List<FavoriteAnnouncement> getFavoriteAnnouncements() {
+        return favoriteAnnouncements;
+    }
+
+    public void setFavoriteAnnouncements(List<FavoriteAnnouncement> favoriteAnnouncements) {
+        this.favoriteAnnouncements = favoriteAnnouncements;
     }
 }

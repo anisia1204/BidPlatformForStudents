@@ -11,10 +11,13 @@ public class AnnouncementVOMapper {
     private final AttachmentVOMapper attachmentVOMapper;
     private final UserDetailsVOMapper userDetailsVOMapper;
 
-    public AnnouncementVOMapper(SkillVOMapper skillVOMapper, AttachmentVOMapper attachmentVOMapper, UserDetailsVOMapper userDetailsVOMapper) {
+    private final FavoriteAnnouncementVOMapper favoriteAnnouncementVOMapper;
+
+    public AnnouncementVOMapper(SkillVOMapper skillVOMapper, AttachmentVOMapper attachmentVOMapper, UserDetailsVOMapper userDetailsVOMapper, FavoriteAnnouncementVOMapper favoriteAnnouncementVOMapper) {
         this.skillVOMapper = skillVOMapper;
         this.attachmentVOMapper = attachmentVOMapper;
         this.userDetailsVOMapper = userDetailsVOMapper;
+        this.favoriteAnnouncementVOMapper = favoriteAnnouncementVOMapper;
     }
 
     public AnnouncementVO getVOFromEntity(Announcement announcement, Attachment... attachments) {
@@ -39,7 +42,7 @@ public class AnnouncementVOMapper {
                 (announcement instanceof TutoringService) ? ((TutoringService) announcement).getStartDate() : null,
                 (announcement instanceof TutoringService) ? ((TutoringService) announcement).getEndDate() : null,
                 (announcement instanceof TutoringService) ? ((TutoringService) announcement).getHoursPerSession() : null,
-                (announcement instanceof TutoringService) ? ((TutoringService) announcement).getTutoringType() : null
-        );
+                (announcement instanceof TutoringService) ? ((TutoringService) announcement).getTutoringType() : null,
+                favoriteAnnouncementVOMapper.getVOsFromEntities(announcement.getFavoriteAnnouncements()));
     }
 }

@@ -30,9 +30,10 @@ public class AnnouncementVO {
     private Integer hoursPerSession;
     private TutoringType tutoringType;
     private UserDetailsVO userDetailsVO;
+    private List<FavoriteAnnouncementVO> favoriteAnnouncementVOS;
 
 
-    public AnnouncementVO(Long id, Long userId, String title, String description, Double points, AnnouncementStatus status, LocalDateTime createdAt, UserDetailsVO userDetailsVO, String domain, Integer teamSize, List<SkillVO> requiredSkills, String announcementType, String name, String author, Integer edition, List<String> attachmentVOs, String subject, LocalDate startDate, LocalDate endDate, Integer hoursPerSession, TutoringType tutoringType) {
+    public AnnouncementVO(Long id, Long userId, String title, String description, Double points, AnnouncementStatus status, LocalDateTime createdAt, UserDetailsVO userDetailsVO, String domain, Integer teamSize, List<SkillVO> requiredSkills, String announcementType, String name, String author, Integer edition, List<String> attachmentVOs, String subject, LocalDate startDate, LocalDate endDate, Integer hoursPerSession, TutoringType tutoringType, List<FavoriteAnnouncementVO> favoriteAnnouncementVOS) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -54,6 +55,7 @@ public class AnnouncementVO {
         this.endDate = endDate;
         this.hoursPerSession = hoursPerSession;
         this.tutoringType = tutoringType;
+        this.favoriteAnnouncementVOS = favoriteAnnouncementVOS;
     }
 
     public Long getId() {
@@ -138,5 +140,9 @@ public class AnnouncementVO {
 
     public TutoringType getTutoringType() {
         return tutoringType;
+    }
+
+    public List<FavoriteAnnouncementVO> getFavoriteAnnouncementVOS() {
+        return favoriteAnnouncementVOS;
     }
 }

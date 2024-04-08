@@ -2,6 +2,8 @@ package com.licenta.web;
 
 import com.licenta.domain.vo.AnnouncementVO;
 import com.licenta.service.AnnouncementService;
+import com.licenta.service.FavoriteAnnouncementService;
+import com.licenta.service.dto.FavoriteAnnouncementDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/announcements")
 public class AnnouncementController {
     private final AnnouncementService announcementService;
+    private final FavoriteAnnouncementService favoriteAnnouncementService;
 
-    public AnnouncementController(AnnouncementService announcementService) {
+    public AnnouncementController(AnnouncementService announcementService, FavoriteAnnouncementService favoriteAnnouncementService) {
         this.announcementService = announcementService;
+        this.favoriteAnnouncementService = favoriteAnnouncementService;
     }
 
     @GetMapping
@@ -52,5 +56,17 @@ public class AnnouncementController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         announcementService.delete(id);
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping(value = "/favorite")
+    @ResponseBody
+    public ResponseEntity<?> addToFavorite(@RequestBody FavoriteAnnouncementDTO favoriteAnnouncementDTO) {
+        return ResponseEntity.ok(favoriteAnnouncementService.addToFavorites(favoriteAnnouncementDTO));
+    }
+
+    @DeleteMapping (value = "/favorite/{favoriteAnnouncementId}")
+    @ResponseBody
+    public ResponseEntity<?> removeFromFavorite(@PathVariable Long favoriteAnnouncementId) {
+        return ResponseEntity.ok(favoriteAnnouncementService.removeFromFavorites(favoriteAnnouncementId));
     }
 }

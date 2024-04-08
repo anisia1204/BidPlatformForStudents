@@ -13,7 +13,7 @@ import {
 import {ChatMessageVoModel} from "../../domain/chat-message-vo.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ChatMessageDtoModel} from "../../domain/chat-message-dto.model";
-import {ChatRoomStompService} from "../chat-room-stomp.service";
+import {ChatRoomStompService} from "../../../utils/chat-room-stomp.service";
 import {Subject, takeUntil} from "rxjs";
 
 @Component({

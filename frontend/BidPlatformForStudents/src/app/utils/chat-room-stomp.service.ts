@@ -2,9 +2,9 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {inject, Injectable, Input} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
-import {UserContextService} from "../../auth/user-context-service/user-context.service";
-import {ChatMessageDtoModel} from "../domain/chat-message-dto.model";
-import {ChatMessageVoModel} from "../domain/chat-message-vo.model";
+import {UserContextService} from "../auth/user-context-service/user-context.service";
+import {ChatMessageDtoModel} from "../chat/domain/chat-message-dto.model";
+import {ChatMessageVoModel} from "../chat/domain/chat-message-vo.model";
 @Injectable({
   providedIn: "root"
 })
@@ -14,7 +14,6 @@ export class ChatRoomStompService {
   stompClient?: Stomp.Client;
   userContextService = inject(UserContextService)
   id: number | undefined
-  token: string | undefined | null
   _recipientId: number | undefined
   @Input() set recipientId(id: number | undefined) {
     this._recipientId = id
@@ -22,11 +21,23 @@ export class ChatRoomStompService {
   get recipientId() : number | undefined{
     return this._recipientId
   }
-  connectToChat() {
+
+  constructor() {
+    //this.connectToChat();
+  }
+
+  connectToChat(): void {
     this.userContextService.getLoggedInUser().subscribe(res => {
-      this.id = res?.id
-      this.token = res?.token
-    })
+      this.id = res?.id;
+    });
+    this.initWebSocket();
+
+  }
+
+  initWebSocket() {
+    // this.userContextService.getLoggedInUser().subscribe(res => {
+    //   this.id = res?.id
+    // })
     console.log('connecting to chat...');
     this.socket = new SockJS(this.url);
     this.stompClient = Stomp.over(this.socket);

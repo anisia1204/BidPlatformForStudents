@@ -3,7 +3,7 @@ import {ChatPageService} from "./chat-page.service";
 import {ChatMessageVoModel} from "../domain/chat-message-vo.model";
 import {Subject, takeUntil} from "rxjs";
 import {ChatMessageDtoModel} from "../domain/chat-message-dto.model";
-import {ChatRoomStompService} from "./chat-room-stomp.service";
+import {ChatRoomStompService} from "../../utils/chat-room-stomp.service";
 
 @Component({
   selector: 'app-chat-page',
@@ -25,7 +25,6 @@ export class ChatPageComponent implements OnDestroy{
         if(!value.page) {
           this.recipientId = value.recipientId
           this.chatRoomStompService.recipientId = this.recipientId
-          this.chatRoomStompService.connectToChat()
         }
 
       })

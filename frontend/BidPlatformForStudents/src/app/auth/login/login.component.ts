@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {RegistrationComponent} from "../registration/registration.component";
 import {UserContextService} from "../user-context-service/user-context.service";
+import {ChatRoomStompService} from "../../utils/chat-room-stomp.service";
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,8 @@ export class LoginComponent implements OnDestroy{
   userDto : UserDtoModel | undefined
   messageService = inject(MessageService)
   router = inject(Router)
+  chatRoomStompService = inject(ChatRoomStompService)
+
 
 
   constructor() {
@@ -42,6 +45,7 @@ export class LoginComponent implements OnDestroy{
           this.userContextService.setLoggedInUser(loggedInUserDto)
           this.loginService.isLoggedIn(loggedInUserDto);
           this.router.navigate(['/dashboard'])
+          this.chatRoomStompService.connectToChat()
         },
         errorResponse => {
           this.messageService.add({

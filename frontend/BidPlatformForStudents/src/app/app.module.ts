@@ -20,7 +20,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {SplitButtonModule} from "primeng/splitbutton";
 import { ProfileComponent } from './profile/profile.component';
 import { NewAnnouncementComponent } from './announcements/new-announcement/new-announcement.component';
-import { EditAnnouncementComponent } from './announcements/edit-announcement/edit-announcement.component';
 import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 import { FavouritesListComponent } from './favourites/favourites-list/favourites-list.component';
@@ -126,7 +125,6 @@ const routes: Routes = [
     DashboardComponent,
     ProfileComponent,
     NewAnnouncementComponent,
-    EditAnnouncementComponent,
     AnnouncementListComponent,
     TransactionListComponent,
     FavouritesListComponent,

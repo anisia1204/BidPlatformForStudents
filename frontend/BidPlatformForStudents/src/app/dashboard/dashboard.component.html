@@ -3,5 +3,7 @@
   [announcements]="announcements"
   [totalRecords]="totalRecords"
   (lazyLoad)="onLazyLoad($event)"
-  (buy)="onBuy($event)">
+  (buy)="onBuy($event)"
+  (addFavorite)="onAddToFavourites($event)"
+  (removeFavorite)="onRemoveFromFavorites($event)">
 </app-announcement-list>

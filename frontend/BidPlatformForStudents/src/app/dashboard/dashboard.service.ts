@@ -2,6 +2,7 @@ import {inject, Injectable} from "@angular/core";
 import {AnnouncementResourceService} from "../announcements/resource-service/announcement-resource.service";
 import {TransactionResourceService} from "../transactions/resource-service/transaction-resource.service";
 import {TransactionDtoModel} from "../transactions/domain/transaction-dto.model";
+import {FavoriteAnnouncementDtoModel} from "../announcements/domain/favorite-announcement-dto.model";
 
 @Injectable({
   providedIn: "root"
@@ -16,5 +17,13 @@ export class DashboardService {
 
   buy(transactionDto: TransactionDtoModel | undefined) {
     return this.transactionResourceService.onBuy(transactionDto)
+  }
+
+  addToFavorites(favoriteAnnouncementDto: FavoriteAnnouncementDtoModel) {
+    return this.announcementResourceService.addToFavorites(favoriteAnnouncementDto)
+  }
+
+  removeFromFavorites(favoriteAnnouncementId: number) {
+    return this.announcementResourceService.removeFromFavorites(favoriteAnnouncementId)
   }
 }

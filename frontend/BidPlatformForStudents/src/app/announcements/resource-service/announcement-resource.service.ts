@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {AnnouncementVoModel} from "../domain/announcement-vo.model";
 import {Page} from "../domain/page.model";
 import {Observable} from "rxjs";
+import {FavoriteAnnouncementDtoModel} from "../domain/favorite-announcement-dto.model";
 
 @Injectable({
     providedIn: "root"
@@ -39,5 +40,13 @@ export class AnnouncementResourceService {
       params = params.append('sort', s);
     });
     return this.httpClient.get<Page<AnnouncementVoModel>>(`${this.url}/dashboard`, {params})
+  }
+
+  addToFavorites(favoriteAnnouncementDto: FavoriteAnnouncementDtoModel) {
+    return this.httpClient.post<FavoriteAnnouncementDtoModel>(`${this.url}/favorite`, favoriteAnnouncementDto)
+  }
+
+  removeFromFavorites(favoriteAnnouncementId: number) {
+    return this.httpClient.delete<FavoriteAnnouncementDtoModel>(`${this.url}/favorite/${favoriteAnnouncementId}`)
   }
 }

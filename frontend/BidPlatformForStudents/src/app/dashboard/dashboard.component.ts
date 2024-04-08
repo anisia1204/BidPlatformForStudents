@@ -6,6 +6,7 @@ import {Subject, takeUntil} from "rxjs";
 import {DashboardService} from "./dashboard.service";
 import {MessageService} from "primeng/api";
 import {TransactionDtoModel} from "../transactions/domain/transaction-dto.model";
+import {FavoriteAnnouncementDtoModel} from "../announcements/domain/favorite-announcement-dto.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -74,9 +75,17 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     return message;
   }
+
+  onAddToFavourites(favoriteAnnouncementDto: FavoriteAnnouncementDtoModel) {
+    this.dashboardService.addToFavorites(favoriteAnnouncementDto)
+      .subscribe(res => this.onLazyLoad(this.lazyLoadEvent))
+  }
   ngOnDestroy(): void {
     this.destroy$.next(true)
   }
 
-
+  onRemoveFromFavorites(favoriteAnnouncementId: number) {
+    this.dashboardService.removeFromFavorites(favoriteAnnouncementId)
+      .subscribe(res => this.onLazyLoad(this.lazyLoadEvent))
+  }
 }

@@ -3,6 +3,7 @@ import {TutoringTypeModel} from "./tutoring-type.model";
 import {AttachmentVoModel} from "./attachment-vo.model";
 import {SkillVoModel} from "./skill-vo.model";
 import {UserDetailsVoModel} from "../../auth/domain/user-details-vo.model";
+import {FavoriteAnnouncementVoModel} from "./favorite-announcement-vo.model";
 
 export class AnnouncementVoModel {
   id: number | undefined;
@@ -26,4 +27,5 @@ export class AnnouncementVoModel {
   hoursPerSession: number | undefined;
   tutoringType: TutoringTypeModel | undefined;
   userDetailsVO: UserDetailsVoModel | undefined;
+  favoriteAnnouncementVOS: FavoriteAnnouncementVoModel[] | undefined;
 }

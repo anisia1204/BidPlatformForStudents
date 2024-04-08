@@ -1,5 +1,6 @@
 package com.licenta.service;
 
+import com.licenta.context.UserContextHolder;
 import com.licenta.domain.Announcement;
 import com.licenta.domain.FavoriteAnnouncement;
 import com.licenta.domain.User;
@@ -8,6 +9,8 @@ import com.licenta.service.dto.FavoriteAnnouncementDTO;
 import com.licenta.service.dto.FavoriteAnnouncementDTOMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class FavoriteAnnouncementServiceImpl implements FavoriteAnnouncementService{
@@ -50,5 +53,14 @@ public class FavoriteAnnouncementServiceImpl implements FavoriteAnnouncementServ
         FavoriteAnnouncement favoriteAnnouncement = favoriteAnnouncementJPARepository.findById(favoriteAnnouncementId).orElseThrow();
         favoriteAnnouncementJPARepository.delete(favoriteAnnouncement);
         return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Announcement> getFavoriteAnnouncementsOfCurrentUser() {
+             return favoriteAnnouncementJPARepository.findAllByUserId(UserContextHolder.getUserContext().getUserId())
+                        .stream()
+                        .map(FavoriteAnnouncement::getAnnouncement)
+                        .toList();
     }
 }

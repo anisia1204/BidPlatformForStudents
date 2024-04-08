@@ -1,5 +1,6 @@
 package com.licenta.web;
 
+import com.licenta.domain.Announcement;
 import com.licenta.domain.vo.AnnouncementVO;
 import com.licenta.service.AnnouncementService;
 import com.licenta.service.FavoriteAnnouncementService;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -43,6 +46,17 @@ public class AnnouncementController {
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return ResponseEntity.ok(announcementService.getDashboardAnnouncements(pageable));
+    }
+
+    @GetMapping(value = "/favorite")
+    @ResponseBody
+    public ResponseEntity<Page<AnnouncementVO>> getFavoriteAnnouncements(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        List<Announcement> favoriteAnnouncementsOfUser = favoriteAnnouncementService.getFavoriteAnnouncementsOfCurrentUser();
+        Pageable pageRequest = PageRequest.of(page, size);
+        return ResponseEntity.ok(announcementService.getFavoriteAnnouncements(favoriteAnnouncementsOfUser, pageRequest));
     }
 
     @GetMapping(value = {"/{id}"})

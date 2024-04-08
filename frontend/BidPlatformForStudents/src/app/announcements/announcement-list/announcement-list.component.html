@@ -1,3 +1,4 @@
+<h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">{{title}}</h3>
 <div class="cardd">
   <p-dataView [value]="announcements" [paginator]="true" [rows]="9" [totalRecords]="totalRecords"
               [lazy]="true" (onLazyLoad)="onLazyLoad($event.first / 9, 9)"

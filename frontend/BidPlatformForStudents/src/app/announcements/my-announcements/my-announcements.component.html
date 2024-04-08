@@ -1,5 +1,5 @@
-<h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Anunturile mele</h3>
 <app-announcement-list  [myAnnouncements]="true"
+                        [title]="'Anunturile mele'"
                         [announcements]="announcements"
                         [totalRecords]="totalRecords"
                         (lazyLoad)="onLazyLoad($event)"

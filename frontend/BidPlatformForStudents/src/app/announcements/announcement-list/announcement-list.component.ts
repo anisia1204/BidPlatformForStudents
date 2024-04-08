@@ -16,6 +16,7 @@ import {FavoriteAnnouncementDtoModel} from "../domain/favorite-announcement-dto.
 export class AnnouncementListComponent implements OnInit, OnDestroy {
     @Input() announcements : any[] | undefined
     @Input() myAnnouncements = false;
+    @Input() title : string | null = null;
     @Output() lazyLoad = new EventEmitter<{page: number, size: number}>();
     @Input() totalRecords: number | undefined;
     @Output() delete = new EventEmitter<number>();

@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
             {
               label: "Anunturi favorite",
               icon: "pi pi-heart",
-              routerLink: ['/favourites']
+              routerLink: ['/favorites']
             },
           ]
         }

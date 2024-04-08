@@ -22,7 +22,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { NewAnnouncementComponent } from './announcements/new-announcement/new-announcement.component';
 import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
-import { FavouritesListComponent } from './favourites/favourites-list/favourites-list.component';
 import { PageNotFoundComponent } from './infra/page-not-found/page-not-found.component';
 import {AuthInterceptorService} from "./auth/auth-interceptor/auth-interceptor.service";
 import {authGuardFn} from "./auth/auth-guard/auth.guard";
@@ -50,6 +49,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import { ChatPageComponent } from './chat/chat-page/chat-page.component';
 import { ChatRoomComponent } from './chat/chat-page/chat-room/chat-room.component';
 import { ChatListComponent } from './chat/chat-page/chat-list/chat-list.component';
+import { FavoriteAnnouncementsListComponent } from './announcements/favorite-announcements-list/favorite-announcements-list.component';
 
 const routes: Routes = [
   {
@@ -103,8 +103,8 @@ const routes: Routes = [
     ]
   },
   {
-    path: "favourites",
-    component: FavouritesListComponent
+    path: "favorites",
+    component: FavoriteAnnouncementsListComponent
   },
   {
     path: "my-transactions",
@@ -127,7 +127,6 @@ const routes: Routes = [
     NewAnnouncementComponent,
     AnnouncementListComponent,
     TransactionListComponent,
-    FavouritesListComponent,
     PageNotFoundComponent,
     TeachingMaterialFormComponent,
     TutoringServiceFormComponent,
@@ -137,7 +136,8 @@ const routes: Routes = [
     ProjectTransactionComponent,
     ChatPageComponent,
     ChatRoomComponent,
-    ChatListComponent
+    ChatListComponent,
+    FavoriteAnnouncementsListComponent,
   ],
   imports: [
     BrowserModule,

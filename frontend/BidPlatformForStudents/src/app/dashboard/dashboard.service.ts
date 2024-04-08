@@ -15,6 +15,10 @@ export class DashboardService {
     return this.announcementResourceService.getDashboardAnnouncements(page, size, sort)
   }
 
+  getFavoriteAnnouncements(page: number, size: number, sort: string[]) {
+    return this.announcementResourceService.getFavoriteAnnouncements(page, size, sort)
+  }
+
   buy(transactionDto: TransactionDtoModel | undefined) {
     return this.transactionResourceService.onBuy(transactionDto)
   }

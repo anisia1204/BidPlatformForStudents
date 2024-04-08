@@ -49,4 +49,14 @@ export class AnnouncementResourceService {
   removeFromFavorites(favoriteAnnouncementId: number) {
     return this.httpClient.delete<FavoriteAnnouncementDtoModel>(`${this.url}/favorite/${favoriteAnnouncementId}`)
   }
+
+  getFavoriteAnnouncements(page: number, size: number, sort: string[]) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    sort.forEach(s => {
+      params = params.append('sort', s);
+    });
+    return this.httpClient.get<Page<AnnouncementVoModel>>(`${this.url}/favorite`, {params})
+  }
 }

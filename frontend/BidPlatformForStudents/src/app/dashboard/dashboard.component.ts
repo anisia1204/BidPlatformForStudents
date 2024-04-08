@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {GoBackService} from "../utils/go-back.service";
 import {Router} from "@angular/router";
 import {AnnouncementVoModel} from "../announcements/domain/announcement-vo.model";
@@ -15,6 +15,7 @@ import {FavoriteAnnouncementDtoModel} from "../announcements/domain/favorite-ann
   providers: [MessageService]
 })
 export class DashboardComponent implements OnInit, OnDestroy{
+  @Input() favoritesTitle: string | null = null
   dashboardService = inject(DashboardService)
   goBackService = inject(GoBackService)
   router = inject(Router)
@@ -37,12 +38,22 @@ export class DashboardComponent implements OnInit, OnDestroy{
   }
   onLazyLoad(lazyLoadEvent: {page: number, size: number}) {
     this.lazyLoadEvent = lazyLoadEvent
-    this.dashboardService.getDashboardAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, this.sort).subscribe(
-      announcements => {
-        this.announcements = announcements.content
-        this.totalRecords = announcements.totalElements;
-      }
-    )
+    if(!this.favoritesTitle) {
+      this.dashboardService.getDashboardAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, this.sort).subscribe(
+        announcements => {
+          this.announcements = announcements.content
+          this.totalRecords = announcements.totalElements;
+        }
+      )
+    }
+    else {
+      this.dashboardService.getFavoriteAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, this.sort).subscribe(
+        announcements => {
+          this.announcements = announcements.content
+          this.totalRecords = announcements.totalElements;
+        }
+      )
+    }
   }
 
   onBuy(announcementId: number) {
@@ -80,12 +91,11 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.dashboardService.addToFavorites(favoriteAnnouncementDto)
       .subscribe(res => this.onLazyLoad(this.lazyLoadEvent))
   }
-  ngOnDestroy(): void {
-    this.destroy$.next(true)
-  }
-
   onRemoveFromFavorites(favoriteAnnouncementId: number) {
     this.dashboardService.removeFromFavorites(favoriteAnnouncementId)
       .subscribe(res => this.onLazyLoad(this.lazyLoadEvent))
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(true)
   }
 }

@@ -36,14 +36,15 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 1px 22px;
+  padding-left: 29px;
 }
 
 .cardd {
   background: var(--surface-card);
-  padding: 2rem 10rem;
-  border-radius: 10px;
+  padding: 1rem;
+  border-radius: 15px;
   margin-bottom: 1rem;
+  box-shadow: 1px 2px 3px #00000040
 
 }
 

@@ -1,14 +1,8 @@
 .custom-navbar {
   height: 58px;
-  background-color: var(--teal-500);
-  box-shadow: 1px 2px 3px #00000040
+  background-color: var(--backgroundColor);
 }
 
-::ng-deep .custom-link a {
-  text-decoration: none;
-}
 
-h5 {
-  cursor: pointer;
-}
+
 

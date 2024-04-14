@@ -3,9 +3,8 @@
 </h3>
 <div class="container mt-3">
   <div class="flex flex-column gap-2">
-    <ul>
-      <li class="mb-3"
-          *ngFor="let skill of skillVos"
+    <ul *ngFor="let skill of skillVos">
+      <li
           [ngClass]="{ 'skill-border': isSelected(skill) && skill.status === SkillStatusModel.ACTIVE,
                        'active-skill': skill.status === SkillStatusModel.ACTIVE,
                        'sold-skill': skill.status === SkillStatusModel.SOLD

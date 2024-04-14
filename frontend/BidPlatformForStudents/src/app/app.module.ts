@@ -50,6 +50,9 @@ import { ChatPageComponent } from './chat/chat-page/chat-page.component';
 import { ChatRoomComponent } from './chat/chat-page/chat-room/chat-room.component';
 import { ChatListComponent } from './chat/chat-page/chat-list/chat-list.component';
 import { FavoriteAnnouncementsListComponent } from './announcements/favorite-announcements-list/favorite-announcements-list.component';
+import {RippleModule} from "primeng/ripple";
+import { SidebarComponent } from './infra/sidebar/sidebar.component';
+import {SidebarModule} from "primeng/sidebar";
 
 const routes: Routes = [
   {
@@ -138,6 +141,7 @@ const routes: Routes = [
     ChatRoomComponent,
     ChatListComponent,
     FavoriteAnnouncementsListComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -169,7 +173,9 @@ const routes: Routes = [
     DialogModule,
     TableModule,
     AvatarModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    RippleModule,
+    SidebarModule
   ],
   providers: [
     {

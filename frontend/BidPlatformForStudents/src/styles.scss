@@ -3,7 +3,7 @@
 @import "primeicons/primeicons.css";
 
 :root {
-  --backgroundColor: #eef2f3;
+  --backgroundColor: var(--surface-100);
 }
 
 body {

@@ -27,27 +27,9 @@ export class NavbarComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.userSubscription = this.navbarService.isLoggedIn().subscribe(
       loggedInUserDto => {
-        console.log(loggedInUserDto)
         if(loggedInUserDto) {
           this.isLoggedIn = true
           this.points = loggedInUserDto.points
-          this.items = [
-            {
-              label: "Anunturile mele",
-              icon: "pi pi-list",
-              routerLink: ['/my-announcements']
-            },
-            {
-              label: "Tranzactiile mele",
-              icon: "pi pi-folder",
-              routerLink: ['/my-transactions']
-            },
-            {
-              label: "Anunturi favorite",
-              icon: "pi pi-heart",
-              routerLink: ['/favorites']
-            },
-          ]
         }
         else {
           this.isLoggedIn = false

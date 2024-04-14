@@ -1,54 +1,57 @@
-<p-table #dt
-         [value]="transactions"
-         [tableStyle]="{'min-width': '50rem'}"
-         [paginator]="true"
-         [rows]="10"
-         [totalRecords]="totalRecords"
-         [lazy]="true"
-         dataKey="id"
-         [globalFilterFields]="['id', 'createdAt', 'amount', 'announcementTitle']"
-         (onLazyLoad)="onLazyLoad($event)">
-  <ng-template pTemplate="caption">
-    <div class="flex">
+<div class="container">
+  <p-table #dt
+           [value]="transactions"
+           [tableStyle]="{'min-width': '50rem'}"
+           [paginator]="true"
+           [rows]="10"
+           [totalRecords]="totalRecords"
+           [lazy]="true"
+           dataKey="id"
+           [globalFilterFields]="['id', 'createdAt', 'amount', 'announcementTitle']"
+           (onLazyLoad)="onLazyLoad($event)">
+    <ng-template pTemplate="caption">
+      <div class="flex">
                 <span class="p-input-icon-left ml-auto">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
                 </span>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header">
-    <tr>
-      <th pSortableColumn="id" style="width:20%">Cod <p-sortIcon field="id"></p-sortIcon></th>
-      <th pSortableColumn="createdAt" style="width:20%">Creat la <p-sortIcon field="createdAt"></p-sortIcon></th>
-      <th pSortableColumn="amount" style="width:20%">Suma <p-sortIcon field="amount"></p-sortIcon></th>
-      <th pSortableColumn="announcementTitle" style="width:20%">Anunt <p-sortIcon field="announcementTitle"></p-sortIcon></th>
-    </tr>
-    <tr>
-      <th>
-        <input pInputText type="text" >
-      </th>
-      <th>
-            <p-calendar >
-            </p-calendar>
-      </th>
-      <th>
-        <input pInputText type="text" >
-      </th>
-      <th>
-        <input pInputText type="text" >
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-transaction>
-    <tr [ngClass]="{'earn': transaction.type === TransactionTypeModel.EARN, 'spend': transaction.type === TransactionTypeModel.SPEND}">
-      <td>{{transaction.id}}</td>
-      <td>{{transaction.createdAt | date}}</td>
-      <td>{{transaction.amount}}</td>
-      <td>
-        <div [ngClass]="">
-          {{transaction.announcementTitle}}
-        </div>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id" style="width:20%">Cod <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="createdAt" style="width:20%">Creat la <p-sortIcon field="createdAt"></p-sortIcon></th>
+        <th pSortableColumn="amount" style="width:20%">Suma <p-sortIcon field="amount"></p-sortIcon></th>
+        <th pSortableColumn="announcementTitle" style="width:20%">Anunt <p-sortIcon field="announcementTitle"></p-sortIcon></th>
+      </tr>
+      <tr>
+        <th>
+          <input pInputText type="text" >
+        </th>
+        <th>
+          <p-calendar >
+          </p-calendar>
+        </th>
+        <th>
+          <input pInputText type="text" >
+        </th>
+        <th>
+          <input pInputText type="text" >
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-transaction>
+      <tr [ngClass]="{'earn': transaction.type === TransactionTypeModel.EARN, 'spend': transaction.type === TransactionTypeModel.SPEND}">
+        <td>{{transaction.id}}</td>
+        <td>{{transaction.createdAt | date}}</td>
+        <td>{{transaction.amount}}</td>
+        <td>
+          <div [ngClass]="">
+            {{transaction.announcementTitle}}
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</div>

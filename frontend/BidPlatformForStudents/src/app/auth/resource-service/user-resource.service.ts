@@ -13,8 +13,15 @@ export class UserResourceService {
     this.httpClient = httpClient;
   }
 
-  saveUser(userDto: UserDtoModel) {
-    return this.httpClient.post<UserDtoModel>(`${this.url}`, userDto);
+  saveUser(userDto: UserDtoModel, files: File[]) {
+    const formData: FormData = new FormData();
+    for (let file of files) {
+      formData.append('file', file);
+    }
+    formData.append('userDTOString', new Blob([JSON.stringify(userDto)], {
+      type: "application/json"
+    }));
+    return this.httpClient.post<UserDtoModel>(`${this.url}`, formData);
   }
 
   login(userDto: UserDtoModel) {

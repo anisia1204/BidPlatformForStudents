@@ -8,7 +8,7 @@ import {UserDtoModel} from "../domain/user-dto.model";
 export class RegistrationService {
   userResourceService = inject(UserResourceService)
 
-  saveUser(userDto: UserDtoModel)  {
-    return this.userResourceService.saveUser(userDto);
+  saveUser(userDto: UserDtoModel, files: File[])  {
+    return this.userResourceService.saveUser(userDto, files);
   }
 }

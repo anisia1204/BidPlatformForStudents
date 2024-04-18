@@ -61,6 +61,22 @@
       </span>
     </div>
 
+    <div class="col-12 pt-4">
+      <p-fileUpload
+        name="files"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        [auto]="true"
+        [customUpload]="true"
+        [fileLimit]="1"
+        (onRemove)="onRemove($event)"
+        (uploadHandler)=uploadHandler($event)
+        [chooseLabel]="'Alege'"
+        accept="image/*"
+        [style]="{'width':'100%'}">
+      </p-fileUpload>
+    </div>
+
     <div class="d-flex justify-content-center mt-4">
       <p-button
         type="submit"

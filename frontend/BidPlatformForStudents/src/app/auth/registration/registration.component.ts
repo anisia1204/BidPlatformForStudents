@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserDtoModel} from "../domain/user-dto.model";
 import {RegistrationService} from "./registration.service";
 import {MessageService} from "primeng/api";
+import {FileRemoveEvent, FileUploadHandlerEvent} from "primeng/fileupload";
 
 @Component({
   selector: 'app-registration',
@@ -32,7 +33,7 @@ export class RegistrationComponent {
   submit() {
     if (this.form.valid) {
       this.userDto = <UserDtoModel>this.form.value
-      this.registrationService.saveUser(this.userDto)
+      this.registrationService.saveUser(this.userDto, this.profilePicture)
         .subscribe(
           userDto => {
             console.log(userDto)
@@ -51,5 +52,17 @@ export class RegistrationComponent {
           }
         )
     }
+  }
+
+  profilePicture: File[] =[]
+
+  onRemove(event: FileRemoveEvent) {
+    const removedFile: File = event.file;
+    this.profilePicture = this.profilePicture?.filter(file => file !== removedFile);
+  }
+
+
+  uploadHandler(event: FileUploadHandlerEvent) {
+    this.profilePicture = event.files as File[]
   }
 }

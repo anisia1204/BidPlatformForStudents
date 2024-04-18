@@ -9,4 +9,7 @@ public interface TutoringServiceService {
     void delete(Long id);
     TutoringService getById(Long id);
     TutoringServiceDTO getTemplate(Long id);
+    long countAllByUserId(Long userId);
+    long countAllByUserIdAndStatusIsSold(Long userId);
+
 }

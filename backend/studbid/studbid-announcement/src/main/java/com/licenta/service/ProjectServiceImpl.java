@@ -124,4 +124,16 @@ public class ProjectServiceImpl implements ProjectService{
     public List<SkillVO> getSkillVOsByProjectId(Long id) {
         return skillService.getAllVOsNotDeletedByProjectId(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countAllByUserId(Long userId) {
+        return projectJPARepository.countAllByUserId(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countAllByUserIdAndStatusIsSold(Long userId) {
+        return projectJPARepository.countAllByUserIdAndStatusIs(userId, AnnouncementStatus.SOLD);
+    }
 }

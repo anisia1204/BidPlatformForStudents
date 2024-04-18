@@ -89,6 +89,29 @@ public class AnnouncementServiceImpl implements AnnouncementService{
             ));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public ChartDataVO getChartData() {
+        Long loggedInUserId = UserContextHolder.getUserContext().getUserId();
+
+        CreatedAnnouncementsVO createdAnnouncementsVO = new CreatedAnnouncementsVO(
+                projectService.countAllByUserId(loggedInUserId),
+                teachingMaterialService.countAllByUserId(loggedInUserId),
+                tutoringServiceService.countAllByUserId(loggedInUserId)
+        );
+
+        SoldAnnouncementsVO soldAnnouncementsVO = new SoldAnnouncementsVO(
+                projectService.countAllByUserIdAndStatusIsSold(loggedInUserId),
+                teachingMaterialService.countAllByUserIdAndStatusIsSold(loggedInUserId),
+                tutoringServiceService.countAllByUserIdAndStatusIsSold(loggedInUserId)
+        );
+
+        return new ChartDataVO(
+                createdAnnouncementsVO,
+                soldAnnouncementsVO
+        );
+    }
+
     private Page<AnnouncementVO> mapPageToVOs(Page<Announcement> announcements) {
         return announcements.map(announcement -> {
             if(announcement instanceof TeachingMaterial)

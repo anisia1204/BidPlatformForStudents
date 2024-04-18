@@ -93,4 +93,16 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
         teachingMaterialDTO.setAttachmentDTOs(attachmentService.getAllDTOSNotDeletedByTeachingMaterialId(id));
         return teachingMaterialDTO;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countAllByUserId(Long userId) {
+        return teachingMaterialJPARepository.countAllByUserId(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countAllByUserIdAndStatusIsSold(Long userId) {
+        return teachingMaterialJPARepository.countAllByUserIdAndStatusIs(userId, AnnouncementStatus.SOLD);
+    }
 }

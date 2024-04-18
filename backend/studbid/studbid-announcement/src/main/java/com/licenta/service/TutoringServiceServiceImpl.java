@@ -58,6 +58,18 @@ public class TutoringServiceServiceImpl implements TutoringServiceService{
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public long countAllByUserId(Long userId) {
+        return tutoringServiceJPARepository.countAllByUserId(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countAllByUserIdAndStatusIsSold(Long userId) {
+        return tutoringServiceJPARepository.countAllByUserIdAndStatusIs(userId, AnnouncementStatus.SOLD);
+    }
+
+    @Override
     @Transactional
     public void delete(Long id) {
         TutoringService tutoringService = getById(id);

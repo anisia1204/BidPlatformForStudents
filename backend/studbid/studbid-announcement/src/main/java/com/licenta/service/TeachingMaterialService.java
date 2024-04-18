@@ -14,4 +14,7 @@ public interface TeachingMaterialService {
     void delete(Long id);
 
     TeachingMaterialDTO getTemplate(Long id);
+    long countAllByUserId(Long userId);
+    long countAllByUserIdAndStatusIsSold(Long userId);
+
 }

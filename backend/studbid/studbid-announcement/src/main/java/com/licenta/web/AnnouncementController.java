@@ -2,6 +2,7 @@ package com.licenta.web;
 
 import com.licenta.domain.Announcement;
 import com.licenta.domain.vo.AnnouncementVO;
+import com.licenta.domain.vo.ChartDataVO;
 import com.licenta.service.AnnouncementService;
 import com.licenta.service.FavoriteAnnouncementService;
 import com.licenta.service.dto.FavoriteAnnouncementDTO;
@@ -82,5 +83,11 @@ public class AnnouncementController {
     @ResponseBody
     public ResponseEntity<?> removeFromFavorite(@PathVariable Long favoriteAnnouncementId) {
         return ResponseEntity.ok(favoriteAnnouncementService.removeFromFavorites(favoriteAnnouncementId));
+    }
+
+    @GetMapping("chart-data")
+    @ResponseBody
+    public ResponseEntity<ChartDataVO> getChartData() {
+        return ResponseEntity.ok(announcementService.getChartData());
     }
 }

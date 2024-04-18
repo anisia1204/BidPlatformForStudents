@@ -16,4 +16,6 @@ public interface ProjectService {
     ProjectDTO getTemplate(Long id);
 
     List<SkillVO> getSkillVOsByProjectId(Long id);
+    long countAllByUserId(Long userId);
+    long countAllByUserIdAndStatusIsSold(Long userId);
 }

@@ -2,6 +2,7 @@ package com.licenta.service;
 
 import com.licenta.domain.Announcement;
 import com.licenta.domain.vo.AnnouncementVO;
+import com.licenta.domain.vo.ChartDataVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +22,6 @@ public interface AnnouncementService {
     Page<AnnouncementVO> getDashboardAnnouncements(Pageable pageable);
 
     Page<AnnouncementVO> getFavoriteAnnouncements(List<Announcement> favoriteAnnouncementsOfUser, Pageable pageRequest);
+
+    ChartDataVO getChartData();
 }

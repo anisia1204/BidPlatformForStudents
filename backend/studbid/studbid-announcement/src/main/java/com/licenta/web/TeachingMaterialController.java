@@ -26,7 +26,7 @@ public class TeachingMaterialController {
 
     @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     @ResponseBody
-    public ResponseEntity<TeachingMaterialDTO> update(@RequestPart String teachingMaterialDTO, @RequestPart("files") MultipartFile[] files){
+    public ResponseEntity<TeachingMaterialDTO> update(@RequestPart String teachingMaterialDTO, @RequestPart(value = "files", required = false) MultipartFile[] files){
         return ResponseEntity.ok(teachingMaterialService.update(teachingMaterialDTO, files));
     }
 

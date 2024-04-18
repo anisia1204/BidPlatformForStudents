@@ -53,6 +53,8 @@ import { FavoriteAnnouncementsListComponent } from './announcements/favorite-ann
 import {RippleModule} from "primeng/ripple";
 import { SidebarComponent } from './infra/sidebar/sidebar.component';
 import {SidebarModule} from "primeng/sidebar";
+import {MenuModule} from "primeng/menu";
+import {ChartModule} from "primeng/chart";
 
 const routes: Routes = [
   {
@@ -175,7 +177,9 @@ const routes: Routes = [
     AvatarModule,
     OverlayPanelModule,
     RippleModule,
-    SidebarModule
+    SidebarModule,
+    MenuModule,
+    ChartModule
   ],
   providers: [
     {

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -29,7 +30,8 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
+    public ResponseEntity<?> register(@RequestPart String userDTOString, @RequestPart(value = "file", required = false) MultipartFile file, BindingResult bindingResult){
+        @Valid UserDTO userDTO = userService.getDTOFromString(userDTOString);
         userValidator.validate(userDTO, bindingResult);
         if(bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -40,7 +42,7 @@ public class UserController {
             });
             return ResponseEntity.badRequest().body(errors);
         }
-        return ResponseEntity.ok(userService.save(userDTO));
+        return ResponseEntity.ok(userService.save(userDTO, file));
     }
 
     @GetMapping("/confirm")

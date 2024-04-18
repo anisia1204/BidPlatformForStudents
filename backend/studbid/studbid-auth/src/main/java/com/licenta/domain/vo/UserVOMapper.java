@@ -5,14 +5,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserVOMapper {
-    public UserVO getVOFromEntity(User user) {
+    public UserVO getVOFromEntity(User user, ProfilePictureVO profilePictureVO) {
         return new UserVO(
             user.getId(),
             user.getFirstName(),
             user.getLastName(),
             user.getEmail(),
             user.getPoints(),
-            user.getCreatedAt()
+            user.getCreatedAt(),
+            profilePictureVO
         );
     }
 }

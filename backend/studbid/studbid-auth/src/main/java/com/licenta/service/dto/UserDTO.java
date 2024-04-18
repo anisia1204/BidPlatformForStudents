@@ -13,6 +13,7 @@ public class UserDTO {
     private Double points;
     private LocalDateTime createdAt;
     private AuthenticationResponse authenticationResponse;
+    private ProfilePictureDTO profilePictureDTO;
 
     public Long getId() {
         return id;
@@ -76,5 +77,13 @@ public class UserDTO {
 
     public void setAuthenticationResponse(AuthenticationResponse authenticationResponse) {
         this.authenticationResponse = authenticationResponse;
+    }
+
+    public ProfilePictureDTO getProfilePictureDTO() {
+        return profilePictureDTO;
+    }
+
+    public void setProfilePictureDTO(ProfilePictureDTO profilePictureDTO) {
+        this.profilePictureDTO = profilePictureDTO;
     }
 }

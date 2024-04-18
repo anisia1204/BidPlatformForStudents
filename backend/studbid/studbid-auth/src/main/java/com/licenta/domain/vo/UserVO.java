@@ -9,14 +9,16 @@ public class UserVO {
     private String email;
     private Double points;
     private LocalDateTime createdAt;
+    private ProfilePictureVO profilePictureVO;
 
-    public UserVO(Long id, String firstName, String lastName, String email, Double points, LocalDateTime createdAt) {
+    public UserVO(Long id, String firstName, String lastName, String email, Double points, LocalDateTime createdAt, ProfilePictureVO profilePictureVO) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.points = points;
         this.createdAt = createdAt;
+        this.profilePictureVO = profilePictureVO;
     }
 
     public Long getId() {
@@ -41,5 +43,9 @@ public class UserVO {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public ProfilePictureVO getProfilePictureVO() {
+        return profilePictureVO;
     }
 }

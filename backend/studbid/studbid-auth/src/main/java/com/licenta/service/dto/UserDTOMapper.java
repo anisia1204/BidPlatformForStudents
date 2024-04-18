@@ -1,8 +1,11 @@
 package com.licenta.service.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class UserDTOMapper {
@@ -28,6 +31,17 @@ public class UserDTOMapper {
         userDTO.setPoints(user.getPoints());
         userDTO.setCreatedAt(user.getCreatedAt());
 
+        return userDTO;
+    }
+
+    public UserDTO getDTOFromString(String userDTOString) {
+        UserDTO userDTO = new UserDTO();
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            userDTO = objectMapper.readValue(userDTOString, UserDTO.class);
+        } catch (IOException e) {
+            System.out.print("Error");
+        }
         return userDTO;
     }
 }

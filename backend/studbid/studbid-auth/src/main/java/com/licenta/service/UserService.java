@@ -4,9 +4,10 @@ import com.licenta.domain.User;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.service.dto.LoggedInUserDTO;
 import com.licenta.service.dto.UserDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
-    UserDTO save(UserDTO userDTO);
+    UserDTO save(UserDTO userDTO, MultipartFile file);
 
     LoggedInUserDTO login(UserDTO userDTO);
 
@@ -23,4 +24,5 @@ public interface UserService {
 
     UserDTO editProfileInformation(UserDTO userDTO);
     User getById(Long id);
+    UserDTO getDTOFromString(String userDTOString);
 }

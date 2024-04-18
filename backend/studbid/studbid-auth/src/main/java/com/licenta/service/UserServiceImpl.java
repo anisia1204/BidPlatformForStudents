@@ -6,6 +6,7 @@ import com.licenta.domain.ConfirmationToken;
 import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import com.licenta.domain.repository.UserJPARepository;
+import com.licenta.domain.vo.ProfilePictureVO;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.domain.vo.UserVOMapper;
 import com.licenta.email.EmailSender;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -39,8 +41,9 @@ public class UserServiceImpl implements UserService{
     private final EmailSender emailSender;
     private final UserVOMapper userVOMapper;
     private final LoggedInUserDTOMapper loggedInUserDTOMapper;
+    private final ProfilePictureService profilePictureService;
 
-    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, UserVOMapper userVOMapper, LoggedInUserDTOMapper loggedInUserDTOMapper) {
+    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, UserVOMapper userVOMapper, LoggedInUserDTOMapper loggedInUserDTOMapper, ProfilePictureService profilePictureService) {
         this.userJPARepository = userJPARepository;
         this.userDTOMapper = userDTOMapper;
         this.passwordEncoder = passwordEncoder;
@@ -50,11 +53,12 @@ public class UserServiceImpl implements UserService{
         this.emailSender = emailSender;
         this.userVOMapper = userVOMapper;
         this.loggedInUserDTOMapper = loggedInUserDTOMapper;
+        this.profilePictureService = profilePictureService;
     }
 
     @Override
     @Transactional
-    public UserDTO save(UserDTO userDTO) {
+    public UserDTO save(UserDTO userDTO, MultipartFile file) {
         if(isExisting(userDTO))
             throw new UserAlreadyExistsException("An user with this email already exists!");
 
@@ -65,6 +69,8 @@ public class UserServiceImpl implements UserService{
         user.setPoints(100.0);
         user.setEnabled(false);
         userJPARepository.save(user);
+
+        profilePictureService.save(file, user);
 
         String token = generateConfirmationToken();
         saveConfirmationToken(token, user);
@@ -166,7 +172,8 @@ public class UserServiceImpl implements UserService{
     @Transactional(readOnly = true)
     public UserVO getProfileInformation() {
         User user = findById(UserContextHolder.getUserContext().getUserId());
-        return userVOMapper.getVOFromEntity(user);
+        ProfilePictureVO profilePictureVO = profilePictureService.getVOByUserId(user.getId());
+        return userVOMapper.getVOFromEntity(user, profilePictureVO);
     }
 
     @Override
@@ -183,6 +190,11 @@ public class UserServiceImpl implements UserService{
     @Transactional(readOnly = true)
     public User getById(Long id) {
         return userJPARepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public UserDTO getDTOFromString(String userDTOString) {
+        return userDTOMapper.getDTOFromString(userDTOString);
     }
 
     @Transactional

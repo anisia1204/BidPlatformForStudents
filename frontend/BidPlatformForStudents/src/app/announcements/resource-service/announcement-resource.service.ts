@@ -4,6 +4,7 @@ import {AnnouncementVoModel} from "../domain/announcement-vo.model";
 import {Page} from "../domain/page.model";
 import {Observable} from "rxjs";
 import {FavoriteAnnouncementDtoModel} from "../domain/favorite-announcement-dto.model";
+import {ChartDataVoModel} from "../domain/chart-data-vo.model";
 
 @Injectable({
     providedIn: "root"
@@ -58,5 +59,9 @@ export class AnnouncementResourceService {
       params = params.append('sort', s);
     });
     return this.httpClient.get<Page<AnnouncementVoModel>>(`${this.url}/favorite`, {params})
+  }
+
+  getChartData() : Observable<ChartDataVoModel> {
+    return this.httpClient.get<ChartDataVoModel>(`${this.url}/chart-data`)
   }
 }

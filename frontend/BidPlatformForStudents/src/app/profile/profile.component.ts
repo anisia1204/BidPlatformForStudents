@@ -19,7 +19,61 @@ export class ProfileComponent implements OnInit, OnDestroy{
   destroy$: Subject<boolean> = new Subject<boolean>()
   form: any;
 
+  soldAnnouncements: any;
+  createdAnnouncements: any;
+  labels = ['Proiecte', 'Materiale didactice', 'Servicii de tutorat']
+
+  options: any;
   ngOnInit(): void {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+
+    this.profileService
+      .getChartData()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.createdAnnouncements = {
+          labels: this.labels,
+          datasets: [
+            {
+              data: [
+                res.createdAnnouncementsVO?.projects,
+                res.createdAnnouncementsVO?.teachingMaterials,
+                res.createdAnnouncementsVO?.tutoringServices
+              ],
+              backgroundColor: [documentStyle.getPropertyValue('--purple-200'), documentStyle.getPropertyValue('--pink-200'), documentStyle.getPropertyValue('--green-200')],
+              hoverBackgroundColor: [documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--pink-400'), documentStyle.getPropertyValue('--green-400')]
+            }
+          ]
+        };
+
+        this.soldAnnouncements = {
+          labels: this.labels,
+          datasets: [
+            {
+              data: [
+                res.soldAnnouncementsVO?.projects,
+                res.soldAnnouncementsVO?.teachingMaterials,
+                res.soldAnnouncementsVO?.tutoringServices
+              ],
+              backgroundColor: [documentStyle.getPropertyValue('--blue-200'), documentStyle.getPropertyValue('--orange-200'), documentStyle.getPropertyValue('--red-200')],
+              hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--orange-400'), documentStyle.getPropertyValue('--red-400')]
+            }
+          ]
+        };
+      })
+
+    this.options = {
+      cutout: '60%',
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
+        }
+      }
+    };
+
     this.profileService
       .getProfileDetails()
       .pipe(takeUntil(this.destroy$))

@@ -3,6 +3,7 @@ package com.licenta.web;
 import com.licenta.domain.ChatMessage;
 import com.licenta.domain.vo.ChatMessageVO;
 import com.licenta.domain.vo.ChatRoomVO;
+import com.licenta.domain.vo.ChatRoomListItemVO;
 import com.licenta.service.ChatMessageService;
 import com.licenta.service.ChatRoomService;
 import com.licenta.service.dto.ChatMessageDTO;
@@ -52,7 +53,9 @@ public class ChatController {
     }
 
     @GetMapping("/chat-rooms")
-    public ResponseEntity<List<ChatRoomVO>> findMyChatRooms() {
-        return ResponseEntity.ok(chatRoomService.findMyChatRooms());
+    public ResponseEntity<List<ChatRoomListItemVO>> findMyChatRooms() {
+        List<ChatRoomVO> chatRooms = chatRoomService.findMyChatRooms();
+        List<ChatRoomListItemVO> chatRoomListItemVOS = chatMessageService.getChatRoomListItemVOsSortedDescendingByLastMessageTimestamp(chatRooms);
+        return ResponseEntity.ok(chatRoomListItemVOS);
     }
 }

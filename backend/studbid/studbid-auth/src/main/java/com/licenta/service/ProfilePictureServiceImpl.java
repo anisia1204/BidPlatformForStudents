@@ -43,6 +43,13 @@ public class ProfilePictureServiceImpl implements ProfilePictureService{
                 Base64.getEncoder().encodeToString(profilePicture.getFileContent())) : new ProfilePictureVO();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public String getBase64EncodedStringOfFileContentByUserId(Long userId) {
+        ProfilePicture profilePicture = getByUserId(userId);
+        return (profilePicture != null) ? Base64.getEncoder().encodeToString(profilePicture.getFileContent()) : null;
+    }
+
     private ProfilePicture getByUserId(Long userId) {
         return profilePictureJPARepository.findByUser_IdAndDeletedIsFalse(userId);
     }

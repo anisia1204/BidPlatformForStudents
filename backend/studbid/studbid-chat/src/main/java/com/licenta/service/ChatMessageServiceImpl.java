@@ -5,6 +5,8 @@ import com.licenta.domain.ChatMessage;
 import com.licenta.domain.repository.ChatMessageJPARepository;
 import com.licenta.domain.vo.ChatMessageVO;
 import com.licenta.domain.vo.ChatMessageVOMapper;
+import com.licenta.domain.vo.ChatRoomVO;
+import com.licenta.domain.vo.ChatRoomListItemVO;
 import com.licenta.service.dto.ChatMessageDTO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -63,5 +67,30 @@ public class ChatMessageServiceImpl implements ChatMessageService{
                 .stream()
                 .map(chatMessageVOMapper::getVOFromEntity)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ChatRoomListItemVO> getChatRoomListItemVOsSortedDescendingByLastMessageTimestamp(List<ChatRoomVO> chatRooms) {
+        List<ChatRoomListItemVO> chatRoomListItemVOS = new ArrayList<>();
+        chatRooms.forEach(chatRoomVO -> {
+            ChatMessage chatMessage = findLastMessageOfChatRoom(chatRoomVO.getChatId());
+            ChatMessageVO chatMessageVO = chatMessageVOMapper.getVOFromEntity(chatMessage);
+            chatRoomListItemVOS.add(new ChatRoomListItemVO(
+                    chatRoomVO,
+                    chatMessageVO
+            ));
+        });
+        return sortChatRoomListItemVOsDescendingByLastMessageTimestamp(chatRoomListItemVOS);
+    }
+
+    private static List<ChatRoomListItemVO> sortChatRoomListItemVOsDescendingByLastMessageTimestamp(List<ChatRoomListItemVO> chatRoomListItemVOS) {
+        return chatRoomListItemVOS
+                .stream()
+                .sorted(Comparator.comparing((ChatRoomListItemVO vo) -> vo.getLastMessage().getTimestamp()).reversed())
+                .toList();
+    }
+
+    private ChatMessage findLastMessageOfChatRoom(String chatId) {
+        return chatMessageJPARepository.findFirstByChatIdOrderByTimestampDesc(chatId);
     }
 }

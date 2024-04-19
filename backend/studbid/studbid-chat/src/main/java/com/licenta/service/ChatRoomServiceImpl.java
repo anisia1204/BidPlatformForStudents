@@ -16,11 +16,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomJPARepository chatRoomJPARepository;
     private final UserService userService;
     private final ChatRoomVOMapper chatRoomVOMapper;
+    private final ProfilePictureService profilePictureService;
 
-    public ChatRoomServiceImpl(ChatRoomJPARepository chatRoomJPARepository, UserService userService, ChatRoomVOMapper chatRoomVOMapper) {
+    public ChatRoomServiceImpl(ChatRoomJPARepository chatRoomJPARepository, UserService userService, ChatRoomVOMapper chatRoomVOMapper, ProfilePictureService profilePictureService) {
         this.chatRoomJPARepository = chatRoomJPARepository;
         this.userService = userService;
         this.chatRoomVOMapper = chatRoomVOMapper;
+        this.profilePictureService = profilePictureService;
     }
 
     @Override
@@ -46,9 +48,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         senderRecipient.setRecipient(userService.findById(recipientId));
 
         ChatRoom recipientSender = new ChatRoom();
-        senderRecipient.setChatId(chatId);
-        senderRecipient.setSender(userService.findById(recipientId));
-        senderRecipient.setRecipient(userService.findById(senderId));
+        recipientSender.setChatId(chatId);
+        recipientSender.setSender(userService.findById(recipientId));
+        recipientSender.setRecipient(userService.findById(senderId));
 
         chatRoomJPARepository.save(senderRecipient);
         chatRoomJPARepository.save(recipientSender);
@@ -59,9 +61,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     @Transactional(readOnly = true)
     public List<ChatRoomVO> findMyChatRooms() {
-        return chatRoomJPARepository.findAllBySender_Id(UserContextHolder.getUserContext().getUserId())
+        Long loggedInUserId = UserContextHolder.getUserContext().getUserId();
+        return chatRoomJPARepository.findAllBySender_Id(loggedInUserId)
                 .stream()
-                .map(chatRoomVOMapper::getVOFromEntity)
+                .map(chatRoom -> chatRoomVOMapper.getVOFromEntity(chatRoom,
+                        profilePictureService.getBase64EncodedStringOfFileContentByUserId(chatRoom.getRecipient().getId())))
                 .toList();
     }
 }

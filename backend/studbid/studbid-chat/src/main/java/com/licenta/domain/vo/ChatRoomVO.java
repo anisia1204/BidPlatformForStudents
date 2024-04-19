@@ -4,13 +4,17 @@ public class ChatRoomVO {
     private Long id;
     private String chatId;
     private Long recipientId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String base64EncodedStringOfFileContent;
 
-    public ChatRoomVO(Long id, String chatId, Long recipientId, String name) {
+    public ChatRoomVO(Long id, String chatId, Long recipientId, String firstName, String lastName, String base64EncodedStringOfFileContent) {
         this.id = id;
         this.chatId = chatId;
         this.recipientId = recipientId;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.base64EncodedStringOfFileContent = base64EncodedStringOfFileContent;
     }
 
     public Long getId() {
@@ -25,7 +29,15 @@ public class ChatRoomVO {
         return recipientId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getBase64EncodedStringOfFileContent() {
+        return base64EncodedStringOfFileContent;
     }
 }

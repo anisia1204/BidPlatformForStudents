@@ -5,12 +5,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChatRoomVOMapper {
-    public ChatRoomVO getVOFromEntity(ChatRoom chatRoom) {
+    public ChatRoomVO getVOFromEntity(ChatRoom chatRoom, String base64EncodedStringOfFileContent) {
         return new ChatRoomVO(
                 chatRoom.getId(),
                 chatRoom.getChatId(),
                 chatRoom.getRecipient().getId(),
-                chatRoom.getRecipient().getFirstName() + chatRoom.getRecipient().getLastName()
-        );
+                chatRoom.getRecipient().getFirstName(),
+                chatRoom.getRecipient().getLastName(),
+                base64EncodedStringOfFileContent);
     }
 }

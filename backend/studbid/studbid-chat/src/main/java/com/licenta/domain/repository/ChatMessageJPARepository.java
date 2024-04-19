@@ -7,4 +7,5 @@ import java.util.*;
 
 public interface ChatMessageJPARepository extends JpaRepository<ChatMessage, String> {
     List<ChatMessage> findByChatId(String s, Pageable pageable);
+    ChatMessage findFirstByChatIdOrderByTimestampDesc(String chatId);
 }

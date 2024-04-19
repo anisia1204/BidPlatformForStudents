@@ -10,7 +10,7 @@
             <div class="flex flex-wrap align-items-center justify-content-between gap-2">
             <span class="flex align-items-center gap-2">
               <i class="pi pi-calendar"></i>
-              <span class="font-semibold">{{ announcement.createdAt | date }}</span>
+              <span class="font-semibold">{{ announcement.createdAt | date: "short" }}</span>
             </span>
               <ng-container *ngIf="myAnnouncements; else addToFavorites">
                 <p-tag

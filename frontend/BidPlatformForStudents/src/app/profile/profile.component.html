@@ -5,19 +5,12 @@
         <div class="card">
           <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
-                <ng-container *ngIf="userVo.profilePictureVO?.base64EncodedStringOfFileContent">
-                  <img  [src]="'data:image/jpeg;base64,' + userVo.profilePictureVO?.base64EncodedStringOfFileContent"
+                  <img  [src]="userVo.profilePictureVO?.base64EncodedStringOfFileContent ?
+                  'data:image/jpeg;base64,' + userVo.profilePictureVO?.base64EncodedStringOfFileContent : './assets/no-profile-pic.png'"
                         alt="No profile pic"
                         class="rounded-circle"
                         width="150"
                   >
-                </ng-container>
-                <ng-container *ngIf="!userVo.profilePictureVO?.base64EncodedStringOfFileContent">
-                  <p-avatar icon="pi pi-user"
-                            styleClass="" size="large"
-                            shape="circle">
-                  </p-avatar>
-                </ng-container>
                 <div class="mt-3">
                   <h4>{{userVo.firstName}} {{userVo.lastName}}</h4>
                   <p class="text-muted font-size-sm">{{userVo.createdAt | date}}</p>

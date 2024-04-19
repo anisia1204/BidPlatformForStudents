@@ -1,20 +1,25 @@
 <div class="container mt-3">
-  <div class="flex flex-column gap-2">
-    <ul *ngFor="let chat of chats">
-      <li class="mb-0 chat-room"
-          [ngClass]="{'selected-chatroom' : isSelected(chat.recipientId)}"
-          (click)="getChatRoomMessages(chat.recipientId)">
-        <div class="row text-white">
-          <div class="col-3">
-            {{chat.id}}
-          </div>
-          <div class="col-3">
-            {{chat.name}}
-          </div>
-          <div class="col-3">
-            {{chat.recipientId}}
-          </div>
+  <div class="flex flex-column gap-2 chat-list" style="height: 460px; overflow-y: auto;">
+    <ul *ngFor="let chat of chats; let i = index">
+      <li class="mb-0 chat-room clearfix"
+          [ngClass]="{'selected-chatroom' : isSelected(chat.chatRoomVO?.recipientId)}"
+          [ngStyle]="{'margin-top': i === 0 ? 0 : '-24px'}"
+          (click)="getChatRoomMessages(chat.chatRoomVO?.recipientId)">
+          <img [src]="chat.chatRoomVO?.base64EncodedStringOfFileContent ?
+          'data:image/jpeg;base64,' + chat.chatRoomVO?.base64EncodedStringOfFileContent : './assets/no-profile-pic.png'"
+               alt=""
+               class="rounded-circle profile-pic"
+          >
+        <div class="text-white">
+          <strong>
+            {{chat.chatRoomVO?.firstName}} {{chat.chatRoomVO?.lastName}}
+          </strong>
         </div>
+        <div class="text-muted last-message text-white mt-2">
+          {{ chat.chatRoomVO?.recipientId === chat.lastMessage?.senderId ? chat.lastMessage?.content : 'Tu: ' + chat.lastMessage?.content}}
+        </div>
+        <small class="date text-muted text-white">{{chat.lastMessage?.timestamp | date: "shortDate" }}</small>
+        <small class="time text-muted text-white">{{chat.lastMessage?.timestamp | date: "shortTime" }}</small>
       </li>
     </ul>
   </div>

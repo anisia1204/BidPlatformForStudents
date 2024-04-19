@@ -1,7 +1,8 @@
 import {Component, inject, OnDestroy, OnInit, Output, EventEmitter} from '@angular/core';
 import {ChatListService} from "./chat-list.service";
 import {Subject, takeUntil} from "rxjs";
-import {ChatRoomVoModel} from "../../domain/chat-room-vo.model";
+import {ChatRoomListItemVoModel} from "../../domain/chat-room-list-item-vo.model";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-chat-list',
@@ -13,7 +14,7 @@ export class ChatListComponent implements OnInit, OnDestroy{
   chatListService = inject(ChatListService)
   destroy$: Subject<boolean> = new Subject<boolean>()
   @Output() chatRoomSelect: EventEmitter<{recipientId: number | undefined, page?: number}> = new EventEmitter<{recipientId: number | undefined, page?: number}>()
-  chats: ChatRoomVoModel[] = []
+  chats: ChatRoomListItemVoModel[] = []
   selectedChatRoom : number | undefined
 
   ngOnInit(): void {
@@ -36,4 +37,6 @@ export class ChatListComponent implements OnInit, OnDestroy{
     this.selectedChatRoom = recipientId
     this.chatRoomSelect.emit({recipientId: recipientId})
   }
+
+  protected readonly formatDate = formatDate;
 }

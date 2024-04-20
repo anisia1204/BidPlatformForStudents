@@ -18,25 +18,34 @@
                   [severity]="announcement.status === 'ACTIVE' ? 'success' : (announcement.status === 'INACTIVE' ? 'danger' : 'info')"></p-tag>
               </ng-container>
               <ng-template #addToFavorites>
-                <button pButton
-                        [icon]="isUsersFavorite(announcement.favoriteAnnouncementVOS) ? 'pi pi-heart-fill' : 'pi pi-heart'"
-                        class="p-button-text"
-                        [pTooltip]="isUsersFavorite(announcement.favoriteAnnouncementVOS) ?
+                <div>
+                  <button pButton
+                          [icon]="isUsersFavorite(announcement.favoriteAnnouncementVOS) ? 'pi pi-heart-fill' : 'pi pi-heart'"
+                          class="p-button-text"
+                          [pTooltip]="isUsersFavorite(announcement.favoriteAnnouncementVOS) ?
                         'Sterge din favorite' : 'Adauga la favorite'"
-                        (click)="isUsersFavorite(announcement.favoriteAnnouncementVOS) ?
+                          (click)="isUsersFavorite(announcement.favoriteAnnouncementVOS) ?
                       onRemoveFromFavorites($event, announcement.favoriteAnnouncementVOS) : onAddToFavorites($event, announcement.id)">
-                </button>
+                  </button>
+                  <ng-container *ngIf="announcement.status === 'SOLD'">
+                    <p-tag [style]="{'marginBottom': '0.8rem'}"
+                      [value]="'VANDUT'"
+                      [severity]="'info'"></p-tag>
+                  </ng-container>
+                </div>
+
               </ng-template>
             </div>
             <div class="flex flex-column align-items-center py-5">
               <ng-container *ngIf="announcement.announcementType==='teachingMaterial' && announcement.attachmentVOs">
-                <div class="col-4 p-0" style="width: 65%">
+                <div class="col-4 p-0 d-flex justify-content-center" style="width: 65%">
                   <p-galleria [value]="announcement.attachmentVOs"
                               [numVisible]="1"
                               [circular]="true"
                               [showItemNavigators]="true"
                               [showThumbnails]="false"
-                              [containerStyle]="{ 'max-width': '640px', 'width': '180px', 'height': '200px' }">
+                              [containerStyle]="{ 'max-width': '640px', 'width': '180px', 'height': '200px' }"
+                              [style]="{'height': '100%'}">
                     <ng-template let-images pTemplate="item">
                       <img [src]="'data:image/jpeg;base64,' + images"
                            class="w-9 shadow-2 border-round"
@@ -45,8 +54,10 @@
                   </p-galleria>
                 </div>
               </ng-container>
-              <div class="text-2xl font-bold">{{ announcement.title }}</div>
-              <div class="text-sm font-semibold">{{ announcement.description }}</div>
+              <div class="text-2xl font-bold mb-3">{{ announcement.title }}</div>
+              <div class="text-sm mb-5 announcement-description-wrapper">
+                <p class="announcement-description">{{ announcement.description }}</p>
+              </div>
             </div>
             <div class="row  justify-content-between announcement-footer">
               <div class="col-9 d-flex justify-content-start align-content-start mt-6">

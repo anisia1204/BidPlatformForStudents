@@ -50,3 +50,14 @@
 .card-border:hover {
   box-shadow: 0 0 10px #aaa;
 }
+
+.announcement-description {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.announcement-description-wrapper {
+  overflow: hidden;
+
+}

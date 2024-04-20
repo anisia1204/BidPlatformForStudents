@@ -55,7 +55,7 @@ export class AnnouncementListComponent implements OnInit, OnDestroy {
         // this.router.navigate(['dashboard'])
         const currentUrl = this.router.url;
         const parts = currentUrl.split('/');
-        parts.pop(); // Remove the last segment
+        parts.pop();
         const parentUrl = parts.join('/');
         this.router.navigateByUrl(parentUrl);
       }

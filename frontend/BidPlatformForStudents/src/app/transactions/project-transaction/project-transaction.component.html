@@ -2,49 +2,54 @@
   La ce abilitati vrei sa participi?
 </h3>
 <div class="container mt-3">
-  <div class="flex flex-column gap-2">
-    <ul *ngFor="let skill of skillVos">
-      <li
-          [ngClass]="{ 'skill-border': isSelected(skill) && skill.status === SkillStatusModel.ACTIVE,
-                       'active-skill': skill.status === SkillStatusModel.ACTIVE,
-                       'sold-skill': skill.status === SkillStatusModel.SOLD
-                       }"
+  <div class="flex flex-column gap-2 skill-list" style="height: 350px; overflow-y: auto;">
+    <ul *ngFor="let skill of skillVos; let i = index">
+      <li [ngStyle]="{'margin-top': i === 0 ? '1rem' : 0}"
+          [ngClass]="{
+            'skill-border': isSelected(skill) && skill.status === SkillStatusModel.ACTIVE,
+            'active-skill': skill.status === SkillStatusModel.ACTIVE,
+            'sold-skill': skill.status === SkillStatusModel.SOLD
+          }"
+          class="me-2"
           (click)="skill.status === SkillStatusModel.ACTIVE ? toggleItemSelection(skill) : null">
         <div class="row">
-          <div class="col-3">
-            {{skill.skill}}
+          <div class="col-9">
+            {{ skill.skill }}
+            <span class="description-arrow" data-bs-toggle="collapse" [attr.data-bs-target]="'#descriptionCollapse' + i" (click)="$event.stopPropagation()">
+              <i class="pi pi-angle-down"></i>
+            </span>
           </div>
           <div class="col-3">
-            {{skill.description}}
+              <p-tag [value]="skill.status === SkillStatusModel.ACTIVE ? 'ACTIV' : 'VANDUT'"
+                     [severity]="skill.status === SkillStatusModel.ACTIVE ? 'success' : 'danger'">
+              </p-tag>
           </div>
-          <div class="col-3">
-            {{skill.skillPoints}}
-          </div>
-          <div class="col-3">
-            <p-tag
-              [value]="skill.status === SkillStatusModel.ACTIVE ? 'ACTIV' : 'VANDUT'"
-              [severity]="skill.status === SkillStatusModel.ACTIVE ? 'success' : 'danger'"></p-tag>
-          </div>
+        </div>
+
+        <div [id]="'descriptionCollapse' + i" class="collapse"  style="width: 270px; height: 50px" >
+          <p class="description">{{ skill.description }} {{ skill.description !== '' ? '-' : '' }} {{ skill.skillPoints }} {{ skill.skillPoints === 1 ? 'punct' : 'puncte' }}</p>
         </div>
       </li>
     </ul>
   </div>
 </div>
-<div class="row">
+
+
+<div class="row mt-3">
   <div class="col-6">
     <p *ngIf="totalPrice!==0" >
       Vei incasa: {{totalPrice}} {{totalPrice === 1 ? 'punct' : 'puncte'}}
     </p>
   </div>
-  <div class="col-6">
+  <div class="col-6 justify-content-end d-flex">
     <button pButton
+            pRipple
             class="p-button-outlined"
             icon="pi pi-cart-plus"
             [disabled]="selectedSkillIds.length < 1"
-            [label]="'Cumpar'"
+            [label]="'Particip'"
             (click)="onBuyProject()">
     </button>
   </div>
 </div>
-{{selectedSkillIds | json}}
 

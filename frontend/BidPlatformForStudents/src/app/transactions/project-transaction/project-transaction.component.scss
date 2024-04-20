@@ -20,3 +20,17 @@ li.active-skill:hover {
 .skill-border {
   box-shadow: 0 0 10px #aaa;
 }
+
+.skill-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
+.description-arrow i {
+  margin-left: 0.5rem;
+}
+
+.description {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

@@ -62,7 +62,7 @@ public class SkillServiceImpl implements SkillService{
     @Override
     @Transactional(readOnly = true)
     public List<SkillVO> getAllVOsNotDeletedByProjectId(Long projectId) {
-        return skillJPARepository.findAllByProjectIdAndDeletedEquals(projectId, false)
+        return skillJPARepository.findAllByProjectIdAndDeletedEqualsOrderByStatusAsc(projectId, false)
                 .stream()
                 .map(skillVOMapper::getVOFromEntity)
                 .toList();

@@ -3,6 +3,7 @@ package com.licenta.domain.vo;
 import com.licenta.domain.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -32,7 +33,7 @@ public class AnnouncementVOMapper {
                 userDetailsVOMapper.getVOFromEntity(announcement.getUser()),
                 (announcement instanceof Project) ? ((Project) announcement).getDomain() : null,
                 (announcement instanceof Project) ? ((Project) announcement).getTeamSize() : null,
-                (announcement instanceof Project) ? skillVOMapper.getVOsFromEntities(((Project) announcement).getRequiredSkills().stream().filter(skill -> !skill.getDeleted()).toList()) : null,
+                (announcement instanceof Project) ? skillVOMapper.getVOsFromEntities(((Project) announcement).getRequiredSkills().stream().filter(skill -> !skill.getDeleted()).sorted(Comparator.comparing(Skill::getStatus)).toList()) : null,
                 (announcement instanceof Project) ? "project" : (announcement instanceof TeachingMaterial ? "teachingMaterial" : "tutoringService"),
                 (announcement instanceof TeachingMaterial) ? ((TeachingMaterial) announcement).getName() : null,
                 (announcement instanceof TeachingMaterial) ? ((TeachingMaterial) announcement).getAuthor() : null,

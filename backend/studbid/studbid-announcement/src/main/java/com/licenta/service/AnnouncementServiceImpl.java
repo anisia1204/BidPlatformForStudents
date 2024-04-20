@@ -34,7 +34,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     @Override
     @Transactional(readOnly = true)
     public Page<AnnouncementVO> getMyAnnouncements(Pageable pageable) {
-        Page<Announcement> announcements = announcementJPARepository.findAllByUserId(UserContextHolder.getUserContext().getUserId(), pageable);
+        Page<Announcement> announcements = announcementJPARepository.findAllByUserIdOrderByStatusAsc(UserContextHolder.getUserContext().getUserId(), pageable);
         return mapPageToVOs(announcements);
     }
 

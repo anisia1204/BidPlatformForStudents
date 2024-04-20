@@ -34,7 +34,7 @@ public class AnnouncementController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String[] sort
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         return ResponseEntity.ok(announcementService.getMyAnnouncements(pageable));
     }
 

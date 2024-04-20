@@ -20,7 +20,7 @@ export class AnnouncementVoModel {
   name: string | undefined;
   author: string | undefined;
   edition: number | undefined;
-  attachmentVOs: string | undefined;
+  attachmentVOs: string[] | undefined;
   subject: string | undefined;
   startDate: string | undefined;
   endDate: string | undefined;

@@ -1,4 +1,4 @@
-<main class="d-flex justify-content-center">
+<main class="container">
   <div class="ps-lg-3">
     <h4 class="title text-dark">
       {{announcement?.title}}
@@ -19,74 +19,102 @@
       </span>
       <span class="text-success ms-2">{{announcement?.status}}</span>
     </div>
+    <div class="row pb-3" *ngIf="announcement?.announcementType === 'teachingMaterial'">
+      <div class="col-3">
+        <p-galleria [value]="announcement?.attachmentVOs"
+                    [numVisible]="1"
+                    [circular]="true"
+                    [showItemNavigators]="true"
+                    [showThumbnails]="false"
+                    [containerStyle]="{ 'max-width': '640px', 'width': '300px'}"
+                    [style]="{'height': '100%'}">
+          <ng-template let-images pTemplate="item">
+            <img [src]="'data:image/jpeg;base64,' + images"
+                 class="w-9 shadow-2 border-round"
+                 alt="Product Image">
+          </ng-template>
+        </p-galleria>
+      </div>
+      <div class="col-9">
+        <div class="mb-3">
+          <span class="h5">{{announcement?.points}} puncte</span>
+        </div>
+        <p>
+          {{announcement?.description}}
+        </p>
+        <div class="row">
+          <dt class="col-1">Nume</dt>
+          <dd class="col-11">{{(announcement?.name) ? announcement?.name : "-"}}</dd>
 
-    <div class="mb-3">
-      <span class="h5">{{announcement?.points}} puncte</span>
+          <dt class="col-1">Autor</dt>
+          <dd class="col-11">{{announcement?.author ? announcement?.author : "-"}}</dd>
+
+          <dt class="col-1">Editie</dt>
+          <dd class="col-11">{{announcement?.edition ? announcement?.edition : "-"}}</dd>
+        </div>
+      </div>
     </div>
 
-    <p>
-      {{announcement?.description}}
-    </p>
+    <ng-container *ngIf="announcement?.announcementType !== 'teachingMaterial'">
+      <div class="mb-3">
+        <span class="h5">{{announcement?.points}} puncte</span>
+      </div>
+
+      <p>
+        {{announcement?.description}}
+      </p>
+    </ng-container>
 
     <div class="row">
-      <ng-container *ngIf="announcementType === 'teachingMaterial'">
-        <dt class="col-3">Nume</dt>
-        <dd class="col-9">{{(announcement?.name) ? announcement?.name : "-"}}</dd>
-
-        <dt class="col-3">Autor</dt>
-        <dd class="col-9">{{announcement?.author ? announcement?.author : "-"}}</dd>
-
-        <dt class="col-3">Editie</dt>
-        <dd class="col-9">{{announcement?.edition ? announcement?.edition : "-"}}</dd>
-      </ng-container>
       <ng-container *ngIf="announcementType === 'tutoringService'">
-        <dt class="col-4">Subiect</dt>
-        <dd class="col-8">{{announcement?.subject}}</dd>
+        <dt class="col-2">Subiect</dt>
+        <dd class="col-10">{{announcement?.subject}}</dd>
 
-        <dt class="col-4">De la</dt>
-        <dd class="col-8">{{announcement?.startDate}}</dd>
+        <dt class="col-2">De la</dt>
+        <dd class="col-10">{{announcement?.startDate}}</dd>
 
-        <dt class="col-4">Pana la</dt>
-        <dd class="col-8">{{announcement?.endDate ? announcement?.endDate : "-"}}</dd>
+        <dt class="col-2">Pana la</dt>
+        <dd class="col-9">{{announcement?.endDate ? announcement?.endDate : "-"}}</dd>
 
-        <dt class="col-4">Ore per sesiune</dt>
-        <dd class="col-8">{{announcement?.hoursPerSession ? announcement?.hoursPerSession : "-"}}</dd>
+        <dt class="col-2">Ore per sesiune</dt>
+        <dd class="col-10">{{announcement?.hoursPerSession ? announcement?.hoursPerSession : "-"}}</dd>
 
-        <dt class="col-4">Mod de predare</dt>
-        <dd class="col-8">{{announcement?.tutoringType}}</dd>
+        <dt class="col-2">Mod de predare</dt>
+        <dd class="col-10">{{announcement?.tutoringType}}</dd>
       </ng-container>
       <ng-container *ngIf="announcementType === 'project'">
-        <dt class="col-3">Domeniu</dt>
-        <dd class="col-9">{{announcement?.domain}}</dd>
+        <dt class="col-2">Domeniu</dt>
+        <dd class="col-10">{{announcement?.domain}}</dd>
 
-        <dt class="col-3">Numar membrii</dt>
-        <dd class="col-9">{{announcement?.teamSize}}</dd>
+        <dt class="col-2">Numar membrii</dt>
+        <dd class="col-10">{{announcement?.teamSize}}</dd>
 
-        <div class="container">
+        <div class="my-3">
+          <span class="h5">Abilitati necesare</span>
+        </div>
+
+        <div class="container mt-2">
           <div class="row">
-            <div *ngFor="let skillControl of announcement?.requiredSkills; let i = index"
-                 class="col-md-6">
-                <div class="row">
-                  <div class="col-6">
-                    <div class="col-12 pb-4">
-                      <dt class="col-4">Abilitate</dt>
-                      <dd class="col-8">{{skillControl.skill}}</dd>
-                    </div>
-                    <div class="col-12 pb-4">
-                      <dt class="col-4">Puncte</dt>
-                      <dd class="col-8">{{skillControl.skillPoints}}</dd>
-                    </div>
-                  </div>
-                  <div class="col-6 d-flex align-items-center">
-                    <div class="col-11 pb-4">
-                      <dt class="col-4">Descriere</dt>
-                      <dd class="col-8">{{skillControl.description}}</dd>
-                    </div>
-                  </div>
+            <div *ngFor="let skillControl of announcement?.requiredSkills; let i = index" class="col-md-6 mb-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Abilitatea {{i + 1}}</h5>
+                  <dl class="row">
+                    <dt class="col-sm-2">Abilitate</dt>
+                    <dd class="col-sm-10">{{ skillControl.skill }}</dd>
+
+                    <dt class="col-sm-2">Puncte</dt>
+                    <dd class="col-sm-10">{{ skillControl.skillPoints }}</dd>
+
+                    <dt class="col-sm-2">Descriere</dt>
+                    <dd class="col-sm-10">{{ skillControl.description }}</dd>
+                  </dl>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
       </ng-container>
     </div>
   </div>
@@ -108,8 +136,9 @@
             (click)="showMessageInput()">
     </button>
   </ng-container>
-  <ng-container  *ngIf="isMessageInput">
-    <form [formGroup]="form" (ngSubmit)="onSubmit(announcement?.userDetailsVO?.id)" class="input-form row align-items-center">
+  <ng-container *ngIf="isMessageInput">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(announcement?.userDetailsVO?.id)"
+          class="input-form row align-items-center">
       <input pInputText placeholder="Scrie..." formControlName="message" name="chatMessageDto"
              class="col-10">
       <button pButton

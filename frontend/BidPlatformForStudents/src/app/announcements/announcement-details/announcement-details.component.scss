@@ -1,0 +1,13 @@
+.profile-pic {
+  cursor: pointer;
+  float: left;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #eee;
+
+}
+
+.profile-pic:hover {
+  border: 1px solid var(--teal-900);
+
+}

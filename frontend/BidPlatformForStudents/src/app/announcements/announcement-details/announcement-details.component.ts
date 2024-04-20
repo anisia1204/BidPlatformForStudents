@@ -6,6 +6,7 @@ import {Subject, takeUntil} from "rxjs";
 import {ChatRoomStompService} from "../../utils/chat-room-stomp.service";
 import {FormBuilder} from "@angular/forms";
 import {ChatMessageDtoModel} from "../../chat/domain/chat-message-dto.model";
+import {SkillStatusModel} from "../domain/skill-status.model";
 
 @Component({
   selector: 'app-announcement-details',
@@ -58,4 +59,6 @@ export class AnnouncementDetailsComponent implements OnInit, OnDestroy{
   showMessageInput() {
     this.isMessageInput = true
   }
+
+  protected readonly SkillStatusModel = SkillStatusModel;
 }

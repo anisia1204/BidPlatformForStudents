@@ -68,7 +68,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     @Transactional(readOnly = true)
     public AnnouncementVO getDetails(Long id) {
         Announcement announcement = getById(id);
-        return announcementVOMapper.getVOFromEntity(announcement);
+        return mapEntityToVO(announcement);
     }
 
     @Override
@@ -113,13 +113,15 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     }
 
     private Page<AnnouncementVO> mapPageToVOs(Page<Announcement> announcements) {
-        return announcements.map(announcement -> {
-            if(announcement instanceof TeachingMaterial)
-                return announcementVOMapper.getVOFromEntity(announcement, attachmentService.getAttachmentsNotDeletedByTeachingMaterialId(announcement.getId()).toArray(new Attachment[0]));
-            else {
-                return announcementVOMapper.getVOFromEntity(announcement);
-            }
-        });
+        return announcements.map(this::mapEntityToVO);
+    }
+
+    private AnnouncementVO mapEntityToVO(Announcement announcement) {
+        if(announcement instanceof TeachingMaterial)
+            return announcementVOMapper.getVOFromEntity(announcement, attachmentService.getAttachmentsNotDeletedByTeachingMaterialId(announcement.getId()).toArray(new Attachment[0]));
+        else {
+            return announcementVOMapper.getVOFromEntity(announcement);
+        }
     }
 
     private List<Announcement> paginateAnnouncementList(List<Announcement> favoriteAnnouncementsOfUser, Pageable pageRequest) {

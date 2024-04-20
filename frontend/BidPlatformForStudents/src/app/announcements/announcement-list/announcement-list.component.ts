@@ -52,13 +52,14 @@ export class AnnouncementListComponent implements OnInit, OnDestroy {
         this.router.navigate(['my-announcements'])
       }
       else {
-        this.router.navigate(['dashboard'])
+        // this.router.navigate(['dashboard'])
+        const currentUrl = this.router.url;
+        const parts = currentUrl.split('/');
+        parts.pop(); // Remove the last segment
+        const parentUrl = parts.join('/');
+        this.router.navigateByUrl(parentUrl);
       }
-    // const currentUrl = this.router.url;
-    // const parts = currentUrl.split('/');
-    // parts.pop(); // Remove the last segment
-    // const parentUrl = parts.join('/');
-    // this.router.navigateByUrl(parentUrl);
+
     }
 
     onDelete(event: MouseEvent, id: number) {

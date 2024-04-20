@@ -109,7 +109,17 @@ const routes: Routes = [
   },
   {
     path: "favorites",
-    component: FavoriteAnnouncementsListComponent
+    component: FavoriteAnnouncementsListComponent,
+    children: [
+      {
+        path: 'project-transaction',
+        component: ProjectTransactionComponent
+      },
+      {
+        path: "details",
+        component: AnnouncementDetailsComponent
+      }
+    ]
   },
   {
     path: "my-transactions",

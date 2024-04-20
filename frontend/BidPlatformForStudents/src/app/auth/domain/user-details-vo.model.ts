@@ -3,4 +3,5 @@ export class UserDetailsVoModel {
   public firstName: string | undefined
   public lastName: string | undefined
   public email: string | undefined
+  public base64EncodedStringOfFileContent: string | undefined
 }

@@ -5,12 +5,14 @@ public class UserDetailsVO {
     private String firstName;
     private String lastName;
     private String email;
+    private String base64EncodedStringOfFileContent;
 
-    public UserDetailsVO(Long id, String firstName, String lastName, String email) {
+    public UserDetailsVO(Long id, String firstName, String lastName, String email, String base64EncodedStringOfFileContent) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.base64EncodedStringOfFileContent = base64EncodedStringOfFileContent;
     }
 
     public Long getId() {
@@ -27,5 +29,9 @@ public class UserDetailsVO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getBase64EncodedStringOfFileContent() {
+        return base64EncodedStringOfFileContent;
     }
 }

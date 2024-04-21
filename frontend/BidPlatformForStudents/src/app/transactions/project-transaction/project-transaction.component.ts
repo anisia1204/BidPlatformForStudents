@@ -6,6 +6,7 @@ import {SkillVoModel} from "../../announcements/domain/skill-vo.model";
 import {GoBackService} from "../../utils/go-back.service";
 import {MessageService} from "primeng/api";
 import {SkillStatusModel} from "../../announcements/domain/skill-status.model";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-project-transaction',
@@ -22,6 +23,8 @@ export class ProjectTransactionComponent implements OnInit, OnDestroy{
   projectTransactionService = inject(ProjectTransactionService)
   goBackService = inject(GoBackService)
   messageService = inject(MessageService)
+  router = inject(Router)
+  activatedRoute = inject(ActivatedRoute)
   ngOnInit(): void {
     this.projectId = history.state.id
     this.projectTransactionService
@@ -37,8 +40,8 @@ export class ProjectTransactionComponent implements OnInit, OnDestroy{
     transactionDto.skillIds = this.selectedSkillIds
     this.projectTransactionService.onBuyProject(transactionDto).subscribe(
       res => {
-        this.goBackService.goBack(res)
-        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Anunt cumparat cu succes' });
+        this.router.navigate(['./'], {relativeTo: this.activatedRoute})
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Anunt cumparat cu succes' })
       }
     )
   }

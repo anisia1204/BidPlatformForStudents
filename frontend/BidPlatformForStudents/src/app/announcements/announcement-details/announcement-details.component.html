@@ -27,10 +27,10 @@
                     [showItemNavigators]="true"
                     [showThumbnails]="false"
                     [containerStyle]="{ 'max-width': '640px', 'width': '300px'}"
-                    [style]="{'height': '100%'}">
+                    [style]="{'height': '100%', 'width': '100%'}">
           <ng-template let-images pTemplate="item">
             <img [src]="'data:image/jpeg;base64,' + images"
-                 class="w-9 shadow-2 border-round"
+                 class="w-9 shadow-2 border-round" [style]="{'height': '100%', 'width': '100%'}"
                  alt="Product Image">
           </ng-template>
         </p-galleria>

@@ -1,9 +1,28 @@
-:host ::ng-deep .earn {
-  background-color: green !important;
-  color: green !important;
+.table-search {
+  padding: 5px 12px;
+  margin: 10px 5px;
 }
 
-:host ::ng-deep .spend {
-  background-color: red !important;
-  color: red !important;
+:host ::ng-deep .p-datatable {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 7px #aaa;
+  border: 1px solid #E3E1D9;
+  border-radius: 20px;
+}
+
+:host ::ng-deep .p-sortable-column {
+  padding: 10px 15px;
+}
+
+:host ::ng-deep .p-calendar .p-inputtext {
+  width: 250px !important;
+  height: 35.6px !important;
+  margin: 10px 5px;
+}
+
+:host ::ng-deep .p-dropdown .p-inputtext{
+  width: 250px !important;
+  height: 35.6px !important;
+  padding: 5px 12px;
 }

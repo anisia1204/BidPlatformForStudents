@@ -1,3 +1,4 @@
+<h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Tranzactiile mele</h3>
 <div class="container">
   <p-table #dt
            [value]="transactions"
@@ -9,47 +10,96 @@
            dataKey="id"
            [globalFilterFields]="['id', 'createdAt', 'amount', 'announcementTitle']"
            (onLazyLoad)="onLazyLoad($event)">
-    <ng-template pTemplate="caption">
-      <div class="flex">
-                <span class="p-input-icon-left ml-auto">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
-                </span>
-      </div>
-    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="id" style="width:20%">Cod <p-sortIcon field="id"></p-sortIcon></th>
-        <th pSortableColumn="createdAt" style="width:20%">Creat la <p-sortIcon field="createdAt"></p-sortIcon></th>
-        <th pSortableColumn="amount" style="width:20%">Suma <p-sortIcon field="amount"></p-sortIcon></th>
-        <th pSortableColumn="announcementTitle" style="width:20%">Anunt <p-sortIcon field="announcementTitle"></p-sortIcon></th>
+        <th pSortableColumn="id" style="width:20%">Cod
+          <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="type" style="width:20%">Tip Tranzactie
+          <p-sortIcon field="type"></p-sortIcon>
+        </th>
+        <th pSortableColumn="createdAt">Creat la
+          <p-sortIcon field="createdAt"></p-sortIcon>
+        </th>
+        <th pSortableColumn="amount" style="width:20%">Suma
+          <p-sortIcon field="amount"></p-sortIcon>
+        </th>
+        <th pSortableColumn="announcementTitle" style="width:20%">Anunt
+          <p-sortIcon field="announcementTitle"></p-sortIcon>
+        </th>
+        <th pSortableColumn="skill" style="width:20%">Abilitate
+          <p-sortIcon field="skill"></p-sortIcon>
+        </th>
+        <th pSortableColumn="user" style="width:20%">Utilizator
+          <p-sortIcon field="user"></p-sortIcon>
+        </th>
       </tr>
       <tr>
-        <th>
-          <input pInputText type="text" >
-        </th>
-        <th>
-          <p-calendar >
-          </p-calendar>
-        </th>
-        <th>
-          <input pInputText type="text" >
-        </th>
-        <th>
-          <input pInputText type="text" >
-        </th>
+        <td>
+          <input type="number" pInputText [value]="this.getFilterValue(dt.filters['id'])"
+                 class="table-search"
+                 (input)="dt.filter($any($event.target).value, 'id', 'equals')" placeholder="Cauta..."/>
+        </td>
+        <td>
+          <p-dropdown [options]="transactionTypes"
+                      optionLabel="label"
+                      [ngModel]="this.getFilterValue(dt.filters['type'])"
+                      (ngModelChange)="dt.filter($event, 'type', 'equals')"
+                      [showClear]="true"
+                      placeholder="Cauta...">
+          </p-dropdown>
+        </td>
+        <td>
+          <div class="w-100">
+            <p-calendar [ngModel]="this.getFilterValue(dt.filters['createdAt'])"
+                        (onSelect)="dt.filter($event, 'createdAt', 'equals')"
+                        (onClear)="dt.filter(null, 'createdAt', 'equals')"
+                        (onClearClick)="dt.filter(null, 'createdAt', 'equals')"
+                        [showClear]="true"
+                        placeholder="Cauta...">
+            </p-calendar>
+          </div>
+        </td>
+        <td>
+          <input type="number" pInputText [value]="this.getFilterValue(dt.filters['amount'])"
+                 class="table-search"
+                 (input)="dt.filter($any($event.target).value, 'amount', 'equals')" placeholder="Cauta..."/>
+        </td>
+        <td>
+          <input pInputText [value]="this.getFilterValue(dt.filters['announcementTitle'])"
+                 class="table-search"
+                 (input)="dt.filter($any($event.target).value, 'announcementTitle', 'contains')" placeholder="Cauta..."/>
+        </td>
+        <td>
+          <input pInputText [value]="this.getFilterValue(dt.filters['skill'])"
+                 class="table-search"
+                 (input)="dt.filter($any($event.target).value, 'skill', 'contains')" placeholder="Cauta..."/>
+        </td>
+        <td>
+          <input pInputText [value]="this.getFilterValue(dt.filters['secondUserFullName'])"
+                 class="table-search"
+                 (input)="dt.filter($any($event.target).value, 'secondUserFullName', 'contains')" placeholder="Cauta..."/>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-transaction>
-      <tr [ngClass]="{'earn': transaction.type === TransactionTypeModel.EARN, 'spend': transaction.type === TransactionTypeModel.SPEND}">
+      <tr
+        [ngClass]="{'earn': transaction.type === 'EARN', 'spend': transaction.type === 'SPEND'}">
         <td>{{transaction.id}}</td>
-        <td>{{transaction.createdAt | date}}</td>
+        <td>
+          <p-tag [severity]="transaction.type === 'EARN' ? 'success' : 'danger'"
+                 [value]="transaction.type === 'EARN' ? 'EARN' : 'SPEND'">
+          </p-tag>
+        </td>
+        <td>{{transaction.createdAt | date: 'short'}}</td>
         <td>{{transaction.amount}}</td>
         <td>
           <div [ngClass]="">
             {{transaction.announcementTitle}}
           </div>
         </td>
+        <td>{{transaction.skill ? transaction.skill : '-'}}</td>
+        <td>{{transaction.secondUserFullName}}</td>
       </tr>
     </ng-template>
   </p-table>

@@ -7,7 +7,7 @@ import {TransactionResourceService} from "../resource-service/transaction-resour
 export class TransactionListService {
   transactionResourceService = inject(TransactionResourceService)
 
-  getMyTransactions(first: number, rows: number, sort: string[]) {
-    return this.transactionResourceService.getMyTransactions(first, rows, sort)
+  getMyTransactions(page: number, size: number, sortField?: string | string[], sortOrder?: number, filters?: any) {
+    return this.transactionResourceService.getMyTransactions(page, size, sortField, sortOrder, filters)
   }
 }

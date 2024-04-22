@@ -7,4 +7,5 @@ export class TransactionVoModel {
   type: TransactionTypeModel | undefined;
   amount: number | undefined;
   createdAt: string | undefined;
+  secondUserFullName: string | undefined
 }

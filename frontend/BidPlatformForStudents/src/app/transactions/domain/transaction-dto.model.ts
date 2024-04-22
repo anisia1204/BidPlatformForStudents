@@ -8,4 +8,5 @@ export class TransactionDtoModel {
   type: TransactionTypeModel | undefined;
   amount: number | undefined;
   createdAt: string | undefined;
+  secondUserId: number | undefined;
 }

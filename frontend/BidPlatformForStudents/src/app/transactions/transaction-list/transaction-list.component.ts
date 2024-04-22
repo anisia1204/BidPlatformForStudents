@@ -18,6 +18,17 @@ export class TransactionListComponent implements OnInit, OnDestroy{
   totalRecords: any;
   lazyLoadEvent: TableLazyLoadEvent = {}
   sort = ['createdAt'];
+  transactionTypes = [
+    {
+      label: 'Earn',
+      code: TransactionTypeModel.EARN
+    },
+    {
+      label: 'Spend',
+      code: TransactionTypeModel.SPEND
+    }
+  ]
+
   destroy$: Subject<boolean> = new Subject<boolean>()
 
   ngOnInit(): void {
@@ -30,13 +41,31 @@ export class TransactionListComponent implements OnInit, OnDestroy{
   }
   onLazyLoad(event: TableLazyLoadEvent) {
     this.lazyLoadEvent  = event ? event : {}
-    this.transactionListService.getMyTransactions(this.lazyLoadEvent.first!,this.lazyLoadEvent.rows!, this.sort).subscribe(
+
+    const filters = {
+      id: this.getFilterValue(event.filters?.['id']),
+      announcementTitle: this.getFilterValue(event.filters?.['announcementTitle']),
+      secondUserFullName: this.getFilterValue(event.filters?.['secondUserFullName']),
+      skill: this.getFilterValue(event.filters?.['skill']),
+      amount: this.getFilterValue(event.filters?.['amount']),
+      type: this.getFilterValue(event.filters?.['type'])?.code,
+      createdAt: event.filters?.['createdAt'] && typeof event.filters['createdAt'] === 'object'
+        ? new Date((event.filters['createdAt'] as any).value)
+        : null,
+    };
+
+    this.transactionListService.getMyTransactions(event.first! / 10, event.rows!, event.sortField!, event.sortOrder!, filters)
+      .subscribe(
       transactions => {
         this.transactions = transactions.content
         this.totalRecords = transactions.totalElements;
       }
     )
   }
+
+  getFilterValue = (filter: any) => {
+    return filter && 'value' in filter ? filter.value : null;
+  };
 
   ngOnDestroy(): void {
     this.destroy$.next(true)

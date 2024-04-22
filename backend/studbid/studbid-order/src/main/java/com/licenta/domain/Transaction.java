@@ -15,6 +15,10 @@ public class Transaction {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__USER"))
     private User user;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "second_user_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__SECOND_USER"))
+    private User secondUser;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "announcement_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__ANNOUNCEMENT"))
     private Announcement announcement;
@@ -89,5 +93,13 @@ public class Transaction {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public User getSecondUser() {
+        return secondUser;
+    }
+
+    public void setSecondUser(User secondUser) {
+        this.secondUser = secondUser;
     }
 }

@@ -1,5 +1,6 @@
 package com.licenta.web;
 
+import com.licenta.domain.TransactionType;
 import com.licenta.domain.vo.TransactionVO;
 import com.licenta.service.TransactionService;
 import com.licenta.service.dto.TransactionDTO;
@@ -30,16 +31,22 @@ public class TransactionController {
     @GetMapping
     @ResponseBody
     public ResponseEntity<Page<TransactionVO>> getMyTransactions(
-            @RequestParam(defaultValue = "") String id,
-            @RequestParam(defaultValue = "") String createdAt,
-            @RequestParam(defaultValue = "") String amount,
-            @RequestParam(defaultValue = "") String title,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "") List<String> sortList,
-            @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder
+            @RequestParam(required = false, defaultValue = "createdAt") String sortField,
+            @RequestParam(required = false, defaultValue = "desc") String sortOrder,
+            @RequestParam(required = false) String announcementTitle,
+            @RequestParam(required = false) Double amount,
+            @RequestParam(required = false) String createdAt,
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String skill,
+            @RequestParam(required = false) Long type,
+            @RequestParam(required = false) String secondUserFullName
     ) {
-        return ResponseEntity.ok(transactionService.getMyTransactions(id, createdAt, amount, title, page, size, sortList, sortOrder.toString()));
+        Pageable pageable = PageRequest.of(page, size,
+                sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+
+        return ResponseEntity.ok(transactionService.getMyTransactions(announcementTitle, amount, createdAt, id, skill, type, secondUserFullName, pageable));
     }
 
     @PostMapping

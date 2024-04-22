@@ -13,6 +13,7 @@ public class TransactionDTOMapper {
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setId(transaction.getId());
         transactionDTO.setUserId(transaction.getUser().getId());
+        transactionDTO.setSecondUserId(transaction.getSecondUser().getId());
         transactionDTO.setAnnouncementId(transaction.getAnnouncement().getId());
         transactionDTO.setAmount(transaction.getAmount());
         transactionDTO.setType(transaction.getType());

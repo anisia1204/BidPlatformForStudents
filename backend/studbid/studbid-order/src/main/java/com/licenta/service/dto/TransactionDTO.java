@@ -9,6 +9,7 @@ public class TransactionDTO {
     private Long id;
     private Long userId;
     private Long announcementId;
+    private Long secondUserId;
     private List<Long> skillIds;
     private TransactionType type;
     private Double amount;
@@ -71,5 +72,13 @@ public class TransactionDTO {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getSecondUserId() {
+        return secondUserId;
+    }
+
+    public void setSecondUserId(Long secondUserId) {
+        this.secondUserId = secondUserId;
     }
 }

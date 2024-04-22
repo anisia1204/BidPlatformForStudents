@@ -10,14 +10,16 @@ public class TransactionVO {
     private TransactionType type;
     private Double amount;
     private LocalDateTime createdAt;
+    private String secondUserFullName;
 
-    public TransactionVO(Long id, String announcementTitle, String skill, TransactionType type, Double amount, LocalDateTime createdAt) {
+    public TransactionVO(Long id, String announcementTitle, String skill, TransactionType type, Double amount, LocalDateTime createdAt, String secondUserFullName) {
         this.id = id;
         this.announcementTitle = announcementTitle;
         this.skill = skill;
         this.type = type;
         this.amount = amount;
         this.createdAt = createdAt;
+        this.secondUserFullName = secondUserFullName;
     }
 
     public Long getId() {
@@ -42,5 +44,9 @@ public class TransactionVO {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public String getSecondUserFullName() {
+        return secondUserFullName;
     }
 }

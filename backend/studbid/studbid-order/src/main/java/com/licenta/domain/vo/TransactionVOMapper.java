@@ -13,7 +13,7 @@ public class TransactionVOMapper {
                 (transaction.getAnnouncement() instanceof Project) ? transaction.getSkill().getSkill() : null,
                 transaction.getType(),
                 transaction.getAmount(),
-                transaction.getCreatedAt()
-        );
+                transaction.getCreatedAt(),
+                (transaction.getSecondUser() != null) ? transaction.getSecondUser().getFirstName() + " " + transaction.getSecondUser().getLastName() : ""); //temporar pana adaug date noi care sa aiba al doilea user si atunci va fi required
     }
 }

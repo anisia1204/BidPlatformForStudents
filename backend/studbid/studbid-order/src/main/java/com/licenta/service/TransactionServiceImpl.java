@@ -12,10 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,9 +50,11 @@ public class TransactionServiceImpl implements TransactionService {
         LocalDateTime transactionCurrentDateAndTime = LocalDateTime.now();
 
         Transaction buyerTransaction = getSpendTransactionEntity(announcement, transactionCurrentDateAndTime, getBuyer());
+        buyerTransaction.setSecondUser(getSellerOfAnnouncement(announcement));
         transactionJPARepository.saveAndFlush(buyerTransaction);
 
         Transaction sellerTransaction = getEarnTransactionEntity(announcement, transactionCurrentDateAndTime, getSellerOfAnnouncement(announcement));
+        sellerTransaction.setSecondUser(getBuyer());
         transactionJPARepository.saveAndFlush(sellerTransaction);
 
         updateUserPoints(getBuyer(), buyerTransaction.getAmount());
@@ -85,40 +90,52 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<TransactionVO> getMyTransactions(String id,
-                                                 String createdAt,
-                                                 String amount,
-                                                 String title,
-                                                 int page,
-                                                 int size,
-                                                 List<String> sortList,
-                                                 String sortOrder) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
-        Page<Transaction> transactions = transactionJPARepository
-                .getAll(
+    public Page<TransactionVO> getMyTransactions(String announcementTitle, Double amount, String createdAt, Long id, String skill, Long type, String secondUserFullName, Pageable pageable) {
+        Specification<Transaction> specification = (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.equal(root.get("user").get("id"), UserContextHolder.getUserContext().getUserId());
 
-                        !Objects.equals(id, "") ? Long.valueOf(id) : null,
-                        !Objects.equals(createdAt, "") ? LocalDateTime.parse(createdAt) : null,
-                        !Objects.equals(amount, "") ? Double.valueOf(amount) : null,
-                        title,
-                        UserContextHolder.getUserContext().getUserId(),
+            List<Predicate> predicates = new ArrayList<>();
 
-                        pageable);
-        return transactions.map(transactionVOMapper::getVOFromEntity);
-    }
-
-    private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {
-        List<Sort.Order> sorts = new ArrayList<>();
-        Sort.Direction direction;
-        for (String sort : sortList) {
-            if (sortDirection != null) {
-                direction = Sort.Direction.fromString(sortDirection);
-            } else {
-                direction = Sort.Direction.DESC;
+            if (announcementTitle != null && !announcementTitle.isEmpty()) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("announcement").get("title")), "%" + announcementTitle.toLowerCase() + "%"));
             }
-            sorts.add(new Sort.Order(direction, sort));
-        }
-        return sorts;
+
+            if (amount != null) {
+                predicates.add(criteriaBuilder.equal(root.get("amount"), amount));
+            }
+
+            if (createdAt != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+                LocalDateTime dateTime = LocalDateTime.parse(createdAt, formatter);
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), dateTime));
+            }
+
+            if (id != null) {
+                predicates.add(criteriaBuilder.equal(root.get("id"), id));
+            }
+
+            if (skill != null && !skill.isEmpty()) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("skill").get("skill")), "%" + skill.toLowerCase() + "%"));
+            }
+
+            if (type != null) {
+                predicates.add(criteriaBuilder.equal(root.get("type"), type));
+            }
+
+            if (secondUserFullName != null && !secondUserFullName.isEmpty()) {
+                Predicate firstNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("firstName")), "%" + secondUserFullName.toLowerCase() + "%");
+                Predicate lastNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("lastName")), "%" + secondUserFullName.toLowerCase() + "%");
+
+                predicates.add(criteriaBuilder.or(firstNamePredicate, lastNamePredicate));
+            }
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+
+            return predicate;
+        };
+
+
+        return transactionJPARepository.findAll(specification, pageable).map(transactionVOMapper::getVOFromEntity);
     }
 
     private double getAmountOfSkills(List<Transaction> transactions) {
@@ -134,6 +151,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(skillService::getById)
                 .forEach(skill -> {
                     Transaction buyerTransaction = getEarnTransactionEntity(project, transactionCurrentDateAndTime, getBuyer());
+                    buyerTransaction.setSecondUser(getSellerOfAnnouncement(project));
                     buyerTransaction.setAmount(skill.getSkillPoints());
                     buyerTransaction.setSkill(skill);
                     transactionJPARepository.saveAndFlush(buyerTransaction);
@@ -149,6 +167,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(skillService::getById)
                 .forEach(skill -> {
                     Transaction sellerTransaction = getSpendTransactionEntity(project, transactionCurrentDateAndTime, getSellerOfAnnouncement(project));
+                    sellerTransaction.setSecondUser(getBuyer());
                     sellerTransaction.setAmount(-skill.getSkillPoints());
                     sellerTransaction.setSkill(skill);
                     transactionJPARepository.saveAndFlush(sellerTransaction);

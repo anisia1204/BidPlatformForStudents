@@ -5,13 +5,9 @@ import com.licenta.domain.*;
 import com.licenta.domain.repository.AnnouncementJPARepository;
 import com.licenta.domain.vo.*;
 import com.licenta.service.exception.AnnouncementNotFoundException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 
 @Service
@@ -22,6 +18,8 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     private final TeachingMaterialService teachingMaterialService;
     private final TutoringServiceService tutoringServiceService;
     private final ProjectService projectService;
+
+
     public AnnouncementServiceImpl(AnnouncementJPARepository announcementJPARepository, AnnouncementVOMapper announcementVOMapper, AttachmentService attachmentService, TeachingMaterialService teachingMaterialService, TutoringServiceService tutoringServiceService, ProjectService projectService) {
         this.announcementJPARepository = announcementJPARepository;
         this.announcementVOMapper = announcementVOMapper;
@@ -29,13 +27,6 @@ public class AnnouncementServiceImpl implements AnnouncementService{
         this.teachingMaterialService = teachingMaterialService;
         this.tutoringServiceService = tutoringServiceService;
         this.projectService = projectService;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<AnnouncementVO> getMyAnnouncements(Pageable pageable) {
-        Page<Announcement> announcements = announcementJPARepository.findAllByUserIdOrderByStatusAsc(UserContextHolder.getUserContext().getUserId(), pageable);
-        return mapPageToVOs(announcements);
     }
 
     @Override
@@ -73,24 +64,6 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<AnnouncementVO> getDashboardAnnouncements(Pageable pageable) {
-        Page<Announcement> announcements = announcementJPARepository.findAllByUserIdIsNotAndDeletedIsFalse(UserContextHolder.getUserContext().getUserId(), pageable);
-        return mapPageToVOs(announcements);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<AnnouncementVO> getFavoriteAnnouncements(List<Announcement> favoriteAnnouncementsOfUser, Pageable pageRequest) {
-        List<Announcement> pagedFavoriteAnnouncementsOfUser = paginateAnnouncementList(favoriteAnnouncementsOfUser, pageRequest);
-        return mapPageToVOs(new PageImpl<>(
-                pagedFavoriteAnnouncementsOfUser,
-                pageRequest,
-                favoriteAnnouncementsOfUser.size()
-            ));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public ChartDataVO getChartData() {
         Long loggedInUserId = UserContextHolder.getUserContext().getUserId();
 
@@ -112,10 +85,6 @@ public class AnnouncementServiceImpl implements AnnouncementService{
         );
     }
 
-    private Page<AnnouncementVO> mapPageToVOs(Page<Announcement> announcements) {
-        return announcements.map(this::mapEntityToVO);
-    }
-
     private AnnouncementVO mapEntityToVO(Announcement announcement) {
         if(announcement instanceof TeachingMaterial)
             return announcementVOMapper.getVOFromEntity(announcement, attachmentService.getAttachmentsNotDeletedByTeachingMaterialId(announcement.getId()).toArray(new Attachment[0]));
@@ -123,12 +92,5 @@ public class AnnouncementServiceImpl implements AnnouncementService{
             return announcementVOMapper.getVOFromEntity(announcement);
         }
     }
-
-    private List<Announcement> paginateAnnouncementList(List<Announcement> favoriteAnnouncementsOfUser, Pageable pageRequest) {
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), favoriteAnnouncementsOfUser.size());
-        return favoriteAnnouncementsOfUser.subList(start, end);
-    }
-
 
 }

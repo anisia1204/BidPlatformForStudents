@@ -1,8 +1,8 @@
 package com.licenta.web;
 
-import com.licenta.domain.Announcement;
 import com.licenta.domain.vo.AnnouncementVO;
 import com.licenta.domain.vo.ChartDataVO;
+import com.licenta.service.AnnouncementFilterService;
 import com.licenta.service.AnnouncementService;
 import com.licenta.service.FavoriteAnnouncementService;
 import com.licenta.service.dto.FavoriteAnnouncementDTO;
@@ -10,20 +10,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 
 @RestController
 @RequestMapping("/api/announcements")
 public class AnnouncementController {
     private final AnnouncementService announcementService;
+    private final AnnouncementFilterService announcementFilterService;
     private final FavoriteAnnouncementService favoriteAnnouncementService;
 
-    public AnnouncementController(AnnouncementService announcementService, FavoriteAnnouncementService favoriteAnnouncementService) {
+    public AnnouncementController(AnnouncementService announcementService, AnnouncementFilterService announcementFilterService, FavoriteAnnouncementService favoriteAnnouncementService) {
         this.announcementService = announcementService;
+        this.announcementFilterService = announcementFilterService;
         this.favoriteAnnouncementService = favoriteAnnouncementService;
     }
 
@@ -32,10 +35,19 @@ public class AnnouncementController {
     public ResponseEntity<Page<AnnouncementVO>> getMyAnnouncements(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdAt") String[] sort
+            @RequestParam(required = false, defaultValue = "createdAt") String sortField,
+            @RequestParam(required = false, defaultValue = "desc") String sortOrder,
+            @RequestParam(required = false) String announcementTitle,
+            @RequestParam(required = false) String announcementType,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Double min,
+            @RequestParam(required = false) Double max,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        return ResponseEntity.ok(announcementService.getMyAnnouncements(pageable));
+        Pageable pageable = PageRequest.of(page, size,
+                sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        return ResponseEntity.ok(announcementFilterService.getMyAnnouncements(pageable, announcementTitle, announcementType, status, min, max, from, to));
     }
 
     @GetMapping(value = "/dashboard")
@@ -43,21 +55,39 @@ public class AnnouncementController {
     public ResponseEntity<Page<AnnouncementVO>> getDashboardAnnouncements(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "status") String[] sort
+            @RequestParam(required = false, defaultValue = "status") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortOrder,
+            @RequestParam(required = false) String announcementTitle,
+            @RequestParam(required = false) String announcementType,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Double min,
+            @RequestParam(required = false) Double max,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        return ResponseEntity.ok(announcementService.getDashboardAnnouncements(pageable));
+        Pageable pageable = PageRequest.of(page, size,
+                sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        return ResponseEntity.ok(announcementFilterService.getDashboardAnnouncements(pageable, announcementTitle, announcementType, status, min, max, from, to));
     }
 
     @GetMapping(value = "/favorite")
     @ResponseBody
     public ResponseEntity<Page<AnnouncementVO>> getFavoriteAnnouncements(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "status") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortOrder,
+            @RequestParam(required = false) String announcementTitle,
+            @RequestParam(required = false) String announcementType,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Double min,
+            @RequestParam(required = false) Double max,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to
     ) {
-        List<Announcement> favoriteAnnouncementsOfUser = favoriteAnnouncementService.getFavoriteAnnouncementsOfCurrentUser();
-        Pageable pageRequest = PageRequest.of(page, size);
-        return ResponseEntity.ok(announcementService.getFavoriteAnnouncements(favoriteAnnouncementsOfUser, pageRequest));
+        Pageable pageable = PageRequest.of(page, size,
+                sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        return ResponseEntity.ok(announcementFilterService.getFavoriteAnnouncements(pageable, announcementTitle, announcementType, status, min, max, from, to));
     }
 
     @GetMapping(value = {"/{id}"})

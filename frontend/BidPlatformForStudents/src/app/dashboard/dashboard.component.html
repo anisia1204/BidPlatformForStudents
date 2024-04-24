@@ -1,5 +1,6 @@
 <app-announcement-list
   [title]="favoritesTitle ? favoritesTitle : 'Anunturi disponibile'"
+  [cols]="cols"
   [announcements]="announcements"
   [totalRecords]="totalRecords"
   (lazyLoad)="onLazyLoad($event)"

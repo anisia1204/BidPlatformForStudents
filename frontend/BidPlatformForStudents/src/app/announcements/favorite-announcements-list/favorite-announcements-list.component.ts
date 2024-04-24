@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {cols} from "../../utils/announcement-list/announcement-list-filter-columns";
 
 @Component({
   selector: 'app-favorite-announcements-list',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./favorite-announcements-list.component.scss']
 })
 export class FavoriteAnnouncementsListComponent {
-
+  cols = cols
 }

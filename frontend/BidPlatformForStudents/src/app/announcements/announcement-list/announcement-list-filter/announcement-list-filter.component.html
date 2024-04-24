@@ -1,0 +1,21 @@
+<p-dropdown *ngIf="column?.type === 'dropdown'"
+            [options]="options"
+            (onChange)="onFilterDropdown($event, column!.colDef)"
+            optionLabel="label"
+            [placeholder]="placeholder"
+            styleClass="mb-2 md:mb-0">
+</p-dropdown>
+<input *ngIf="column?.type === 'text'"
+       pInputText style="width: 100%" [placeholder]="placeholder"
+       (input)="onFilter($event, column!.colDef)">
+<p-calendar *ngIf="column?.type === 'date'"
+            [ngModel]="dateModel(column!.colDef)"
+            (ngModelChange)="onFilter($event, column!.colDef)"
+            [showClear]="dateModel(column!.colDef) !== ''"
+            styleClass="mb-2 md:mb-0"
+            appendTo="body"
+            [placeholder]="placeholder">
+</p-calendar>
+<input *ngIf="column?.type === 'number'"
+       pInputText type="number" style="width: 100%" [placeholder]="placeholder"
+       (input)="onFilter($event, column!.colDef)">

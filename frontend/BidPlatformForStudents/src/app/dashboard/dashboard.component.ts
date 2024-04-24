@@ -7,6 +7,9 @@ import {DashboardService} from "./dashboard.service";
 import {MessageService} from "primeng/api";
 import {TransactionDtoModel} from "../transactions/domain/transaction-dto.model";
 import {FavoriteAnnouncementDtoModel} from "../announcements/domain/favorite-announcement-dto.model";
+import {AnnouncementListFilters} from "../utils/announcement-list/announcement-list-filters";
+import {notMyAnnouncementCols} from "../utils/announcement-list/not-my-announcements-llist-filter-columns";
+import {AnnouncementSortData} from "../utils/announcement-list/announcement-sort-data";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +31,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
   destroy$: Subject<boolean> = new Subject<boolean>()
   lazyLoadEvent: {page: number, size: number} = {page: 0, size: this.size};
 
+  @Input() cols = notMyAnnouncementCols
+
   ngOnInit(): void {
     this.goBackService
       .getNavData()
@@ -36,10 +41,10 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.onLazyLoad(this.lazyLoadEvent)
       })
   }
-  onLazyLoad(lazyLoadEvent: {page: number, size: number}) {
+  onLazyLoad(lazyLoadEvent: {page: number, size: number, filters?: AnnouncementListFilters, sort?: AnnouncementSortData}) {
     this.lazyLoadEvent = lazyLoadEvent
     if(!this.favoritesTitle) {
-      this.dashboardService.getDashboardAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, this.sort).subscribe(
+      this.dashboardService.getDashboardAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, lazyLoadEvent.filters, lazyLoadEvent.sort).subscribe(
         announcements => {
           this.announcements = announcements.content
           this.totalRecords = announcements.totalElements;
@@ -47,7 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       )
     }
     else {
-      this.dashboardService.getFavoriteAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, this.sort).subscribe(
+      this.dashboardService.getFavoriteAnnouncements(lazyLoadEvent.page,lazyLoadEvent.size, lazyLoadEvent.filters, lazyLoadEvent.sort).subscribe(
         announcements => {
           this.announcements = announcements.content
           this.totalRecords = announcements.totalElements;

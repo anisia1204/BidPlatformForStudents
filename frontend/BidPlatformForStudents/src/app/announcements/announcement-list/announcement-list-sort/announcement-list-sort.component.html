@@ -1,0 +1,8 @@
+<p-dropdown [options]="column?.options"
+            [ngModel]="selectedOption"
+            (ngModelChange)="onSortChange($event, column!.colDef)"
+            [showClear]="true"
+            optionLabel="label"
+            [placeholder]="column?.placeholder"
+            styleClass="mb-2 md:mb-0">
+</p-dropdown>

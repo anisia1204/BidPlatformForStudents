@@ -1,5 +1,6 @@
 export enum AnnouncementStatusModel {
   ACTIVE,
-  INACTIVE,
-  SOLD
+  SOLD,
+  INACTIVE
+
 }

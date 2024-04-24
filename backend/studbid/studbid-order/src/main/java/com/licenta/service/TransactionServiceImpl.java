@@ -9,19 +9,14 @@ import com.licenta.email.EmailService;
 import com.licenta.service.dto.TransactionDTO;
 import com.licenta.service.dto.TransactionDTOMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -32,8 +27,9 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionDTOMapper transactionDTOMapper;
     private final TransactionVOMapper transactionVOMapper;
     private final EmailService emailService;
+    private final TransactionFilterService transactionFilterService;
 
-    public TransactionServiceImpl(TransactionJPARepository transactionJPARepository, AnnouncementService announcementService, SkillService skillService, UserService userService, TransactionDTOMapper transactionDTOMapper, TransactionVOMapper transactionVOMapper, EmailService emailService) {
+    public TransactionServiceImpl(TransactionJPARepository transactionJPARepository, AnnouncementService announcementService, SkillService skillService, UserService userService, TransactionDTOMapper transactionDTOMapper, TransactionVOMapper transactionVOMapper, EmailService emailService, TransactionFilterService transactionFilterService) {
         this.transactionJPARepository = transactionJPARepository;
         this.announcementService = announcementService;
         this.skillService = skillService;
@@ -41,6 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
         this.transactionDTOMapper = transactionDTOMapper;
         this.transactionVOMapper = transactionVOMapper;
         this.emailService = emailService;
+        this.transactionFilterService = transactionFilterService;
     }
 
     @Override
@@ -91,50 +88,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional(readOnly = true)
     public Page<TransactionVO> getMyTransactions(String announcementTitle, Double amount, String createdAt, Long id, String skill, Long type, String secondUserFullName, Pageable pageable) {
-        Specification<Transaction> specification = (root, query, criteriaBuilder) -> {
-            Predicate predicate = criteriaBuilder.equal(root.get("user").get("id"), UserContextHolder.getUserContext().getUserId());
-
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (announcementTitle != null && !announcementTitle.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("announcement").get("title")), "%" + announcementTitle.toLowerCase() + "%"));
-            }
-
-            if (amount != null) {
-                predicates.add(criteriaBuilder.equal(root.get("amount"), amount));
-            }
-
-            if (createdAt != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-                LocalDateTime dateTime = LocalDateTime.parse(createdAt, formatter);
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), dateTime));
-            }
-
-            if (id != null) {
-                predicates.add(criteriaBuilder.equal(root.get("id"), id));
-            }
-
-            if (skill != null && !skill.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("skill").get("skill")), "%" + skill.toLowerCase() + "%"));
-            }
-
-            if (type != null) {
-                predicates.add(criteriaBuilder.equal(root.get("type"), type));
-            }
-
-            if (secondUserFullName != null && !secondUserFullName.isEmpty()) {
-                Predicate firstNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("firstName")), "%" + secondUserFullName.toLowerCase() + "%");
-                Predicate lastNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("lastName")), "%" + secondUserFullName.toLowerCase() + "%");
-
-                predicates.add(criteriaBuilder.or(firstNamePredicate, lastNamePredicate));
-            }
-
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-
-            return predicate;
-        };
-
-
+        Specification<Transaction> specification = transactionFilterService.buildSpecificationForTransaction(announcementTitle, amount, createdAt, id, skill, type, secondUserFullName);
         return transactionJPARepository.findAll(specification, pageable).map(transactionVOMapper::getVOFromEntity);
     }
 

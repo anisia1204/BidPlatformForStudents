@@ -1,5 +1,6 @@
 package com.licenta.service;
 
+import com.google.zxing.WriterException;
 import com.licenta.config.service.JwtService;
 import com.licenta.context.UserContextHolder;
 import com.licenta.domain.ConfirmationToken;
@@ -7,6 +8,7 @@ import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import com.licenta.domain.repository.UserJPARepository;
 import com.licenta.domain.vo.ProfilePictureVO;
+import com.licenta.domain.vo.QRCodeVO;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.domain.vo.UserVOMapper;
 import com.licenta.email.EmailSender;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -42,8 +45,9 @@ public class UserServiceImpl implements UserService{
     private final UserVOMapper userVOMapper;
     private final LoggedInUserDTOMapper loggedInUserDTOMapper;
     private final ProfilePictureService profilePictureService;
+    private final QRCodeGeneratorService qrCodeGeneratorService;
 
-    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, UserVOMapper userVOMapper, LoggedInUserDTOMapper loggedInUserDTOMapper, ProfilePictureService profilePictureService) {
+    public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, UserVOMapper userVOMapper, LoggedInUserDTOMapper loggedInUserDTOMapper, ProfilePictureService profilePictureService, QRCodeGeneratorService qrCodeGeneratorService) {
         this.userJPARepository = userJPARepository;
         this.userDTOMapper = userDTOMapper;
         this.passwordEncoder = passwordEncoder;
@@ -54,11 +58,12 @@ public class UserServiceImpl implements UserService{
         this.userVOMapper = userVOMapper;
         this.loggedInUserDTOMapper = loggedInUserDTOMapper;
         this.profilePictureService = profilePictureService;
+        this.qrCodeGeneratorService = qrCodeGeneratorService;
     }
 
     @Override
     @Transactional
-    public UserDTO save(UserDTO userDTO, MultipartFile file) {
+    public UserDTO save(UserDTO userDTO, MultipartFile file) throws IOException, WriterException {
         if(isExisting(userDTO))
             throw new UserAlreadyExistsException("An user with this email already exists!");
 
@@ -71,6 +76,7 @@ public class UserServiceImpl implements UserService{
         userJPARepository.save(user);
 
         profilePictureService.save(file, user);
+        qrCodeGeneratorService.generateAndSaveQRCodeOfUser(user);
 
         String token = generateConfirmationToken();
         saveConfirmationToken(token, user);
@@ -173,7 +179,8 @@ public class UserServiceImpl implements UserService{
     public UserVO getProfileInformation() {
         User user = findById(UserContextHolder.getUserContext().getUserId());
         ProfilePictureVO profilePictureVO = profilePictureService.getVOByUserId(user.getId());
-        return userVOMapper.getVOFromEntity(user, profilePictureVO);
+        QRCodeVO qrCodeVO = qrCodeGeneratorService.getVOByUserId(user.getId());
+        return userVOMapper.getVOFromEntity(user, profilePictureVO, qrCodeVO);
     }
 
     @Override

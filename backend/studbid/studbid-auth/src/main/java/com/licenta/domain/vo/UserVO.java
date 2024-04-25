@@ -10,8 +10,9 @@ public class UserVO {
     private Double points;
     private LocalDateTime createdAt;
     private ProfilePictureVO profilePictureVO;
+    private QRCodeVO qrCodeVO;
 
-    public UserVO(Long id, String firstName, String lastName, String email, Double points, LocalDateTime createdAt, ProfilePictureVO profilePictureVO) {
+    public UserVO(Long id, String firstName, String lastName, String email, Double points, LocalDateTime createdAt, ProfilePictureVO profilePictureVO, QRCodeVO qrCodeVO) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,6 +20,7 @@ public class UserVO {
         this.points = points;
         this.createdAt = createdAt;
         this.profilePictureVO = profilePictureVO;
+        this.qrCodeVO = qrCodeVO;
     }
 
     public Long getId() {
@@ -47,5 +49,9 @@ public class UserVO {
 
     public ProfilePictureVO getProfilePictureVO() {
         return profilePictureVO;
+    }
+
+    public QRCodeVO getQrCodeVO() {
+        return qrCodeVO;
     }
 }

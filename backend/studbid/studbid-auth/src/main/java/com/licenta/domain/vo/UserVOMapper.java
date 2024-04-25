@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserVOMapper {
-    public UserVO getVOFromEntity(User user, ProfilePictureVO profilePictureVO) {
+    public UserVO getVOFromEntity(User user, ProfilePictureVO profilePictureVO, QRCodeVO qrCodeVO) {
         return new UserVO(
             user.getId(),
             user.getFirstName(),
@@ -13,7 +13,8 @@ public class UserVOMapper {
             user.getEmail(),
             user.getPoints(),
             user.getCreatedAt(),
-            profilePictureVO
+            profilePictureVO,
+            qrCodeVO
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.licenta.web;
 
+import com.google.zxing.WriterException;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.service.UserService;
 import com.licenta.service.dto.UserDTO;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<?> register(@RequestPart String userDTOString, @RequestPart(value = "file", required = false) MultipartFile file, BindingResult bindingResult){
+    public ResponseEntity<?> register(@RequestPart String userDTOString, @RequestPart(value = "file", required = false) MultipartFile file, BindingResult bindingResult) throws IOException, WriterException {
         @Valid UserDTO userDTO = userService.getDTOFromString(userDTOString);
         userValidator.validate(userDTO, bindingResult);
         if(bindingResult.hasErrors()) {

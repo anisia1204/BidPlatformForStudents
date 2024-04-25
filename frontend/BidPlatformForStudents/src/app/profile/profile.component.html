@@ -19,7 +19,15 @@
 
           </div>
         </div>
+        <div class="card mt-3">
+          <div class="d-flex flex-column align-items-center">
+            <img  [src]="'data:image/jpeg;base64,' + userVo.qrCodeVO?.base64EncodedStringOfQRCode"
+                  alt="No QR Code"
+                  width="400"
+            >
+          </div>
 
+        </div>
       </div>
       <div class="col-md-8">
         <div class="card mb-3">

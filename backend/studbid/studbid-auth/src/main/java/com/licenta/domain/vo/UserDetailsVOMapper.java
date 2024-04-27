@@ -21,6 +21,7 @@ public class UserDetailsVOMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
+                user.getPoints(),
                 getBase64EncodedStringOfFileContentByUserId(user.getId()));
     }
 

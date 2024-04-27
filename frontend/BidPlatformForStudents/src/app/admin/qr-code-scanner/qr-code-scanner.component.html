@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row gutters-sm justify-content-center">
+        <div class="col-sm-9 col-md-7 col-lg-5 mb-3">
+            <div class="card h-100 scan-page">
+                <div class="card-body">
+                    <h3 class="d-flex justify-content-center mb-4 text-teal-500">Retrage puncte</h3>
+                    <h6 class="d-flex justify-content-center mb-4 text-teal-500">Scaneaza codul QR pentru a retrage puncte</h6>
+                    <ngx-scanner-qrcode #action="scanner"
+                                        (event)="handleQRCodeResult($event)"
+
+                                        class="caca">
+                    </ngx-scanner-qrcode>
+                    <div class="d-flex justify-content-center mt-4">
+                        <button pButton
+                                pRipple
+                                (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Renunta' : 'Scaneaza'}}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

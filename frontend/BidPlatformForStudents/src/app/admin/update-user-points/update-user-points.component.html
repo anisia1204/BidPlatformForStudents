@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row gutters-sm justify-content-center">
+        <div class="col-sm-9 col-md-7 col-lg-5 mb-3">
+            <div class="card h-100 update-page">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <img [src]="userDetailsVo.base64EncodedStringOfFileContent ?
+                  'data:image/jpeg;base64,' + userDetailsVo.base64EncodedStringOfFileContent : './assets/no-profile-pic.png'"
+                             alt="No profile pic"
+                             class="rounded-circle"
+                             width="150" height="150"
+                        >
+                    </div>
+                    <h3 class="d-flex justify-content-center mb-2 mt-3 text-teal-500">{{userDetailsVo.firstName}} {{userDetailsVo.lastName}}</h3>
+                    <h3 class="d-flex justify-content-center mb-4 text-teal-300 email">{{userDetailsVo.email}}</h3>
+                    <span class="d-flex justify-content-center mb-2 mt-3 text-teal-600 sold">
+                        {{userDetailsVo.points}}
+                        <span class="text-teal-300 points ms-1"> puncte</span>
+                    </span>
+
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center mt-2">
+                                <div class="col-12 col-md-6 text-center">
+                                    <div class="d-inline-flex align-items-center justify-content-center mb-2 mt-3">
+                                        <h3 class="withdraw text-teal-500 d-inline-flex justify-content-center mt-1">
+                                            De retras:
+                                        </h3>
+                                        <span class="p-float-label flex-grow-1 ms-2" style="width: 10%">
+                                            <input
+                                                id="pointsToWithdraw"
+                                                name="pointsToWithdraw"
+                                                formControlName="pointsToWithdraw"
+                                                [min]="1"
+                                                [max]="userDetailsVo.points"
+                                                type="number" style="width: 100px;"
+                                                pInputText>
+                                            <label for="pointsToWithdraw">
+                                                Puncte
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <div class="container-fluid">
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-12 col-md-6 text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center mb-2 mt-3">
+                                    <button pButton
+                                            type="submit"
+                                            label="Renunta"
+                                            icon="pi pi-times"
+                                            class="p-button-outlined"
+                                            (click)="onCancel()"
+                                    >
+                                    </button>
+                                    <button pButton
+                                            type="submit"
+                                            pRipple
+                                            label="Retrage"
+                                            icon="pi pi-check"
+                                            class="ms-2"
+                                            (click)="onSubmit()"
+                                            [disabled]="!form.valid"
+                                    >
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

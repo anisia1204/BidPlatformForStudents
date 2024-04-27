@@ -58,6 +58,10 @@ import {ChartModule} from "primeng/chart";
 import { AnnouncementListFilterComponent } from './announcements/announcement-list/announcement-list-filter/announcement-list-filter.component';
 import {SliderModule} from "primeng/slider";
 import { AnnouncementListSortComponent } from './announcements/announcement-list/announcement-list-sort/announcement-list-sort.component';
+import { QrCodeScannerComponent } from './admin/qr-code-scanner/qr-code-scanner.component';
+import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
+import {ZXingScannerModule} from "@zxing/ngx-scanner";
+import { UpdateUserPointsComponent } from './admin/update-user-points/update-user-points.component';
 
 const routes: Routes = [
   {
@@ -87,6 +91,10 @@ const routes: Routes = [
   {
     path:"profile",
     component: ProfileComponent
+  },
+  {
+    path:"update/:userId",
+    component: UpdateUserPointsComponent
   },
   {
     path: "new-announcement",
@@ -159,44 +167,48 @@ const routes: Routes = [
     SidebarComponent,
     AnnouncementListFilterComponent,
     AnnouncementListSortComponent,
+    QrCodeScannerComponent,
+    UpdateUserPointsComponent,
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        ChipsModule,
-        RouterLink,
-        RouterModule.forRoot(routes),
-        ToastModule,
-        ConfirmDialogModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        HttpClientModule,
-        MenubarModule,
-        SplitButtonModule,
-        InputTextareaModule,
-        RadioButtonModule,
-        FormsModule,
-        CalendarModule,
-        DropdownModule,
-        StyleClassModule,
-        FileUploadModule,
-        DataViewModule,
-        TagModule,
-        CarouselModule,
-        GalleriaModule,
-        SpeedDialModule,
-        DialogModule,
-        TableModule,
-        AvatarModule,
-        OverlayPanelModule,
-        RippleModule,
-        SidebarModule,
-        MenuModule,
-        ChartModule,
-        SliderModule
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    ChipsModule,
+    RouterLink,
+    RouterModule.forRoot(routes),
+    ToastModule,
+    ConfirmDialogModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    HttpClientModule,
+    MenubarModule,
+    SplitButtonModule,
+    InputTextareaModule,
+    RadioButtonModule,
+    FormsModule,
+    CalendarModule,
+    DropdownModule,
+    StyleClassModule,
+    FileUploadModule,
+    DataViewModule,
+    TagModule,
+    CarouselModule,
+    GalleriaModule,
+    SpeedDialModule,
+    DialogModule,
+    TableModule,
+    AvatarModule,
+    OverlayPanelModule,
+    RippleModule,
+    SidebarModule,
+    MenuModule,
+    ChartModule,
+    SliderModule,
+    NgxScannerQrcodeModule,
+    ZXingScannerModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

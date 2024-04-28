@@ -15,7 +15,7 @@ public class Transaction {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__USER"))
     private User user;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "second_user_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION__SECOND_USER"))
     private User secondUser;
 

@@ -179,6 +179,14 @@ const routes: Routes = [
     component: UpdateUserPointsComponent
   },
   {
+    path:"history",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.ADMIN
+    },
+    component: WithdrawHistoryComponent
+  },
+  {
     path: "unauthorized",
     component: UnauthorizedPageComponent
   },

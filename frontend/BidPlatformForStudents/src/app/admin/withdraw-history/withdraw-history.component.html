@@ -1,0 +1,56 @@
+<h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Istoric retrageri</h3>
+<div class="container">
+    <p-table #dt
+             [value]="withdrawals"
+             [paginator]="true"
+             [rows]="10"
+             [totalRecords]="totalRecords"
+             [lazy]="true"
+             (onLazyLoad)="onLazyLoad($event)">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="userFullName">Student
+                    <p-sortIcon field="userFullName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="points">Puncte retrase
+                    <p-sortIcon field="type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="createdAt">La data de
+                    <p-sortIcon field="createdAt"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <input pInputText [value]="this.getFilterValue(dt.filters['userFullName'])"
+                           class="table-search"
+                           (input)="dt.filter($any($event.target).value, 'userFullName', 'contains')" placeholder="Cauta..."/>
+                </td>
+                <td>
+                    <input type="number" pInputText [value]="this.getFilterValue(dt.filters['points'])"
+                           class="table-search"
+                           (input)="dt.filter($any($event.target).value, 'points', 'equals')" placeholder="Cauta..."/>
+                </td>
+                <td>
+                    <div class="w-100">
+                        <p-calendar [ngModel]="this.getFilterValue(dt.filters['createdAt'])"
+                                    (onSelect)="dt.filter($event, 'createdAt', 'equals')"
+                                    (onClear)="dt.filter(null, 'createdAt', 'equals')"
+                                    (onClearClick)="dt.filter(null, 'createdAt', 'equals')"
+                                    [showClear]="true"
+                                    appendTo="body"
+                                    placeholder="Cauta...">
+                        </p-calendar>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-withdraw>
+            <tr>
+                <td>{{withdraw.userFullName}}</td>
+                <td>{{withdraw.points}}</td>
+                <td>{{withdraw.createdAt | date: 'short'}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>

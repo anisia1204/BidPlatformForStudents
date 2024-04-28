@@ -1,7 +1,9 @@
 package com.licenta.service;
 
-import com.licenta.domain.User;
+import com.licenta.domain.vo.UserDetailsVO;
+import com.licenta.service.dto.UpdateUserPointsDTO;
 
 public interface WithdrawService {
-    void save(User user, Double points);
+    UserDetailsVO getUserDetails(Long userId);
+    UpdateUserPointsDTO saveWithdrawAndUpdateUserPoints(UpdateUserPointsDTO updateUserPointsDTO);
 }

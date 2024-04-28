@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void updateUserPoints(User user, Double amount) {
-        user.setPoints(user.getPoints() + amount);
+        user.setPoints(amount);
         userJPARepository.save(user);
     }
 

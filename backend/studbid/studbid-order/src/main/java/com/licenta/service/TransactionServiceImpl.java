@@ -45,19 +45,20 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO buyTeachingMaterialOrTutoringService(TransactionDTO transactionDTO) {
         Announcement announcement = announcementService.markAsSold(transactionDTO.getAnnouncementId());
         LocalDateTime transactionCurrentDateAndTime = LocalDateTime.now();
+        User buyer = getBuyer();
+        User seller = getSellerOfAnnouncement(announcement);
 
-        Transaction buyerTransaction = getSpendTransactionEntity(announcement, transactionCurrentDateAndTime, getBuyer());
-        buyerTransaction.setSecondUser(getSellerOfAnnouncement(announcement));
+        Transaction buyerTransaction = getSpendTransactionEntity(announcement, transactionCurrentDateAndTime, buyer);
+        buyerTransaction.setSecondUser(seller);
         transactionJPARepository.saveAndFlush(buyerTransaction);
 
-        Transaction sellerTransaction = getEarnTransactionEntity(announcement, transactionCurrentDateAndTime, getSellerOfAnnouncement(announcement));
-        sellerTransaction.setSecondUser(getBuyer());
+        Transaction sellerTransaction = getEarnTransactionEntity(announcement, transactionCurrentDateAndTime, seller);
+        sellerTransaction.setSecondUser(buyer);
         transactionJPARepository.saveAndFlush(sellerTransaction);
 
-        updateUserPoints(getBuyer(), buyerTransaction.getAmount());
-        updateUserPoints(getSellerOfAnnouncement(announcement), sellerTransaction.getAmount());
+        updateUserPoints(buyer, buyerTransaction.getAmount() + buyer.getPoints());
+        updateUserPoints(seller, sellerTransaction.getAmount() + seller.getPoints());
 
-        User seller = getSellerOfAnnouncement(announcement);
         sendConfirmationEmailForTeachingMaterialOrTutoringService(seller.getEmail(), seller.getFirstName(), announcement.getTitle());
         return transactionDTOMapper.getDTOFromEntity(buyerTransaction);
     }
@@ -76,8 +77,10 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> buyerTransactions = saveSkillsEarnTransactions(transactionDTO, project, transactionCurrentDateAndTime);
         List<Transaction> sellerTransactions = saveSkillsSpendTransactions(transactionDTO, project, transactionCurrentDateAndTime);
 
-        updateUserPoints(getBuyer(), getAmountOfSkills(buyerTransactions));
-        updateUserPoints(getSellerOfAnnouncement(project), getAmountOfSkills(sellerTransactions));
+        User buyer = getBuyer();
+        updateUserPoints(buyer, getAmountOfSkills(buyerTransactions) + buyer.getPoints());
+        User seller = getSellerOfAnnouncement(project);
+        updateUserPoints(seller, getAmountOfSkills(sellerTransactions) + seller.getPoints());
 
         return buyerTransactions
                 .stream()

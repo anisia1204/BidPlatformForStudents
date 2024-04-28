@@ -5,5 +5,5 @@ import com.licenta.service.dto.UpdateUserPointsDTO;
 
 public interface AdminFeaturesService {
     UserDetailsVO getDetails(Long userId);
-    UpdateUserPointsDTO updateUserPoints(UpdateUserPointsDTO updateUserPointsDTO);
+    UpdateUserPointsDTO updateUserPointsAndSaveWithdraw(UpdateUserPointsDTO updateUserPointsDTO);
 }

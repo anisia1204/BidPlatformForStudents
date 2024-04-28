@@ -13,11 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminFeaturesServiceImpl implements AdminFeaturesService{
     private final UserJPARepository userJPARepository;
     private final UserDetailsVOMapper userDetailsVOMapper;
+    private final WithdrawService withdrawService;
 
-
-    public AdminFeaturesServiceImpl(UserJPARepository userJPARepository, UserDetailsVOMapper userDetailsVOMapper) {
+    public AdminFeaturesServiceImpl(UserJPARepository userJPARepository, UserDetailsVOMapper userDetailsVOMapper, WithdrawService withdrawService) {
         this.userJPARepository = userJPARepository;
         this.userDetailsVOMapper = userDetailsVOMapper;
+        this.withdrawService = withdrawService;
     }
 
     @Override
@@ -29,12 +30,19 @@ public class AdminFeaturesServiceImpl implements AdminFeaturesService{
 
     @Override
     @Transactional
-    public UpdateUserPointsDTO updateUserPoints(UpdateUserPointsDTO updateUserPointsDTO) {
+    public UpdateUserPointsDTO updateUserPointsAndSaveWithdraw(UpdateUserPointsDTO updateUserPointsDTO) {
         User user = getById(updateUserPointsDTO.getId());
         user.setPoints(user.getPoints() - updateUserPointsDTO.getPointsToWithdraw());
         this.userJPARepository.save(user);
+
+        saveWithdraw(user, updateUserPointsDTO.getPointsToWithdraw());
+
         updateUserPointsDTO.setCurrentSold(user.getPoints());
         return updateUserPointsDTO;
+    }
+
+    private void saveWithdraw(User user, Double pointsToWithdraw) {
+        this.withdrawService.save(user, pointsToWithdraw);
     }
 
     private User getById(Long userId) {

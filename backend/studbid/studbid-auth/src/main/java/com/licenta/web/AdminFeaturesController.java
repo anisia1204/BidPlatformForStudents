@@ -24,6 +24,6 @@ public class AdminFeaturesController {
 
     @PutMapping
     public @ResponseBody ResponseEntity<UpdateUserPointsDTO> updateUserPoints(@RequestBody UpdateUserPointsDTO updateUserPointsDTO) {
-        return ResponseEntity.ok(this.adminFeaturesService.updateUserPoints(updateUserPointsDTO));
+        return ResponseEntity.ok(this.adminFeaturesService.updateUserPointsAndSaveWithdraw(updateUserPointsDTO));
     }
 }

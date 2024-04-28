@@ -13,6 +13,7 @@ public class LoggedInUserDTOMapper {
         loggedInUserDTO.setLastName(user.getLastName());
         loggedInUserDTO.setEmail(user.getEmail());
         loggedInUserDTO.setPoints(user.getPoints());
+        loggedInUserDTO.setRole(user.getRole());
 
         return loggedInUserDTO;
     }

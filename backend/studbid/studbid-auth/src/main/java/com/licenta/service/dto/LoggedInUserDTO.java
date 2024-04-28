@@ -1,5 +1,7 @@
 package com.licenta.service.dto;
 
+import com.licenta.domain.Role;
+
 import java.util.Date;
 
 public class LoggedInUserDTO {
@@ -10,6 +12,7 @@ public class LoggedInUserDTO {
     private Double points;
     private String token;
     private Date tokenExpirationDate;
+    private Role role;
 
     public Long getId() {
         return id;
@@ -65,5 +68,13 @@ public class LoggedInUserDTO {
 
     public void setTokenExpirationDate(Date tokenExpirationDate) {
         this.tokenExpirationDate = tokenExpirationDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -64,6 +64,7 @@ import {ZXingScannerModule} from "@zxing/ngx-scanner";
 import { UpdateUserPointsComponent } from './admin/update-user-points/update-user-points.component';
 import {Role} from "./auth/domain/role";
 import { UnauthorizedPageComponent } from './infra/unauthorized-page/unauthorized-page.component';
+import { WithdrawHistoryComponent } from './admin/withdraw-history/withdraw-history.component';
 
 const routes: Routes = [
   {
@@ -178,6 +179,10 @@ const routes: Routes = [
     component: UpdateUserPointsComponent
   },
   {
+    path: "unauthorized",
+    component: UnauthorizedPageComponent
+  },
+  {
     path: "**",
     component: PageNotFoundComponent
   }
@@ -211,6 +216,7 @@ const routes: Routes = [
     QrCodeScannerComponent,
     UpdateUserPointsComponent,
     UnauthorizedPageComponent,
+    WithdrawHistoryComponent,
   ],
   imports: [
     BrowserModule,

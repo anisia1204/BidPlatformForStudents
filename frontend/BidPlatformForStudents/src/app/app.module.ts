@@ -62,6 +62,8 @@ import { QrCodeScannerComponent } from './admin/qr-code-scanner/qr-code-scanner.
 import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
 import {ZXingScannerModule} from "@zxing/ngx-scanner";
 import { UpdateUserPointsComponent } from './admin/update-user-points/update-user-points.component';
+import {Role} from "./auth/domain/role";
+import { UnauthorizedPageComponent } from './infra/unauthorized-page/unauthorized-page.component';
 
 const routes: Routes = [
   {
@@ -77,6 +79,9 @@ const routes: Routes = [
     path: "dashboard",
     component: DashboardComponent,
     canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     children: [
       {
         path: "details",
@@ -89,23 +94,43 @@ const routes: Routes = [
     ]
   },
   {
+    path:"scan-qr",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.ADMIN
+    },
+    component: QrCodeScannerComponent
+  },
+  {
     path:"profile",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     component: ProfileComponent
   },
   {
-    path:"update/:userId",
-    component: UpdateUserPointsComponent
-  },
-  {
     path: "new-announcement",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     component: NewAnnouncementComponent
   },
   {
     path: "chat",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     component: ChatPageComponent
   },
   {
     path: "my-announcements",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     component: MyAnnouncementsComponent,
     children: [
       {
@@ -120,6 +145,10 @@ const routes: Routes = [
   },
   {
     path: "favorites",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     component: FavoriteAnnouncementsListComponent,
     children: [
       {
@@ -134,7 +163,19 @@ const routes: Routes = [
   },
   {
     path: "my-transactions",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.USER
+    },
     component: TransactionListComponent
+  },
+  {
+    path:"update/:userId",
+    canActivate: [authGuardFn],
+    data: {
+      role: Role.ADMIN
+    },
+    component: UpdateUserPointsComponent
   },
   {
     path: "**",
@@ -169,6 +210,7 @@ const routes: Routes = [
     AnnouncementListSortComponent,
     QrCodeScannerComponent,
     UpdateUserPointsComponent,
+    UnauthorizedPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import {UserDtoModel} from "../domain/user-dto.model";
 import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
 import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
+import {Role} from "../domain/role";
 
 @Injectable({
   providedIn: "root"
@@ -27,8 +28,9 @@ export class LoginService {
       loggedInUserDto.lastName,
       loggedInUserDto.email,
       loggedInUserDto.points,
+      loggedInUserDto.role,
       loggedInUserDto.token,
-      loggedInUserDto.tokenExpirationDate,
+      loggedInUserDto.tokenExpirationDate
     )
     this.loggedInUserSubject.next(user);
 
@@ -59,6 +61,7 @@ export class LoginService {
         lastName: string;
         email: string;
         points: string;
+        role: Role;
         _token: string;
         _tokenExpirationDate: string;
       } = JSON.parse(storedData);
@@ -73,6 +76,7 @@ export class LoginService {
         userData.lastName,
         userData.email,
         Number(userData.points),
+        userData.role,
         userData._token,
         new Date(userData._tokenExpirationDate)
       );

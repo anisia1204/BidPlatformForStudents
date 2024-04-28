@@ -8,6 +8,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {RegistrationComponent} from "../registration/registration.component";
 import {UserContextService} from "../user-context-service/user-context.service";
 import {ChatRoomStompService} from "../../utils/chat-room-stomp.service";
+import {Role} from "../domain/role";
 
 @Component({
   selector: 'app-login',
@@ -44,8 +45,13 @@ export class LoginComponent implements OnDestroy{
         loggedInUserDto => {
           this.userContextService.setLoggedInUser(loggedInUserDto)
           this.loginService.isLoggedIn(loggedInUserDto);
-          this.router.navigate(['/dashboard'])
-          this.chatRoomStompService.connectToChat()
+          if(loggedInUserDto.role === Role.USER) {
+            this.router.navigate(['/dashboard'])
+            this.chatRoomStompService.connectToChat()
+          }
+          else {
+            this.router.navigate(['/scan-qr'])
+          }
         },
         errorResponse => {
           this.messageService.add({

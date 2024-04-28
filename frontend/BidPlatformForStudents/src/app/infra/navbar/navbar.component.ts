@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {Subject, Subscription, takeUntil} from "rxjs";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {NewAnnouncementComponent} from "../../announcements/new-announcement/new-announcement.component";
+import {Role} from "../../auth/domain/role";
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,7 @@ import {NewAnnouncementComponent} from "../../announcements/new-announcement/new
 export class NavbarComponent implements OnInit, OnDestroy{
   isLoggedIn: boolean = false;
   points : number | undefined
+  role: Role | undefined
   navbarService = inject(NavbarService)
   router = inject(Router)
   items: MenuItem[] | undefined
@@ -30,6 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
         if(loggedInUserDto) {
           this.isLoggedIn = true
           this.points = loggedInUserDto.points
+          this.role = loggedInUserDto.role
         }
         else {
           this.isLoggedIn = false
@@ -44,6 +47,14 @@ export class NavbarComponent implements OnInit, OnDestroy{
 
   goToMyProfile() {
     this.router.navigate(['/profile'])
+  }
+
+  goToScanPage() {
+    this.router.navigate(['/scan-qr'])
+  }
+
+  goToHistory() {
+    this.router.navigate(['/history'])
   }
 
   show() {
@@ -69,4 +80,6 @@ export class NavbarComponent implements OnInit, OnDestroy{
     this.userSubscription?.unsubscribe()
     this.destroy$.next(true)
   }
+
+  protected readonly Role = Role;
 }

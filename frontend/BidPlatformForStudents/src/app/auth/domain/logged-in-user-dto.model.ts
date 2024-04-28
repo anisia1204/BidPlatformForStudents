@@ -1,3 +1,5 @@
+import {Role} from "./role";
+
 export class LoggedInUserDtoModel {
   constructor(
     public id: number | undefined,
@@ -5,6 +7,7 @@ export class LoggedInUserDtoModel {
     public lastName: string | undefined,
     public email: string | undefined,
     public points: number | undefined,
+    public role: Role | undefined,
     private _token: string | null,
     private _tokenExpirationDate: Date | null) {}
 

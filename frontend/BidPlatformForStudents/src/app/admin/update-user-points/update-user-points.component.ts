@@ -53,7 +53,7 @@ export class UpdateUserPointsComponent implements OnInit, OnDestroy{
   }
 
   onCancel() {
-    this.router.navigate(['/profile'])
+    this.router.navigate(['/scan-qr'])
   }
 
   ngOnDestroy(): void {

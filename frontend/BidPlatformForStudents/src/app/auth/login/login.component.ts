@@ -84,6 +84,7 @@ export class LoginComponent implements OnDestroy{
   register() {
     this.dialog = this.dialogService.open(RegistrationComponent, {
       header: "Inregistreaza-te!",
+      styleClass: "header-color",
       position: "center"
     })
   }

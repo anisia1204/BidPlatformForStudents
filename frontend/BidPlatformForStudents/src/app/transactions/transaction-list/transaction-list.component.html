@@ -88,7 +88,7 @@
         <td>{{transaction.id}}</td>
         <td>
           <p-tag [severity]="transaction.type === 'EARN' ? 'success' : 'danger'"
-                 [value]="transaction.type === 'EARN' ? 'EARN' : 'SPEND'">
+                 [value]="transaction.type === 'EARN' ? 'CASTIG' : 'CHELTUIRE'">
           </p-tag>
         </td>
         <td>{{transaction.createdAt | date: 'short'}}</td>

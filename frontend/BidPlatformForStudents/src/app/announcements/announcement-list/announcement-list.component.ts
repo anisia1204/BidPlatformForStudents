@@ -94,8 +94,8 @@ export class AnnouncementListComponent implements OnInit, OnDestroy {
       icon: 'pi pi-info-circle',
       acceptButtonStyleClass: "p-button-danger p-button-text",
       rejectButtonStyleClass: "p-button-text p-button-text",
-      acceptIcon: "none",
-      rejectIcon: "none",
+      acceptLabel: "Da",
+      rejectLabel: "Nu",
       accept: () => {
         this.delete.emit(id)
       }
@@ -144,8 +144,8 @@ export class AnnouncementListComponent implements OnInit, OnDestroy {
         icon: 'pi pi-info-circle',
         acceptButtonStyleClass: "p-button-success p-button-text",
         rejectButtonStyleClass: "p-button-danger p-button-text",
-        acceptIcon: "none",
-        rejectIcon: "none",
+        acceptLabel: "Da",
+        rejectLabel: "Nu",
         accept: () => {
           this.buy.emit(id)
         }

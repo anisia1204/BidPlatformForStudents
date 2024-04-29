@@ -20,11 +20,11 @@ export class TransactionListComponent implements OnInit, OnDestroy{
   sort = ['createdAt'];
   transactionTypes = [
     {
-      label: 'Earn',
+      label: 'Castig',
       code: TransactionTypeModel.EARN
     },
     {
-      label: 'Spend',
+      label: 'Cheltuire',
       code: TransactionTypeModel.SPEND
     }
   ]

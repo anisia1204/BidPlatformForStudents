@@ -33,4 +33,17 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService{
         ConfirmationToken confirmationToken = getToken(token).orElseThrow();
         confirmationToken.setConfirmedAt(LocalDateTime.now());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ConfirmationToken getTokenByUserId(Long id) {
+        return confirmationTokenJPARepository.findByUser_Id(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTokenOfUser(String email) {
+        ConfirmationToken confirmationToken = confirmationTokenJPARepository.findByUser_Email(email);
+        confirmationTokenJPARepository.delete(confirmationToken);
+    }
 }

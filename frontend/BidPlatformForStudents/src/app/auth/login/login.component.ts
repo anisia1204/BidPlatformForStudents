@@ -66,8 +66,8 @@ export class LoginComponent implements OnDestroy{
 
   private handleErrorMessage(errorResponse: any): string {
     let message = 'Nu v-ati putut loga!';
-    if (errorResponse.status === 403) {
-      message = 'Nu exista niciun cont inregistrat cu acest email!';
+    if (errorResponse.error.email) {
+      message = errorResponse.error.email
     } else if (errorResponse.error.password) {
       message = errorResponse.error.password;
     } else if (errorResponse.error.emailAlreadySent) {

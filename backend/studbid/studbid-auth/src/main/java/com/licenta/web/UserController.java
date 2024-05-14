@@ -38,9 +38,13 @@ public class UserController {
         if(bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getAllErrors().forEach(error -> {
-                String fieldName = ((FieldError) error).getField();
-                String errorMessage = error.getCode();
-                errors.put(fieldName, errorMessage);
+                if (error instanceof FieldError) {
+                    String fieldName = ((FieldError) error).getField();
+                    String errorMessage = error.getDefaultMessage();
+                    errors.put(fieldName, errorMessage);
+                } else {
+                    errors.put("globalError", error.getDefaultMessage());
+                }
             });
             return ResponseEntity.badRequest().body(errors);
         }

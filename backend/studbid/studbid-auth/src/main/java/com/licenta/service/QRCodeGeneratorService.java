@@ -10,4 +10,6 @@ public interface QRCodeGeneratorService {
     void generateAndSaveQRCodeOfUser(User user) throws WriterException, IOException;
 
     QRCodeVO getVOByUserId(Long id);
+
+    void deleteQRCodeOfUser(String email);
 }

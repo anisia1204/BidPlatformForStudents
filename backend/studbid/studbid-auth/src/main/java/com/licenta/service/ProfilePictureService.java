@@ -10,4 +10,5 @@ public interface ProfilePictureService {
     ProfilePictureDTO save(MultipartFile file, User user);
     ProfilePictureVO getVOByUserId(Long userId);
     String getBase64EncodedStringOfFileContentByUserId(Long userId);
+    void deleteProfilePictureOfUserIfExists(String email);
 }

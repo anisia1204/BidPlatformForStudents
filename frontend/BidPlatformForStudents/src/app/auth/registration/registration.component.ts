@@ -44,11 +44,11 @@ export class RegistrationComponent {
             })
           },
           errorResponse => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Inregistrare esuata!',
-              detail: errorResponse.error.email
-            })
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Inregistrare esuata!',
+                detail: errorResponse.error.globalError
+              })
           }
         )
     }

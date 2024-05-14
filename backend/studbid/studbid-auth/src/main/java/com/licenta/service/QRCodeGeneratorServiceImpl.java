@@ -56,6 +56,13 @@ public class QRCodeGeneratorServiceImpl implements QRCodeGeneratorService{
                 encodeQRCodeToString(qrCode.getQrCode())) : null;
     }
 
+    @Override
+    @Transactional
+    public void deleteQRCodeOfUser(String email) {
+        QRCode qrCode = qrCodeJPARepository.findByUser_Email(email);
+        qrCodeJPARepository.delete(qrCode);
+    }
+
     private String encodeQRCodeToString(byte[] qrCode) {
         return Base64.getEncoder().encodeToString(qrCode);
     }

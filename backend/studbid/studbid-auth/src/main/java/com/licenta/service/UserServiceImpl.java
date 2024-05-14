@@ -64,8 +64,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDTO save(UserDTO userDTO, MultipartFile file) throws IOException, WriterException {
-        if(isExisting(userDTO))
-            throw new UserAlreadyExistsException("An user with this email already exists!");
+        checkUsersExistence(userDTO);
 
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = userDTOMapper.getEntityFromDTO(userDTO);
@@ -85,6 +84,22 @@ public class UserServiceImpl implements UserService{
 
         userDTO = userDTOMapper.getDTOFromEntity(user);
         return userDTO;
+    }
+
+    @Transactional
+    public void checkUsersExistence(UserDTO userDTO) {
+        if(isExisting(userDTO)) {
+            if(getUserByEmail(userDTO.getEmail()).isEnabled()) {
+                throw new UserAlreadyExistsException("An user with this email already exists!");
+            }
+            else {
+                confirmationTokenService.deleteTokenOfUser(userDTO.getEmail());
+                qrCodeGeneratorService.deleteQRCodeOfUser(userDTO.getEmail());
+                profilePictureService.deleteProfilePictureOfUserIfExists(userDTO.getEmail());
+                userJPARepository.delete(getUserByEmail(userDTO.getEmail()));
+            }
+        }
+
     }
 
     private void sendConfirmationEmail(UserDTO userDTO, String token) {

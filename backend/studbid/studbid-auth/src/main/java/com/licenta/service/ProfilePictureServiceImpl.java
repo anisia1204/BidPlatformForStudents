@@ -50,6 +50,15 @@ public class ProfilePictureServiceImpl implements ProfilePictureService{
         return (profilePicture != null) ? Base64.getEncoder().encodeToString(profilePicture.getFileContent()) : null;
     }
 
+    @Override
+    @Transactional
+    public void deleteProfilePictureOfUserIfExists(String email) {
+        ProfilePicture profilePicture = profilePictureJPARepository.findByUser_Email(email);
+        if(profilePicture != null){
+            profilePictureJPARepository.delete(profilePicture);
+        }
+    }
+
     private ProfilePicture getByUserId(Long userId) {
         return profilePictureJPARepository.findByUser_IdAndDeletedIsFalse(userId);
     }

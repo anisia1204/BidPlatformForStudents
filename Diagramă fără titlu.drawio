@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-05-14T22:29:16.662Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="ItP7I5MeYkJKi1pG_8Vg" version="24.4.0" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2024-05-15T14:56:25.357Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="5XwMcDG9Mg-vlgIQJ5QY" version="24.4.0" type="github" pages="2">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="diagrama-de-clase">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -643,7 +643,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="6zYpmj8CIi9UG7tTnAZz" name="usecase-diagram">
-    <mxGraphModel dx="4014" dy="2827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2620" dy="2102" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -665,8 +665,8 @@
         <mxCell id="HHdXXKOPEjyAczzVmKq9-6" value="Editare anunț" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="50" y="60" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="HHdXXKOPEjyAczzVmKq9-7" value="Cumparare anunt de tip proiect" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="45" y="130" width="100" height="60" as="geometry" />
+        <mxCell id="HHdXXKOPEjyAczzVmKq9-7" value="Cumpărare anunț de tip material didactic sau serviciu de tutorat" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="32.5" y="120" width="125" height="70" as="geometry" />
         </mxCell>
         <mxCell id="HHdXXKOPEjyAczzVmKq9-8" value="Vizualizare profil" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="40" y="330" width="90" height="50" as="geometry" />
@@ -808,7 +808,7 @@
             <Array as="points">
               <mxPoint x="-230" y="531" />
               <mxPoint x="-45" y="531" />
-              <mxPoint x="-45" y="160" />
+              <mxPoint x="-45" y="155" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -1063,7 +1063,7 @@
             <mxPoint x="374" y="522" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HHdXXKOPEjyAczzVmKq9-98" value="" style="endArrow=classic;dashed=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" source="HHdXXKOPEjyAczzVmKq9-7" target="HHdXXKOPEjyAczzVmKq9-4">
+        <mxCell id="HHdXXKOPEjyAczzVmKq9-98" value="" style="endArrow=classic;dashed=1;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" source="HHdXXKOPEjyAczzVmKq9-7" target="HHdXXKOPEjyAczzVmKq9-4">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="150" y="145" as="sourcePoint" />
             <mxPoint x="384" y="532" as="targetPoint" />
@@ -1178,7 +1178,7 @@
           <mxGeometry x="340" y="400" width="50" height="20" as="geometry" />
         </mxCell>
         <mxCell id="HHdXXKOPEjyAczzVmKq9-118" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=60;" vertex="1" parent="1">
-          <mxGeometry x="320" y="410" width="50" height="20" as="geometry" />
+          <mxGeometry x="320" y="430" width="50" height="20" as="geometry" />
         </mxCell>
         <mxCell id="HHdXXKOPEjyAczzVmKq9-119" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=40;" vertex="1" parent="1">
           <mxGeometry x="280" y="490" width="50" height="20" as="geometry" />
@@ -1372,8 +1372,8 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="HHdXXKOPEjyAczzVmKq9-170" value="Cumpărare anunț de tip material didactic sau serviciu de tutorat" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-10" y="230" width="190" height="60" as="geometry" />
+        <mxCell id="HHdXXKOPEjyAczzVmKq9-170" value="Cumpărare anunț de tip proiect" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="100" height="50" as="geometry" />
         </mxCell>
         <mxCell id="HHdXXKOPEjyAczzVmKq9-172" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="HHdXXKOPEjyAczzVmKq9-1" target="HHdXXKOPEjyAczzVmKq9-170">
           <mxGeometry relative="1" as="geometry">
@@ -1383,7 +1383,7 @@
               <mxPoint x="-220" y="545" />
               <mxPoint x="-220" y="541" />
               <mxPoint x="-35" y="541" />
-              <mxPoint x="-35" y="260" />
+              <mxPoint x="-35" y="245" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -1394,7 +1394,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="HHdXXKOPEjyAczzVmKq9-174" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=60;" vertex="1" parent="1">
-          <mxGeometry x="310" y="450" width="50" height="20" as="geometry" />
+          <mxGeometry x="300" y="460" width="50" height="20" as="geometry" />
         </mxCell>
         <mxCell id="HHdXXKOPEjyAczzVmKq9-175" value="Fonduri insuficiente" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="340" y="70" width="90" height="50" as="geometry" />
@@ -1486,6 +1486,7 @@
             <mxPoint as="offset" />
             <Array as="points">
               <mxPoint x="780" y="360" />
+              <mxPoint x="340" y="410" />
             </Array>
           </mxGeometry>
         </mxCell>

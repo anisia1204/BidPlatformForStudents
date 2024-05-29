@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-05-26T21:58:55.060Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="OVF2lX1aBYwEblxi9tJr" version="24.4.7" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2024-05-29T14:17:07.332Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="Xj0kBa5npp9XfRFxpqKO" version="24.4.7" type="github" pages="4">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="diagrama-de-clase">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -643,7 +643,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="6zYpmj8CIi9UG7tTnAZz" name="usecase-diagram">
-    <mxGraphModel dx="3010" dy="2276" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2336" dy="1954" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1322,6 +1322,7 @@
             <mxPoint as="offset" />
             <Array as="points">
               <mxPoint x="680" y="20" />
+              <mxPoint x="640" y="-10" />
               <mxPoint x="520" y="-10" />
             </Array>
           </mxGeometry>
@@ -1398,7 +1399,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="ae3Gh6Fl8FyoJWUip55f" name="activity-diagram">
-    <mxGraphModel dx="8824" dy="4899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="5239" dy="3034" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3111,7 +3112,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="6KedR4EiqdjU7oqqwwbf-428" value="Adăugați un anunț la favorite?" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" parent="1" vertex="1">
+        <mxCell id="6KedR4EiqdjU7oqqwwbf-428" value="Eliminați un anunț de la favorite?" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" parent="1" vertex="1">
           <mxGeometry x="6265" y="902.45" width="110" height="65" as="geometry" />
         </mxCell>
         <mxCell id="6KedR4EiqdjU7oqqwwbf-429" value="nu" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" parent="1" source="6KedR4EiqdjU7oqqwwbf-428" edge="1">
@@ -3124,7 +3125,7 @@
             <mxPoint x="6320" y="1012.45" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6KedR4EiqdjU7oqqwwbf-431" value="Adăugare anunț" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" parent="1" vertex="1">
+        <mxCell id="6KedR4EiqdjU7oqqwwbf-431" value="Eliminare anunț" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" parent="1" vertex="1">
           <mxGeometry x="6260" y="1019.95" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="6KedR4EiqdjU7oqqwwbf-432" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" parent="1" source="6KedR4EiqdjU7oqqwwbf-431" edge="1">
@@ -3132,7 +3133,7 @@
             <mxPoint x="6320" y="1109.95" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6KedR4EiqdjU7oqqwwbf-433" value="Mai adăugați și alt anunț?" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" parent="1" vertex="1">
+        <mxCell id="6KedR4EiqdjU7oqqwwbf-433" value="Mai eliminați și alt anunț?" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" parent="1" vertex="1">
           <mxGeometry x="6270" y="1109.95" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6KedR4EiqdjU7oqqwwbf-434" value="nu" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="6KedR4EiqdjU7oqqwwbf-433" target="6KedR4EiqdjU7oqqwwbf-406" edge="1">

@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: "root"
 })
-export class NewAnnouncementService {
+export class AnnouncementFormService {
   teachingMaterialResourceService = inject(TeachingMaterialResourceService)
   tutoringServiceResourceService = inject(TutoringServiceResourceService)
   projectResourceService = inject(ProjectResourceService)

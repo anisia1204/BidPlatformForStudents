@@ -4,7 +4,7 @@ import {MenuItem, MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {Subject, Subscription, takeUntil} from "rxjs";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
-import {NewAnnouncementComponent} from "../../announcements/new-announcement/new-announcement.component";
+import {AnnouncementFormComponent} from "../../announcements/announcement-form/announcement-form.component";
 import {Role} from "../../auth/domain/role";
 
 @Component({
@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
   }
 
   show() {
-    this.newAnnouncementDialog = this.dialogService.open(NewAnnouncementComponent, {
+    this.newAnnouncementDialog = this.dialogService.open(AnnouncementFormComponent, {
       position: "center",
       modal: true,
     });

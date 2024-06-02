@@ -2,7 +2,7 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TeachingMaterialDtoModel} from "../domain/teaching-material-dto.model";
 import {TutoringServiceDtoModel} from "../domain/tutoring-service-dto.model";
-import {NewAnnouncementService} from "./new-announcement.service";
+import {AnnouncementFormService} from "./announcement-form.service";
 import {ProjectDtoModel} from "../domain/project-dto.model";
 import {TutoringTypeModel} from "../domain/tutoring-type.model";
 import {SkillDtoModel} from "../domain/skill-dto.model";
@@ -19,12 +19,12 @@ import {SkillStatusModel} from "../domain/skill-status.model";
 
 
 @Component({
-  selector: 'app-new-announcement',
-  templateUrl: './new-announcement.component.html',
-  styleUrls: ['./new-announcement.component.scss'],
+  selector: 'app-announcement-form',
+  templateUrl: './announcement-form.component.html',
+  styleUrls: ['./announcement-form.component.scss'],
   providers: [MessageService, DynamicDialogRef]
 })
-export class NewAnnouncementComponent implements OnInit, OnDestroy {
+export class AnnouncementFormComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
   id: string | null = null;
   isNew = false;
@@ -32,7 +32,7 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
   attachmentDTOs: AttachmentDtoModel[] | undefined = []
   destroy$: Subject<boolean> = new Subject<boolean>()
 
-  newAnnouncementService = inject(NewAnnouncementService)
+  announcementFormService = inject(AnnouncementFormService)
   newAnnouncementValidatorHandlerService = inject(NewAnnouncementValidatorHandlerServiceTsService)
   route = inject(ActivatedRoute)
   router = inject(Router)
@@ -50,7 +50,7 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
       this.id = params['id']
       this.announcementType = history.state.type
       if (this.id) {
-        this.newAnnouncementService
+        this.announcementFormService
           .getAnnouncementTemplate(this.id, this.announcementType)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
@@ -233,12 +233,12 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
   }
 
   saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
-    this.newAnnouncementService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
+    this.announcementFormService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
         teachingMaterialDto => this.dynamicDialogRef?.close(true)
     )
   }
   editTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
-    this.newAnnouncementService.updateTeachingMaterialDto(teachingMaterialDto, files).subscribe(
+    this.announcementFormService.updateTeachingMaterialDto(teachingMaterialDto, files).subscribe(
       teachingMaterialDto => {
         this.goBackService.goBack(teachingMaterialDto)
       },
@@ -255,12 +255,12 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
   }
 
   saveTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
-    this.newAnnouncementService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
+    this.announcementFormService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
         tutoringServiceDto => this.dynamicDialogRef?.close(true)
     )
   }
   editTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
-    this.newAnnouncementService.updateTutoringServiceDto(tutoringServiceDto).subscribe(
+    this.announcementFormService.updateTutoringServiceDto(tutoringServiceDto).subscribe(
       tutoringServiceDto => {
         this.goBackService.goBack(tutoringServiceDto)
       },
@@ -271,12 +271,12 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
   }
 
   saveProject(projectDto: ProjectDtoModel) {
-    this.newAnnouncementService.saveProjectDto(projectDto).subscribe(
+    this.announcementFormService.saveProjectDto(projectDto).subscribe(
         projectDto => this.dynamicDialogRef?.close(true)
     )
   }
   editProject(projectDto: ProjectDtoModel) {
-    this.newAnnouncementService.updateProjectDto(projectDto).subscribe(
+    this.announcementFormService.updateProjectDto(projectDto).subscribe(
       () => {
         this.goBackService.goBack(projectDto)
       },

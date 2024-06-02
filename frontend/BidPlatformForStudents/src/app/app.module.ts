@@ -19,7 +19,7 @@ import {MenubarModule} from "primeng/menubar";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {SplitButtonModule} from "primeng/splitbutton";
 import { ProfileComponent } from './profile/profile.component';
-import { NewAnnouncementComponent } from './announcements/new-announcement/new-announcement.component';
+import { AnnouncementFormComponent } from './announcements/announcement-form/announcement-form.component';
 import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 import { PageNotFoundComponent } from './infra/page-not-found/page-not-found.component';
@@ -118,7 +118,7 @@ const routes: Routes = [
     data: {
       role: Role.USER
     },
-    component: NewAnnouncementComponent
+    component: AnnouncementFormComponent
   },
   {
     path: "chat",
@@ -138,7 +138,7 @@ const routes: Routes = [
     children: [
       {
         path: "edit/:id",
-        component: NewAnnouncementComponent
+        component: AnnouncementFormComponent
       },
       {
         path: "details",
@@ -206,7 +206,7 @@ const routes: Routes = [
     NavbarComponent,
     DashboardComponent,
     ProfileComponent,
-    NewAnnouncementComponent,
+    AnnouncementFormComponent,
     AnnouncementListComponent,
     TransactionListComponent,
     PageNotFoundComponent,

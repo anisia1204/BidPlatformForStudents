@@ -15,6 +15,7 @@ import {Subject, takeUntil} from "rxjs";
 import {GoBackService} from "../../utils/go-back.service";
 import {MessageService} from "primeng/api";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
+import {SkillStatusModel} from "../domain/skill-status.model";
 
 
 @Component({
@@ -54,7 +55,6 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (announcementDTO: TutoringServiceDtoModel | TeachingMaterialDtoModel | ProjectDtoModel) => {
-              console.log(announcementDTO)
               this.form.patchValue(announcementDTO);
               this.patchValueOfCorrespondingAnnouncementType(announcementDTO);
               this.form.get('announcementType').disable()
@@ -105,7 +105,8 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
       projectId: new FormControl<number | any>(null),
       skill: new FormControl<string | any>(''),
       description: new FormControl<string | any>(''),
-      skillPoints: new FormControl<number | any>(null)
+      skillPoints: new FormControl<number | any>(null),
+      status: new FormControl<SkillStatusModel | null>(null)
     })
   }
 
@@ -242,7 +243,7 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
         this.goBackService.goBack(teachingMaterialDto)
       },
       error => {
-        this.showErrorMessage()
+        this.showErrorMessage(error.error.status)
       }
     )
   }
@@ -264,7 +265,7 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
         this.goBackService.goBack(tutoringServiceDto)
       },
       error => {
-        this.showErrorMessage()
+        this.showErrorMessage(error.error.status)
       }
     )
   }
@@ -280,15 +281,15 @@ export class NewAnnouncementComponent implements OnInit, OnDestroy {
         this.goBackService.goBack(projectDto)
       },
       error => {
-        this.showErrorMessage()
+        this.showErrorMessage(error.error.status)
       }
     )
   }
-  private showErrorMessage() {
+  private showErrorMessage(message: string) {
     this.messageService.add({
       severity: 'error',
       summary: 'Eroare',
-      detail: 'Nu ati putut edita anuntul!'
+      detail: message
     })
   }
   ngOnDestroy(): void {

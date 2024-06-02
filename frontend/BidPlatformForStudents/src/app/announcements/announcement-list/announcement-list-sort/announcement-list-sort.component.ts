@@ -19,7 +19,6 @@ export class AnnouncementListSortComponent {
       if(this.sort) {
         this.sort.sortField = colDef
         this.sort.sortOrder = option.value
-        console.log(this.sort)
       }
     }
     else {

@@ -14,6 +14,6 @@ public class TransactionVOMapper {
                 transaction.getType(),
                 transaction.getAmount(),
                 transaction.getCreatedAt(),
-                transaction.getSecondUser().getFirstName() + " " + transaction.getSecondUser().getLastName());
+                transaction.getSecondUser().getFirstName() + " " + transaction.getSecondUser().getLastName() + "\n" + transaction.getSecondUser().getEmail());
     }
 }

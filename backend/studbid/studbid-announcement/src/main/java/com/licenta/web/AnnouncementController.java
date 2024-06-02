@@ -12,9 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -23,11 +27,13 @@ public class AnnouncementController {
     private final AnnouncementService announcementService;
     private final AnnouncementFilterService announcementFilterService;
     private final FavoriteAnnouncementService favoriteAnnouncementService;
+    private final AnnouncementDeleteValidator announcementDeleteValidator;
 
-    public AnnouncementController(AnnouncementService announcementService, AnnouncementFilterService announcementFilterService, FavoriteAnnouncementService favoriteAnnouncementService) {
+    public AnnouncementController(AnnouncementService announcementService, AnnouncementFilterService announcementFilterService, FavoriteAnnouncementService favoriteAnnouncementService, AnnouncementDeleteValidator announcementDeleteValidator) {
         this.announcementService = announcementService;
         this.announcementFilterService = announcementFilterService;
         this.favoriteAnnouncementService = favoriteAnnouncementService;
+        this.announcementDeleteValidator = announcementDeleteValidator;
     }
 
     @GetMapping
@@ -99,6 +105,18 @@ public class AnnouncementController {
     @DeleteMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<?> delete(@PathVariable Long id) {
+        DataBinder dataBinder = new DataBinder(id);
+        BindingResult bindingResult = dataBinder.getBindingResult();
+        announcementDeleteValidator.validate(id, bindingResult);
+
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getAllErrors().forEach(error -> {
+                String errorMessage = error.getDefaultMessage();
+                errors.put("status", errorMessage);
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
         announcementService.delete(id);
         return ResponseEntity.ok(true);
     }

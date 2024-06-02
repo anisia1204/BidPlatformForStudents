@@ -15,7 +15,7 @@ import {AnnouncementSortData} from "../../utils/announcement-list/announcement-s
 @Component({
   selector: 'app-announcement-list',
   templateUrl: './announcement-list.component.html',
-  styleUrls: ['./announcement-list.component.scss'],
+  styleUrls: ['./announcement-list.component.css'],
   providers: [DialogService, ConfirmationService]
 })
 export class AnnouncementListComponent implements OnInit, OnDestroy {

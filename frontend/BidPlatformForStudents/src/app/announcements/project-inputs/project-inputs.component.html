@@ -129,6 +129,7 @@
                         type="button"
                         class="p-button-text"
                         icon="pi pi-trash"
+                        [disabled]="skillControl.get('status')?.value === SkillStatusModel.SOLD"
                         (click)="removeSkill(i)"
                 >
                 </button>

@@ -117,9 +117,10 @@
                             (click)="onDelete($event, announcement.id)"></button>
                 </ng-container>
                 <ng-container *ngIf="!myAnnouncements && announcement.status === 'ACTIVE'">
-                    <button pButton icon="pi pi-cart-plus"
+                    <button pButton
+                            [icon]="announcement.announcementType !== 'project' ? 'pi pi-cart-plus' : 'pi pi-upload'"
                             class="p-0 mt-6 p-button-text"
-                            [pTooltip]="'Cumpara'"
+                            [pTooltip]="announcement.announcementType !== 'project' ? 'Cumpara' : 'Participa'"
                             (click)="onBuy($event, announcement.id, announcement.announcementType)">
                     </button>
                 </ng-container>

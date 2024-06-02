@@ -152,6 +152,7 @@
                     <button pButton
                             pRipple
                             icon="pi pi-check"
+                            [disabled]="form.invalid"
                             (click)="onSubmit()">
                       Salveaza
                     </button>

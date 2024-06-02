@@ -6,13 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
     private final ProjectService projectService;
+    private final AnnouncementUpdateValidator announcementUpdateValidator;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, AnnouncementUpdateValidator announcementUpdateValidator) {
         this.projectService = projectService;
+        this.announcementUpdateValidator = announcementUpdateValidator;
     }
 
     @PostMapping
@@ -23,7 +28,17 @@ public class ProjectController {
 
     @PutMapping
     @ResponseBody
-    public ResponseEntity<ProjectDTO> update(@RequestBody ProjectDTO projectDTO, BindingResult bindingResult){
+    public ResponseEntity<?> update(@RequestBody ProjectDTO projectDTO, BindingResult bindingResult){
+        announcementUpdateValidator.validate(projectDTO, bindingResult);
+
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getAllErrors().forEach(error -> {
+                String errorMessage = error.getDefaultMessage();
+                errors.put("status", errorMessage);
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(projectService.update(projectDTO));
     }
 

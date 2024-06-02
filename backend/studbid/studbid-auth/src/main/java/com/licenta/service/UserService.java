@@ -2,12 +2,14 @@ package com.licenta.service;
 
 import com.google.zxing.WriterException;
 import com.licenta.domain.User;
+import com.licenta.domain.vo.UserEmailVO;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.service.dto.LoggedInUserDTO;
 import com.licenta.service.dto.UserDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface UserService {
     UserDTO save(UserDTO userDTO, MultipartFile file) throws IOException, WriterException;
@@ -28,4 +30,5 @@ public interface UserService {
     UserDTO editProfileInformation(UserDTO userDTO);
     User getById(Long id);
     UserDTO getDTOFromString(String userDTOString);
+    List<UserEmailVO> getFilteredUserEmails(String email);
 }

@@ -50,8 +50,7 @@ public class TeachingMaterialServiceImpl implements TeachingMaterialService{
 
     @Override
     @Transactional
-    public TeachingMaterialDTO update(String teachingMaterialString, MultipartFile[] files) {
-        TeachingMaterialDTO teachingMaterialDTO = teachingMaterialDTOMapper.getDTOFromString(teachingMaterialString);
+    public TeachingMaterialDTO update(TeachingMaterialDTO teachingMaterialDTO, MultipartFile[] files) {
         TeachingMaterial teachingMaterial = getById(teachingMaterialDTO.getId());
         teachingMaterialDTOMapper.updateEntityFields(teachingMaterial, teachingMaterialDTO);
         List<Attachment> existingAttachments = attachmentService.getAttachmentsByTeachingMaterialId(teachingMaterial.getId());

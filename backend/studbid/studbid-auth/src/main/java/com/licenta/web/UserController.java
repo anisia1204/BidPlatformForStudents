@@ -1,6 +1,7 @@
 package com.licenta.web;
 
 import com.google.zxing.WriterException;
+import com.licenta.domain.vo.UserEmailVO;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.service.UserService;
 import com.licenta.service.dto.UserDTO;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -83,5 +85,13 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<UserDTO> editProfileInformation(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.editProfileInformation(userDTO));
+    }
+
+    @GetMapping(value = "/email-list")
+    @ResponseBody
+    public ResponseEntity<List<UserEmailVO>> getFilteredUserEmails(
+            @RequestParam(required = false) String email
+    ) {
+        return ResponseEntity.ok(userService.getFilteredUserEmails(email));
     }
 }

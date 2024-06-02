@@ -53,7 +53,11 @@ export class MyAnnouncementsComponent implements OnInit, OnDestroy{
       () => {
         this.onLazyLoad(this.lazyLoadEvent)
         this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Anunt sters cu succes' });
-      }
+      },
+        (error) => {
+          this.onLazyLoad(this.lazyLoadEvent)
+          this.messageService.add({ severity: 'error', summary: 'Eroare la stergere', detail: error.error.status });
+        }
     )
   }
 

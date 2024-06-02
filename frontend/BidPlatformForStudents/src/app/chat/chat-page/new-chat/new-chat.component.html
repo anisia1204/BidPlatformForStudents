@@ -1,0 +1,40 @@
+<p-dialog header="Conversatie noua" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }"
+          (onHide)="hide.emit(true)">
+    <span class="p-text-secondary block mb-4">Cauta utilizator dupa e-mail.</span>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="flex align-items-center gap-3 mb-4">
+        <span class="p-float-label flex-grow-1">
+              <p-autoComplete
+                      formControlName="recipient"
+                      id="email"
+                      [suggestions]="suggestions"
+                      optionLabel="email"
+                      [style]="{width: '100%'}"
+                      (completeMethod)="search($event)"/>
+            <label for="email">Email</label>
+        </span>
+
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+        <span class="p-float-label flex-grow-1">
+            <textarea pInputText
+                      id="message"
+                      formControlName="message"
+                      rows="4"
+                      style="width:100%"
+                      cols="26"></textarea>
+            <label for="message">Mesaj</label>
+        </span>
+        </div>
+        <div class="flex justify-content-end gap-2">
+            <button pButton
+                    type="submit"
+                    label="Trimite"
+                    [disabled]="form.invalid"
+                    icon="pi pi-send"
+                    class="p-button-text">
+            </button>
+        </div>
+    </form>
+
+</p-dialog>

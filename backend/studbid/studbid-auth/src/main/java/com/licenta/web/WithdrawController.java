@@ -9,7 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin-features")
@@ -17,9 +22,11 @@ import org.springframework.web.bind.annotation.*;
 public class WithdrawController {
 
     private final WithdrawService withdrawService;
+    private final WithdrawValidator withdrawValidator;
 
-    public WithdrawController(WithdrawService withdrawService) {
+    public WithdrawController(WithdrawService withdrawService, WithdrawValidator withdrawValidator) {
         this.withdrawService = withdrawService;
+        this.withdrawValidator = withdrawValidator;
     }
 
     @GetMapping
@@ -45,7 +52,17 @@ public class WithdrawController {
     }
 
     @PutMapping
-    public @ResponseBody ResponseEntity<UpdateUserPointsDTO> saveWithdrawAndUpdateUserPoints(@RequestBody UpdateUserPointsDTO updateUserPointsDTO) {
+    public @ResponseBody ResponseEntity<?> saveWithdrawAndUpdateUserPoints(@RequestBody UpdateUserPointsDTO updateUserPointsDTO, BindingResult bindingResult) {
+        withdrawValidator.validate(updateUserPointsDTO, bindingResult);
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getAllErrors().forEach(error -> {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getCode();
+                errors.put(fieldName, errorMessage);
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(this.withdrawService.saveWithdrawAndUpdateUserPoints(updateUserPointsDTO));
     }
 }

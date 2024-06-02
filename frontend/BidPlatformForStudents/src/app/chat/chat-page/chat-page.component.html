@@ -1,19 +1,29 @@
-<h3 class="text-center pb-3" [style]="{color: 'var(--teal-500)'}">Conversatii</h3>
-
+<div class="d-flex justify-content-center align-items-center pb-4">
+    <h3 class="text-center pt-2 pe-3" [style]="{color: 'var(--teal-500)'}">Conversatii</h3>
+    <button pButton
+            pRipple
+            pTooltip="Incepe o conversatie noua"
+            tooltipPosition="bottom"
+            icon="pi pi-plus"
+            class="p-button-text"
+            style="width: 2em;height: 2em"
+    (click)="visible = !visible"></button>
+</div>
+<app-new-chat [visible]="visible" (hide)="visible=false" (messageSent)="onMessageSent($event)"></app-new-chat>
 <div class="container">
-  <div class="row chat">
-    <div class="col-3 chat-list">
-      <app-chat-list (chatRoomSelect)="onChatRoomSelect($event)"></app-chat-list>
+    <div class="row chat">
+        <div class="col-3 chat-list">
+            <app-chat-list [chats]="chats" (chatRoomSelect)="onChatRoomSelect($event)"></app-chat-list>
+        </div>
+        <div class="col-9">
+            <ng-container *ngIf="recipientId">
+                <app-chat-room [chatMessages]="chatRoomMessages"
+                               [recipientId]="recipientId"
+                               (submit)="onSubmit($event)"
+                               (loadMessages)="onChatRoomSelect($event)">
+                </app-chat-room>
+            </ng-container>
+        </div>
     </div>
-    <div class="col-9">
-      <ng-container *ngIf="recipientId">
-        <app-chat-room  [chatMessages]="chatRoomMessages"
-                        [recipientId]="recipientId"
-                        (submit)="onSubmit($event)"
-                        (loadMessages)="onChatRoomSelect($event)">
-        </app-chat-room>
-      </ng-container>
-    </div>
-  </div>
 </div>
 

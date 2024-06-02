@@ -7,11 +7,8 @@ import com.licenta.domain.ConfirmationToken;
 import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import com.licenta.domain.repository.UserJPARepository;
-import com.licenta.domain.vo.ProfilePictureVO;
-import com.licenta.domain.vo.QRCodeVO;
-import com.licenta.domain.vo.UserVO;
-import com.licenta.domain.vo.UserVOMapper;
-import com.licenta.email.EmailSender;
+import com.licenta.domain.vo.*;
+import com.licenta.service.email.EmailSender;
 import com.licenta.service.dto.LoggedInUserDTO;
 import com.licenta.service.dto.LoggedInUserDTOMapper;
 import com.licenta.service.dto.UserDTO;
@@ -27,8 +24,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -46,6 +47,8 @@ public class UserServiceImpl implements UserService{
     private final LoggedInUserDTOMapper loggedInUserDTOMapper;
     private final ProfilePictureService profilePictureService;
     private final QRCodeGeneratorService qrCodeGeneratorService;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UserServiceImpl(UserJPARepository userJPARepository, UserDTOMapper userDTOMapper, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, UserVOMapper userVOMapper, LoggedInUserDTOMapper loggedInUserDTOMapper, ProfilePictureService profilePictureService, QRCodeGeneratorService qrCodeGeneratorService) {
         this.userJPARepository = userJPARepository;
@@ -107,7 +110,8 @@ public class UserServiceImpl implements UserService{
         String subject = "Confirmare adresa email";
         emailSender.send(
                 userDTO.getEmail(),
-                buildEmail(userDTO.getFirstName(), link),
+                userDTO.getFirstName(),
+                link,
                 subject);
     }
 
@@ -226,72 +230,31 @@ public class UserServiceImpl implements UserService{
         userJPARepository.save(user);
     }
 
-    private String buildEmail(String name, String link) {
-        return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
-                "\n" +
-                "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
-                "\n" +
-                "  <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;min-width:100%;width:100%!important\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n" +
-                "    <tbody><tr>\n" +
-                "      <td width=\"100%\" height=\"53\" bgcolor=\"#0b0c0c\">\n" +
-                "        \n" +
-                "        <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;max-width:580px\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n" +
-                "          <tbody><tr>\n" +
-                "            <td width=\"70\" bgcolor=\"#0b0c0c\" valign=\"middle\">\n" +
-                "                <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse\">\n" +
-                "                  <tbody><tr>\n" +
-                "                    <td style=\"padding-left:10px\">\n" +
-                "                  \n" +
-                "                    </td>\n" +
-                "                    <td style=\"font-size:28px;line-height:1.315789474;Margin-top:4px;padding-left:10px\">\n" +
-                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Confirm your email</span>\n" +
-                "                    </td>\n" +
-                "                  </tr>\n" +
-                "                </tbody></table>\n" +
-                "              </a>\n" +
-                "            </td>\n" +
-                "          </tr>\n" +
-                "        </tbody></table>\n" +
-                "        \n" +
-                "      </td>\n" +
-                "    </tr>\n" +
-                "  </tbody></table>\n" +
-                "  <table role=\"presentation\" class=\"m_-6186904992287805515content\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse;max-width:580px;width:100%!important\" width=\"100%\">\n" +
-                "    <tbody><tr>\n" +
-                "      <td width=\"10\" height=\"10\" valign=\"middle\"></td>\n" +
-                "      <td>\n" +
-                "        \n" +
-                "                <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse\">\n" +
-                "                  <tbody><tr>\n" +
-                "                    <td bgcolor=\"#1D70B8\" width=\"100%\" height=\"10\"></td>\n" +
-                "                  </tr>\n" +
-                "                </tbody></table>\n" +
-                "        \n" +
-                "      </td>\n" +
-                "      <td width=\"10\" valign=\"middle\" height=\"10\"></td>\n" +
-                "    </tr>\n" +
-                "  </tbody></table>\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "  <table role=\"presentation\" class=\"m_-6186904992287805515content\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse;max-width:580px;width:100%!important\" width=\"100%\">\n" +
-                "    <tbody><tr>\n" +
-                "      <td height=\"30\"><br></td>\n" +
-                "    </tr>\n" +
-                "    <tr>\n" +
-                "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
-                "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
-                "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
-                "        \n" +
-                "      </td>\n" +
-                "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
-                "    </tr>\n" +
-                "    <tr>\n" +
-                "      <td height=\"30\"><br></td>\n" +
-                "    </tr>\n" +
-                "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
-                "\n" +
-                "</div></div>";
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserEmailVO> getFilteredUserEmails(String email) {
+        StringBuilder jpqlBuilder = new StringBuilder(
+                "SELECT u FROM User u WHERE u.id != :userId AND u.enabled = true AND u.email != 'admin@admin'" +
+                        "AND u.id NOT IN (" +
+                        "SELECT c.sender.id FROM ChatRoom c WHERE c.recipient.id = :userId " +
+                        "OR c.sender.id = :userId OR c.recipient.id = u.id" +
+                        ") "
+        );
+
+        if (email != null && !email.isEmpty()) {
+            jpqlBuilder.append("AND (LOWER(u.email) LIKE :email) ");
+        }
+
+        TypedQuery<User> query = entityManager.createQuery(jpqlBuilder.toString(), User.class);
+        query.setParameter("userId", UserContextHolder.getUserContext().getUserId());
+        if (email != null && !email.isEmpty()) {
+            query.setParameter("email", "%" + email.toLowerCase() + "%");
+        }
+        List<User> resultList = query.getResultList();
+        return resultList.stream()
+                .map(user -> new UserEmailVO(user.getId(), user.getEmail()))
+                .toList();
     }
+
+
 }

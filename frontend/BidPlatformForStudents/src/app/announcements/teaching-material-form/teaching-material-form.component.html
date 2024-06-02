@@ -69,6 +69,7 @@
                       </div>
                       <div class='d-flex text-align-center'>
                         <button (click)="onRemoveAttachmentDTO(attachment.id)"
+                                [disabled]="attachmentDTOs.length < 2"
                                 type='button'
                                 pButton class='p-button-text'
                                 icon='pi pi-trash'>

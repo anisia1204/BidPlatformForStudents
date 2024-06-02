@@ -1,29 +1,24 @@
-import {Component, inject, OnDestroy, OnInit, Output, EventEmitter} from '@angular/core';
-import {ChatListService} from "./chat-list.service";
+import {Component, inject, OnDestroy, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Subject, takeUntil} from "rxjs";
 import {ChatRoomListItemVoModel} from "../../domain/chat-room-list-item-vo.model";
 import {formatDate} from "@angular/common";
+import {ChatRoomStompService} from "../../../utils/chat-room-stomp.service";
 
 @Component({
   selector: 'app-chat-list',
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.scss']
 })
-export class ChatListComponent implements OnInit, OnDestroy{
+export class ChatListComponent implements OnDestroy{
 
-  chatListService = inject(ChatListService)
+  chatRoomStompService = inject(ChatRoomStompService)
+
   destroy$: Subject<boolean> = new Subject<boolean>()
   @Output() chatRoomSelect: EventEmitter<{recipientId: number | undefined, page?: number}> = new EventEmitter<{recipientId: number | undefined, page?: number}>()
-  chats: ChatRoomListItemVoModel[] = []
+  @Input() chats: ChatRoomListItemVoModel[] = []
   selectedChatRoom : number | undefined
 
-  ngOnInit(): void {
-    this.chatListService.findMyChatRooms()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        this.chats = res;
-      })
-  }
+
 
   ngOnDestroy(): void {
     this.destroy$.next(true)
@@ -37,6 +32,4 @@ export class ChatListComponent implements OnInit, OnDestroy{
     this.selectedChatRoom = recipientId
     this.chatRoomSelect.emit({recipientId: recipientId})
   }
-
-  protected readonly formatDate = formatDate;
 }

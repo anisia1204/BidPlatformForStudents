@@ -50,8 +50,10 @@ public class TransactionFilterServiceImpl implements TransactionFilterService {
             if (secondUserFullName != null && !secondUserFullName.isEmpty()) {
                 Predicate firstNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("firstName")), "%" + secondUserFullName.toLowerCase() + "%");
                 Predicate lastNamePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("lastName")), "%" + secondUserFullName.toLowerCase() + "%");
+                Predicate emailPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("secondUser").get("email")), "%" + secondUserFullName.toLowerCase() + "%");
 
-                predicates.add(criteriaBuilder.or(firstNamePredicate, lastNamePredicate));
+                Predicate name = criteriaBuilder.or(firstNamePredicate, lastNamePredicate);
+                predicates.add(criteriaBuilder.or(name, emailPredicate));
             }
 
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.and(predicates.toArray(new Predicate[0])));

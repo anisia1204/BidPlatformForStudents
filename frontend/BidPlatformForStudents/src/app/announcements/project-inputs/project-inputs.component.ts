@@ -3,6 +3,7 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {
   NewAnnouncementValidatorHandlerServiceTsService
 } from "../validator/new-announcement-validator-handler.service.ts.service";
+import {SkillStatusModel} from "../domain/skill-status.model";
 
 @Component({
   selector: 'app-project-inputs',
@@ -17,6 +18,13 @@ export class ProjectInputsComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     if(!this.requiredSkills.controls.length) {
       this.addSkill()
+    }
+    else {
+      this.requiredSkills.controls.forEach(skillControl => {
+        if(skillControl.get('status')?.value === SkillStatusModel.SOLD) {
+          skillControl?.disable()
+        }
+      })
     }
   }
 
@@ -47,4 +55,5 @@ export class ProjectInputsComponent implements OnInit, OnDestroy{
     this.requiredSkills.clear();
   }
 
+  protected readonly SkillStatusModel = SkillStatusModel;
 }

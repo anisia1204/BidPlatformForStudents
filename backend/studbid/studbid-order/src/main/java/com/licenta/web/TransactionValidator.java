@@ -1,10 +1,7 @@
 package com.licenta.web;
 
 import com.licenta.context.UserContextHolder;
-import com.licenta.domain.Announcement;
-import com.licenta.domain.AnnouncementStatus;
-import com.licenta.domain.Project;
-import com.licenta.domain.SkillStatus;
+import com.licenta.domain.*;
 import com.licenta.service.AnnouncementService;
 import com.licenta.service.SkillService;
 import com.licenta.service.UserService;
@@ -36,18 +33,47 @@ public class TransactionValidator implements Validator {
         if(announcement.getStatus() == AnnouncementStatus.SOLD){
             errors.rejectValue("announcementId", "Anuntul este vandut!");
         }
-        if(userService.findById(UserContextHolder.getUserContext().getUserId()).getPoints() < announcement.getPoints()){
-            errors.rejectValue("amount", "Fonduri insuficiente!");
+        if(announcement.getStatus() == AnnouncementStatus.INACTIVE){
+            errors.rejectValue("announcementId", "Anuntul este sters!");
         }
         if(announcement instanceof Project){
-            long soldSkills = transactionDTO.getSkillIds()
-                    .stream()
-                    .map(skillService::getById)
-                    .filter(skill -> skill.getStatus() == SkillStatus.SOLD)
-                    .count();
-            if(soldSkills > 0){
+            if(isAnySkillSold(transactionDTO)){
                 errors.rejectValue("skillIds", "Abilitatea este vanduta!");
             }
+            if(isAnySkillDeleted(transactionDTO)){
+                errors.rejectValue("skillIds", "Abilitatea este stearsa!");
+            }
+            Double userCreatorPoints = announcement.getUser().getPoints();
+            if(isSkillPointsSumBiggerThanUserCreatorPoints(transactionDTO, userCreatorPoints)) {
+                errors.rejectValue("skillIds", "Creatorul anuntului nu are fonduri suficiente pentru a finaliza tranzactia!");
+            }
         }
+        else {
+            if(userService.findById(UserContextHolder.getUserContext().getUserId()).getPoints() < announcement.getPoints()){
+                errors.rejectValue("amount", "Fonduri insuficiente!");
+            }
+        }
+    }
+
+    private boolean isAnySkillDeleted(TransactionDTO transactionDTO) {
+        return transactionDTO.getSkillIds()
+                .stream()
+                .map(skillService::getById)
+                .anyMatch(Skill::getDeleted);
+    }
+
+    private boolean isAnySkillSold(TransactionDTO transactionDTO) {
+        return transactionDTO.getSkillIds()
+                .stream()
+                .map(skillService::getById)
+                .anyMatch(skill -> skill.getStatus() == SkillStatus.SOLD);
+    }
+
+    private boolean isSkillPointsSumBiggerThanUserCreatorPoints(TransactionDTO transactionDTO, Double userCreatorPoints) {
+        return transactionDTO.getSkillIds()
+                .stream()
+                .map(skillService::getById)
+                .mapToDouble(Skill::getSkillPoints)
+                .sum() > userCreatorPoints;
     }
 }

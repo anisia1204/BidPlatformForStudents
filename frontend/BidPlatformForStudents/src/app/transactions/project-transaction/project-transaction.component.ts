@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-project-transaction',
   templateUrl: './project-transaction.component.html',
-  styleUrls: ['./project-transaction.component.scss'],
+  styleUrls: ['./project-transaction.component.css'],
   providers: [MessageService]
 })
 export class ProjectTransactionComponent implements OnInit, OnDestroy{
@@ -42,7 +42,10 @@ export class ProjectTransactionComponent implements OnInit, OnDestroy{
       res => {
         this.router.navigate(['./'], {relativeTo: this.activatedRoute})
         this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Anunt cumparat cu succes' })
-      }
+      },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Tranzactie esuata', detail: error.error.skillIds })
+        }
     )
   }
 

@@ -27,7 +27,7 @@ export class TeachingMaterialResourceService {
     for (let file of files) {
       formData.append('files', file);
     }
-    formData.append('teachingMaterialDTO', new Blob([JSON.stringify(teachingMaterialDto)], {
+    formData.append('teachingMaterialDTOString', new Blob([JSON.stringify(teachingMaterialDto)], {
       type: "application/json"
     }));
     return this.httpClient.put<TeachingMaterialDtoModel>(`${this.url}`, formData);

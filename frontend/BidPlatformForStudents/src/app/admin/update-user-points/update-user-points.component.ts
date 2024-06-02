@@ -5,16 +5,19 @@ import {UpdateUserPointsService} from "./update-user-points.service";
 import {UserDetailsVoModel} from "../domain/user-details-vo.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UpdateUserPointsDtoModel} from "../domain/update-user-points-dto.model";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-update-user-points',
   templateUrl: './update-user-points.component.html',
-  styleUrls: ['./update-user-points.component.scss']
+  styleUrls: ['./update-user-points.component.scss'],
+  providers: [MessageService]
 })
 export class UpdateUserPointsComponent implements OnInit, OnDestroy{
   activatedRoute = inject(ActivatedRoute)
   router = inject(Router)
   updateUserPointsService = inject(UpdateUserPointsService)
+  messageService = inject(MessageService)
   userId: string | null = null
   userDetailsVo = new UserDetailsVoModel()
   destroy$: Subject<boolean> = new Subject<boolean>()
@@ -48,6 +51,9 @@ export class UpdateUserPointsComponent implements OnInit, OnDestroy{
           .subscribe(res => {
             this.form.reset()
             this.userDetailsVo.points = res.currentSold
+          },
+          (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Eroare la stergere', detail: error.error.pointsToWithdraw });
           })
     }
   }

@@ -9,4 +9,8 @@ export class ChatPageService {
   getChatRoomMessages(recipientId: number | undefined, page?: number) {
     return this.chatRoomResourceService.findChatRoomMessages(recipientId, page)
   }
+
+  findMyChatRooms() {
+    return this.chatRoomResourceService.findMyChatRooms()
+  }
 }

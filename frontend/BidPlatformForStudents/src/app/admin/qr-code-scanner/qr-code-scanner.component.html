@@ -6,9 +6,7 @@
                     <h3 class="d-flex justify-content-center mb-4 text-teal-500">Retrage puncte</h3>
                     <h6 class="d-flex justify-content-center mb-4 text-teal-500">Scaneaza codul QR pentru a retrage puncte</h6>
                     <ngx-scanner-qrcode #action="scanner"
-                                        (event)="handleQRCodeResult($event)"
-
-                                        class="caca">
+                                        (event)="handleQRCodeResult($event)">
                     </ngx-scanner-qrcode>
                     <div class="d-flex justify-content-center mt-4">
                         <button pButton

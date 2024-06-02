@@ -11,10 +11,10 @@ public class ChatRoom {
     @Column(name = "chat_id")
     private String chatId;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "sender_id", foreignKey = @ForeignKey(name = "FK_ANNOUNCEMENT__SENDER"))
+    @JoinColumn(name = "sender_id", foreignKey = @ForeignKey(name = "FK_CHAT_ROOM__SENDER"))
     private User sender;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "recipient_id", foreignKey = @ForeignKey(name = "FK_ANNOUNCEMENT__RECIPIENT"))
+    @JoinColumn(name = "recipient_id", foreignKey = @ForeignKey(name = "FK_CHAT_ROOM__RECIPIENT"))
     private User recipient;
 
     public ChatRoom() {

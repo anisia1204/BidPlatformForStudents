@@ -1,16 +1,16 @@
 package com.licenta.service.dto;
 
-public class ChatNotification {
+public class ChatNotificationDTO {
     private String id;
     private Long senderId;
     private Long recipientId;
     private String content;
     private String timestamp;
 
-    public ChatNotification() {
+    public ChatNotificationDTO() {
     }
 
-    public ChatNotification(String id, Long senderId, Long recipientId, String content, String timestamp) {
+    public ChatNotificationDTO(String id, Long senderId, Long recipientId, String content, String timestamp) {
         this.id = id;
         this.senderId = senderId;
         this.recipientId = recipientId;

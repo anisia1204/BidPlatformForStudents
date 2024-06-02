@@ -32,30 +32,31 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 .map(ChatRoom::getChatId)
                 .or( () -> {
                     if(createNewRoomIfNotExists) {
-                        String chatId = createChatId(senderId, recipientId);
+                        String chatId = createChatIdAndSaveChatRooms(senderId, recipientId);
                         return Optional.of(chatId);
                     }
                     return Optional.empty();
                 });
     }
 
-    private String createChatId(Long senderId, Long recipientId) {
+    private String createChatIdAndSaveChatRooms(Long senderId, Long recipientId) {
         var chatId = String.format("%s_%s", senderId, recipientId);
 
-        ChatRoom senderRecipient = new ChatRoom();
-        senderRecipient.setChatId(chatId);
-        senderRecipient.setSender(userService.findById(senderId));
-        senderRecipient.setRecipient(userService.findById(recipientId));
-
-        ChatRoom recipientSender = new ChatRoom();
-        recipientSender.setChatId(chatId);
-        recipientSender.setSender(userService.findById(recipientId));
-        recipientSender.setRecipient(userService.findById(senderId));
-
+        ChatRoom senderRecipient = save(senderId, recipientId, chatId);
         chatRoomJPARepository.save(senderRecipient);
+
+        ChatRoom recipientSender = save(recipientId, senderId, chatId);
         chatRoomJPARepository.save(recipientSender);
 
         return chatId;
+    }
+
+    private ChatRoom save(Long senderId, Long recipientId, String chatId) {
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setChatId(chatId);
+        chatRoom.setSender(userService.findById(senderId));
+        chatRoom.setRecipient(userService.findById(recipientId));
+        return chatRoom;
     }
 
     @Override

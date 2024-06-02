@@ -7,7 +7,7 @@ import com.licenta.domain.vo.ChatRoomListItemVO;
 import com.licenta.service.ChatMessageService;
 import com.licenta.service.ChatRoomService;
 import com.licenta.service.dto.ChatMessageDTO;
-import com.licenta.service.dto.ChatNotification;
+import com.licenta.service.dto.ChatNotificationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -35,7 +35,7 @@ public class ChatController {
         messagingTemplate.convertAndSendToUser(
                 chatMessageDTO.getRecipientId().toString(),
                 "/queue/messages",
-                new ChatNotification(
+                new ChatNotificationDTO(
                         savedMessage.getChatId(),
                         savedMessage.getSender().getId(),
                         savedMessage.getRecipient().getId(),

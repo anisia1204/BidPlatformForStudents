@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ChatMessageServiceImpl implements ChatMessageService{
@@ -70,10 +71,12 @@ public class ChatMessageServiceImpl implements ChatMessageService{
         chatRooms.forEach(chatRoomVO -> {
             ChatMessage chatMessage = findLastMessageOfChatRoom(chatRoomVO.getChatId());
             ChatMessageVO chatMessageVO = chatMessageVOMapper.getVOFromEntity(chatMessage);
-            chatRoomListItemVOS.add(new ChatRoomListItemVO(
+            Boolean hasUnreadMessages = !chatMessageVO.getIsRead() &&
+                    !Objects.equals(chatMessageVO.getSenderId(), UserContextHolder.getUserContext().getUserId());
+                    chatRoomListItemVOS.add(new ChatRoomListItemVO(
                     chatRoomVO,
-                    chatMessageVO
-            ));
+                    chatMessageVO,
+                    hasUnreadMessages));
         });
         return sortChatRoomListItemVOsDescendingByLastMessageTimestamp(chatRoomListItemVOS);
     }
@@ -87,5 +90,25 @@ public class ChatMessageServiceImpl implements ChatMessageService{
 
     private ChatMessage findLastMessageOfChatRoom(String chatId) {
         return chatMessageJPARepository.findFirstByChatIdOrderByTimestampDesc(chatId);
+    }
+
+    @Override
+    @Transactional
+    public void markUnreadChatMessagesOfChatRoomAsRead(ChatRoomListItemVO chatRoomListItemVO) {
+        String chat_id = chatRoomListItemVO.getChatRoomVO().getChatId();
+        chatMessageJPARepository.findAllByChatIdAndIsReadIsFalse(chat_id)
+                .forEach(this::markChatMessageAsRead);
+    }
+
+    private void markChatMessageAsRead(ChatMessage unreadMessage) {
+        unreadMessage.setRead(true);
+        chatMessageJPARepository.save(unreadMessage);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long getCountOfUnreadMessagesOfUser() {
+        return chatMessageJPARepository.countAllByRecipientIdAndIsReadIsFalse(UserContextHolder.getUserContext().getUserId());
     }
 }

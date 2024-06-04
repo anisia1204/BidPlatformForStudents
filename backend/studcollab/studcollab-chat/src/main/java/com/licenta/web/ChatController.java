@@ -58,4 +58,15 @@ public class ChatController {
         List<ChatRoomListItemVO> chatRoomListItemVOS = chatMessageService.getChatRoomListItemVOsSortedDescendingByLastMessageTimestamp(chatRooms);
         return ResponseEntity.ok(chatRoomListItemVOS);
     }
+
+    @PatchMapping("/unread-messages")
+    public ResponseEntity<?> markUnreadChatMessagesOfChatRoomAsRead(@RequestBody ChatRoomListItemVO chatRoomListItemVO) {
+        chatMessageService.markUnreadChatMessagesOfChatRoomAsRead(chatRoomListItemVO);
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("/unread-messages")
+    public ResponseEntity<?> getCountOfUnreadMessagesOfUser() {
+        return ResponseEntity.ok(chatMessageService.getCountOfUnreadMessagesOfUser());
+    }
 }

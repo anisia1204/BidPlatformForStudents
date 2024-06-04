@@ -2,16 +2,15 @@
   <div class="flex flex-column gap-2 chat-list" style="height: 460px; overflow-y: auto;">
     <ul *ngFor="let chat of chats; let i = index">
       <li class="mb-0 chat-room clearfix"
-          [ngClass]="{'selected-chatroom' : isSelected(chat.chatRoomVO?.recipientId)}"
+          [ngClass]="{'selected-chatroom' : isSelected(chat.chatRoomVO?.recipientId), 'unread-message': chat.hasUnreadMessages && !isSelected(chat.chatRoomVO?.recipientId)}"
           [ngStyle]="{'margin-top': i === 0 ? 0 : '-24px'}"
           (click)="getChatRoomMessages(chat.chatRoomVO?.recipientId)">
-          <img [src]="chat.chatRoomVO?.base64EncodedStringOfFileContent ?
+        <img [src]="chat.chatRoomVO?.base64EncodedStringOfFileContent ?
           'data:image/jpeg;base64,' + chat.chatRoomVO?.base64EncodedStringOfFileContent : './assets/no-profile-pic.png'"
-               alt=""
-               class="rounded-circle profile-pic"
-          >
+             alt=""
+             class="rounded-circle profile-pic">
         <div class="text-white">
-          <strong>
+          <strong [ngClass]="{'font-weight-bold': chat.hasUnreadMessages}">
             {{chat.chatRoomVO?.firstName}} {{chat.chatRoomVO?.lastName}}
           </strong>
         </div>

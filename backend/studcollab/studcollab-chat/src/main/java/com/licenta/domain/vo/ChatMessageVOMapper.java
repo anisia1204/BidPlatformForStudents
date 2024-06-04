@@ -12,7 +12,8 @@ public class ChatMessageVOMapper {
                 chatMessage.getSender().getId(),
                 chatMessage.getRecipient().getId(),
                 chatMessage.getContent(),
-                chatMessage.getTimestamp()
+                chatMessage.getTimestamp(),
+                chatMessage.getIsRead()
         );
     }
 }

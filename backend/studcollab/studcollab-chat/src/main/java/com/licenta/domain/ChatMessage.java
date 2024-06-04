@@ -21,6 +21,8 @@ public class ChatMessage {
     private String content;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+    @Column(name = "is_read")
+    private Boolean isRead;
 
     public ChatMessage() {
     }
@@ -71,5 +73,13 @@ public class ChatMessage {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
     }
 }

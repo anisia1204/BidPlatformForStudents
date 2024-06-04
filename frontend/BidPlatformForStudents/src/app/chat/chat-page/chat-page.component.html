@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row chat">
         <div class="col-3 chat-list">
-            <app-chat-list [chats]="chats" (chatRoomSelect)="onChatRoomSelect($event)"></app-chat-list>
+            <app-chat-list [chats]="chats" (chatRoomSelect)="onChatRoomSelect($event)" ></app-chat-list>
         </div>
         <div class="col-9">
             <ng-container *ngIf="recipientId">

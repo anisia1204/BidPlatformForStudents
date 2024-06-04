@@ -14,4 +14,6 @@ public interface ChatMessageService {
     List<ChatMessageVO> findChatMessages(Long recipientId, int page, int size);
 
     List<ChatRoomListItemVO> getChatRoomListItemVOsSortedDescendingByLastMessageTimestamp(List<ChatRoomVO> chatRooms);
+    void markUnreadChatMessagesOfChatRoomAsRead(ChatRoomListItemVO chatRoomListItemVO);
+    Long getCountOfUnreadMessagesOfUser();
 }

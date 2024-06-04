@@ -21,6 +21,7 @@ public class ChatMessageDTOMapper {
         chatMessage.setRecipient(userService.findById(chatMessageDTO.getRecipientId()));
         chatMessage.setContent(chatMessageDTO.getContent());
         chatMessage.setTimestamp(LocalDateTime.now());
+        chatMessage.setRead(false);
         return chatMessage;
     }
 }

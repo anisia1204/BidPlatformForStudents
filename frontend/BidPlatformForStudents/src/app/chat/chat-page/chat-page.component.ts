@@ -16,11 +16,22 @@ export class ChatPageComponent implements OnInit, OnDestroy{
   chatRoomStompService = inject(ChatRoomStompService)
   destroy$: Subject<boolean> = new Subject<boolean>()
   chatRoomMessages: ChatMessageVoModel[] = []
+  page: number = 0;
   recipientId: number | undefined
   visible: boolean = false;
   chats: ChatRoomListItemVoModel[] = []
+  constructor() {
+    this.chatRoomStompService.connectToChat()
+  }
   ngOnInit(): void {
     this.getChatRooms()
+    this.chatRoomStompService.receivedMessage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if(res) {
+          this.getChatRooms()
+        }
+      })
   }
 
   getChatRooms() {
@@ -32,18 +43,23 @@ export class ChatPageComponent implements OnInit, OnDestroy{
   }
 
   onChatRoomSelect(value: {recipientId: number | undefined, page?: number}) {
-    this.chatPageService
-      .getChatRoomMessages(value.recipientId, value.page)
+    if (!value.page) {
+      this.chatRoomMessages = [];
+      this.page = 0;
+    }
+    this.chatPageService.getChatRoomMessages(value.recipientId, value.page ?? this.page)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        this.chatRoomMessages = res.reverse()
-        if(!value.page) {
-          this.recipientId = value.recipientId
-          this.chatRoomStompService.recipientId = this.recipientId
+        if (value.page) {
+          this.chatRoomMessages.unshift(...res.reverse());
+        } else {
+          this.chatRoomMessages = res.reverse();
+          this.recipientId = value.recipientId;
+          this.chatRoomStompService.recipientId = this.recipientId;
         }
-
-      })
+      });
   }
+
 
   onSubmit(chatMessageDtoModel: ChatMessageDtoModel) {
     this.chatRoomStompService.sendMessage(chatMessageDtoModel)

@@ -5,4 +5,5 @@ export class ChatMessageVoModel {
   recipientId: number | undefined
   content: string | undefined
   timestamp: string | undefined
+  isRead: boolean | undefined
 }

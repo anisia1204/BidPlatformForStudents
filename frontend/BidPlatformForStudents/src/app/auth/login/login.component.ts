@@ -23,9 +23,6 @@ export class LoginComponent implements OnDestroy{
   userDto : UserDtoModel | undefined
   messageService = inject(MessageService)
   router = inject(Router)
-  chatRoomStompService = inject(ChatRoomStompService)
-
-
 
   constructor() {
     this.createForm();
@@ -47,7 +44,6 @@ export class LoginComponent implements OnDestroy{
           this.loginService.isLoggedIn(loggedInUserDto);
           if(loggedInUserDto.role === Role.USER) {
             this.router.navigate(['/dashboard'])
-            this.chatRoomStompService.connectToChat()
           }
           else {
             this.router.navigate(['/scan-qr'])

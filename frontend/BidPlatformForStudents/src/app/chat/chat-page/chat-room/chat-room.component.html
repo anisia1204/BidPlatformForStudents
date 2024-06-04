@@ -1,7 +1,8 @@
 <div class="row chat-area">
-  <div class="col-12 chat-messages" style="height: 300px; overflow-y: auto;" (scroll)="onScroll()" #chatArea>
-    <div *ngFor="let message of chatMessages" class="row d-flex align-items-center"
+  <div class="col-12 chat-messages" style="height: 300px; overflow-y: auto;" (scroll)="onScroll()" #chatArea >
+    <div *ngFor="let message of chatMessages; let i = index" class="row d-flex align-items-center"
          [class]="message.senderId === recipientId ? 'justify-content-start' : 'justify-content-end'">
+      <div *ngIf="showDateHeader(i)" class="date-header">{{ getMessageDate(message) | date}}</div>
       <div *ngIf="message.content" class="message-container col-auto"
            [class.recipient-message]="message.senderId === recipientId"
            [class.sender-message]="message.senderId !== recipientId">

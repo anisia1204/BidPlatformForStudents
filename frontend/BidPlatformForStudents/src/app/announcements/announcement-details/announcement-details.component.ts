@@ -11,7 +11,7 @@ import {SkillStatusModel} from "../domain/skill-status.model";
 @Component({
   selector: 'app-announcement-details',
   templateUrl: './announcement-details.component.html',
-  styleUrls: ['./announcement-details.component.scss']
+  styleUrls: ['./announcement-details.component.css']
 })
 export class AnnouncementDetailsComponent implements OnInit, OnDestroy{
   announcementDetailsService = inject(AnnouncementDetailsService)

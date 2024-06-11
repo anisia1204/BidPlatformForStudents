@@ -26,6 +26,8 @@ export class ChatRoomStompService {
     //this.connectToChat();
   }
 
+  private receivedMessageSubject = new BehaviorSubject<ChatMessageVoModel | null>(null)
+  receivedMessage$ = this.receivedMessageSubject.asObservable()
   connectToChat(): void {
     this.userContextService.getLoggedInUser().subscribe(res => {
       this.id = res?.id;
@@ -33,11 +35,7 @@ export class ChatRoomStompService {
     this.initWebSocket();
 
   }
-
   initWebSocket() {
-    // this.userContextService.getLoggedInUser().subscribe(res => {
-    //   this.id = res?.id
-    // })
     console.log('connecting to chat...');
     this.socket = new SockJS(this.url);
     this.stompClient = Stomp.over(this.socket);
@@ -50,10 +48,6 @@ export class ChatRoomStompService {
       );
     });
   }
-
-  private receivedMessageSubject = new BehaviorSubject<ChatMessageVoModel | null>(null)
-  receivedMessage$ = this.receivedMessageSubject.asObservable()
-
   onMessageReceived = (payload: any) => {
     const message = JSON.parse(payload.body);
     if (this.recipientId && this.recipientId === message.senderId) {

@@ -5,6 +5,7 @@ import com.licenta.domain.User;
 import com.licenta.domain.vo.UserEmailVO;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.service.dto.LoggedInUserDTO;
+import com.licenta.service.dto.ProfilePictureDTO;
 import com.licenta.service.dto.UserDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,4 +32,5 @@ public interface UserService {
     User getById(Long id);
     UserDTO getDTOFromString(String userDTOString);
     List<UserEmailVO> getFilteredUserEmails(String email);
+    ProfilePictureDTO updateUserProfilePicture(MultipartFile file);
 }

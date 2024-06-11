@@ -157,7 +157,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .forEach(skillService::markAsSold);
     }
 
-    private Transaction getSpendTransactionEntity(Announcement announcement, LocalDateTime transactionCurrentDateAndTime, User user) {
+    private Transaction  getSpendTransactionEntity(Announcement announcement, LocalDateTime transactionCurrentDateAndTime, User user) {
         Transaction transaction = new Transaction();
         transaction.setAnnouncement(announcement);
         transaction.setUser(user);

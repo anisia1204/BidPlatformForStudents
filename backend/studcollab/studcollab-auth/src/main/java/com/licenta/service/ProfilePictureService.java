@@ -11,4 +11,5 @@ public interface ProfilePictureService {
     ProfilePictureVO getVOByUserId(Long userId);
     String getBase64EncodedStringOfFileContentByUserId(Long userId);
     void deleteProfilePictureOfUserIfExists(String email);
+    ProfilePictureDTO update(MultipartFile file, User user);
 }

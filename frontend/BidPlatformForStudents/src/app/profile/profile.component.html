@@ -4,30 +4,79 @@
       <div class="col-md-4 mb-3">
         <div class="card">
           <div class="card-body">
-              <div class="d-flex flex-column align-items-center text-center">
-                  <img  [src]="userVo.profilePictureVO?.base64EncodedStringOfFileContent ?
+            <div class="d-flex flex-column align-items-center text-center">
+              <img [src]="userVo.profilePictureVO?.base64EncodedStringOfFileContent ?
                   'data:image/jpeg;base64,' + userVo.profilePictureVO?.base64EncodedStringOfFileContent : './assets/no-profile-pic.png'"
-                        alt="No profile pic"
-                        class="rounded-circle"
-                        width="150"
-                  >
-                <div class="mt-3">
-                  <h4>{{userVo.firstName}} {{userVo.lastName}}</h4>
-                  <p class="text-muted font-size-sm">{{userVo.createdAt | date: 'short'}}</p>
-                </div>
+                   alt="No profile pic"
+                   class="rounded-circle"
+                   width="150"
+              >
+              <div class="mt-3">
+                <h4>{{userVo.firstName}} {{userVo.lastName}}</h4>
+                <p class="text-muted font-size-sm">{{userVo.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
               </div>
-
+              <ng-container *ngIf="editProfilePictureMode">
+                <div class="row">
+                  <div class="col-sm-12 d-flex justify-content-end">
+                    <p-fileUpload
+                      name="files"
+                      [showUploadButton]="false"
+                      [showCancelButton]="false"
+                      [auto]="true"
+                      [customUpload]="true"
+                      [fileLimit]="1"
+                      (onRemove)="onRemove($event)"
+                      (uploadHandler)=uploadHandler($event)
+                      [chooseLabel]="'Alege'"
+                      accept="image/*"
+                      [style]="{'width':'100%'}">
+                    </p-fileUpload>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 d-flex justify-content-between">
+                    <button pButton
+                            pRipple
+                            class="p-button-text p-button-danger me-2"
+                            icon="pi pi-times"
+                            [pTooltip]="'Anuleaza'"
+                            tooltipPosition="left"
+                            (click)="editProfilePictureMode = false">
+                    </button>
+                    <button pButton
+                            pRipple
+                            class="p-button-text"
+                            icon="pi pi-check"
+                            [pTooltip]="'Salveaza'"
+                            [disabled]="profilePicture.length === 0"
+                            (click)="onUploadProfilePicture()">
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 d-flex justify-content-end">
+                <button *ngIf="!editProfilePictureMode"
+                        pButton
+                        pRipple
+                        class="p-button-icon-only p-button-text p-button-rounded"
+                        [pTooltip]="'Editeaza fotografia'"
+                        icon="pi pi-pencil"
+                        (click)="editProfilePictureMode = true">
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card mt-3 p-3">
           <h6 class="d-flex justify-content-center text-purple-700">Retrage-ti punctele scanand codul QR!</h6>
           <div class="d-flex flex-column align-items-center">
-            <img  [src]="'data:image/jpeg;base64,' + userVo.qrCodeVO?.base64EncodedStringOfQRCode"
-                  alt="No QR Code"
-                  width="370"
+            <img [src]="'data:image/jpeg;base64,' + userVo.qrCodeVO?.base64EncodedStringOfQRCode"
+                 alt="No QR Code"
+                 width="370"
             >
           </div>
-
         </div>
       </div>
       <div class="col-md-8">
@@ -146,15 +195,17 @@
                             pRipple
                             class="p-button-text p-button-danger me-2"
                             icon="pi pi-times"
+                            [pTooltip]="'Anuleaza'"
+                            tooltipPosition="left"
                             (click)="onEditCancel()">
-                      Anuleaza
                     </button>
                     <button pButton
                             pRipple
                             icon="pi pi-check"
+                            class="p-button-text"
+                            [pTooltip]="'Salveaza'"
                             [disabled]="form.invalid"
                             (click)="onSubmit()">
-                      Salveaza
                     </button>
                   </div>
                 </div>

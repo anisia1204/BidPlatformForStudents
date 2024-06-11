@@ -53,7 +53,7 @@ export class UpdateUserPointsComponent implements OnInit, OnDestroy{
             this.userDetailsVo.points = res.currentSold
           },
           (error) => {
-            this.messageService.add({ severity: 'error', summary: 'Eroare la stergere', detail: error.error.pointsToWithdraw });
+            this.messageService.add({ severity: 'error', summary: 'Eroare la retragere', detail: error.error.pointsToWithdraw });
           })
     }
   }

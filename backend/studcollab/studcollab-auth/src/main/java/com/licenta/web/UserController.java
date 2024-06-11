@@ -4,6 +4,7 @@ import com.google.zxing.WriterException;
 import com.licenta.domain.vo.UserEmailVO;
 import com.licenta.domain.vo.UserVO;
 import com.licenta.service.UserService;
+import com.licenta.service.dto.ProfilePictureDTO;
 import com.licenta.service.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -93,5 +94,11 @@ public class UserController {
             @RequestParam(required = false) String email
     ) {
         return ResponseEntity.ok(userService.getFilteredUserEmails(email));
+    }
+
+    @PutMapping("profile-pic")
+    @ResponseBody
+    public ResponseEntity<ProfilePictureDTO> updateUserProfilePicture(@RequestPart(value = "file") MultipartFile file) {
+        return ResponseEntity.ok(userService.updateUserProfilePicture(file));
     }
 }

@@ -5,6 +5,7 @@ import {GoBackService} from "../utils/go-back.service";
 import {UserVoModel} from "../auth/domain/user-vo.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserDtoModel} from "../auth/domain/user-dto.model";
+import {FileRemoveEvent, FileUploadHandlerEvent} from "primeng/fileupload";
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,7 @@ import {UserDtoModel} from "../auth/domain/user-dto.model";
 })
 export class ProfileComponent implements OnInit, OnDestroy{
   editMode = false;
+  editProfilePictureMode = false
   profileService = inject(ProfileService)
   goBackService = inject(GoBackService)
   userVo = new UserVoModel()
@@ -108,6 +110,30 @@ export class ProfileComponent implements OnInit, OnDestroy{
           this.onEditCancel()
         })
     }
+  }
+
+  profilePicture: File[] =[]
+
+  onRemove(event: FileRemoveEvent) {
+    const removedFile: File = event.file;
+    this.profilePicture = this.profilePicture?.filter(file => file !== removedFile);
+  }
+
+  uploadHandler(event: FileUploadHandlerEvent) {
+    this.profilePicture = event.files as File[]
+  }
+
+  onUploadProfilePicture() {
+    this.profileService
+      .updateUserProfilePic(this.profilePicture)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if(this.userVo.profilePictureVO) {
+          this.userVo.profilePictureVO.id = res.id
+          this.userVo.profilePictureVO.base64EncodedStringOfFileContent = res.base64EncodedStringOfFileContent
+          this.editProfilePictureMode = false
+        }
+      })
   }
 
   ngOnDestroy(): void {

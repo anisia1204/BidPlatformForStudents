@@ -1,8 +1,11 @@
 <nav class="custom-navbar fixed-top pb-5">
   <div class="flex-row d-flex align-content-center">
+    <div class="col-6 d-inline-flex justify-content-start">
+      <h5 style="color: var(--teal-500); padding: 16px">StudentCollab</h5>
+    </div>
     <ng-container *ngIf="isLoggedIn" class="flex-row d-inline-flex col-10 flex-grow-1">
       <app-sidebar *ngIf="role === Role.USER"></app-sidebar>
-      <div class="col-12 d-inline-flex justify-content-end p-0">
+      <div class="col-6 d-inline-flex justify-content-end p-0">
 
           <ng-container *ngIf="role === Role.USER">
               <a pRipple

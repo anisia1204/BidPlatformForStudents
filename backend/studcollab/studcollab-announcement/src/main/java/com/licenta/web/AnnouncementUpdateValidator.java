@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class AnnouncementUpdateValidator implements Validator {
@@ -47,6 +48,7 @@ public class AnnouncementUpdateValidator implements Validator {
     private boolean isAnySkillSold(List<SkillDTO> requiredSkills) {
         return requiredSkills.stream()
                 .map(SkillDTO::getId)
+                .filter(Objects::nonNull)
                 .map(skillService::getById)
                 .anyMatch(skill -> skill.getStatus() == SkillStatus.SOLD);
     }

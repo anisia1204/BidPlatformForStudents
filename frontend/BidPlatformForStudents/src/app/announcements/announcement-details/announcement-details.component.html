@@ -6,7 +6,7 @@
     <div class="d-flex flex-row my-3">
       <div class="text-warning mb-1 me-2">
         <span class="ms-1">
-                {{announcement?.createdAt | date}}
+                {{announcement?.createdAt | date: 'dd/MM/yyyy'}}
               </span>
       </div>
       <span class="text-muted pb-5" *ngIf="!myAnnouncements">
@@ -151,8 +151,8 @@
               pRipple
               type="submit"
               [disabled]="form.get('message').value === null || form.get('message').value === ''"
-              class="col-2 p-button-outlined"
-              icon="pi pi-arrow-up-right">
+              class="col-2 p-button-text"
+              icon="pi pi-send">
       </button>
     </form>
   </ng-container>

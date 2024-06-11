@@ -36,6 +36,20 @@ public class ProfilePictureServiceImpl implements ProfilePictureService{
     }
 
     @Override
+    @Transactional
+    public ProfilePictureDTO update(MultipartFile file, User user) {
+        ProfilePicture currentProfilePicture = getByUserId(user.getId());
+        if(currentProfilePicture == null){
+            return save(file, user);
+        }
+        ProfilePictureDTO profilePictureDTO = profilePictureDTOMapper.getDTOFromFile(file);
+        currentProfilePicture.setSize(profilePictureDTO.getSize());
+        currentProfilePicture.setName(profilePictureDTO.getName());
+        currentProfilePicture.setFileContent(profilePictureDTO.getFileContent());
+        return profilePictureDTOMapper.getDTOFromEntity(currentProfilePicture);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public ProfilePictureVO getVOByUserId(Long userId) {
         ProfilePicture profilePicture = getByUserId(userId);

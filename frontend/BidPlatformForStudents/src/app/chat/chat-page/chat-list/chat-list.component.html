@@ -17,7 +17,7 @@
         <div class="text-muted last-message text-white mt-2">
           {{ chat.chatRoomVO?.recipientId === chat.lastMessage?.senderId ? chat.lastMessage?.content : 'Tu: ' + chat.lastMessage?.content}}
         </div>
-        <small class="date text-muted text-white">{{chat.lastMessage?.timestamp | date: "shortDate" }}</small>
+        <small class="date text-muted text-white">{{chat.lastMessage?.timestamp | date: "dd/MM/yyyy" }}</small>
         <small class="time text-muted text-white">{{chat.lastMessage?.timestamp | date: "shortTime" }}</small>
       </li>
     </ul>

@@ -23,4 +23,8 @@ export class ProfileService {
   getChartData(): Observable<ChartDataVoModel> {
     return this.announcementResourceService.getChartData();
   }
+
+  updateUserProfilePic(files: File[]){
+    return this.userResourceService.updateUserProfilePic(files)
+  }
 }

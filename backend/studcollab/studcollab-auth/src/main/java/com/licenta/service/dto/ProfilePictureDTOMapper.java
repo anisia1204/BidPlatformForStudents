@@ -23,6 +23,20 @@ public class ProfilePictureDTOMapper {
         return profilePicture;
     }
 
+    public ProfilePictureDTO getDTOFromFile(MultipartFile file) {
+        ProfilePictureDTO profilePictureDTO = new ProfilePictureDTO();
+
+        profilePictureDTO.setName(file.getOriginalFilename());
+        profilePictureDTO.setSize(file.getSize());
+        try {
+            profilePictureDTO.setFileContent(file.getBytes());
+        }
+        catch(IOException e) {
+            throw new ArithmeticException("Can't upload file " + file.getOriginalFilename());
+        }
+        return profilePictureDTO;
+    }
+
     public ProfilePictureDTO getDTOFromEntity(ProfilePicture profilePicture) {
         ProfilePictureDTO profilePictureDTO = new ProfilePictureDTO();
 

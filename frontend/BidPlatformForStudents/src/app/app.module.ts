@@ -274,7 +274,7 @@ const routes: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

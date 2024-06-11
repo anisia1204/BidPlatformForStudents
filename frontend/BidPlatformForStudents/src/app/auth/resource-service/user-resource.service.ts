@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
 import {UserVoModel} from "../domain/user-vo.model";
 import {UserEmailVoModel} from "../domain/user-email-vo.model";
+import {ProfilePictureDtoModel} from "../domain/profile-picture-dto.model";
 
 @Injectable({
     providedIn: "root"
@@ -24,6 +25,14 @@ export class UserResourceService {
             type: "application/json"
         }));
         return this.httpClient.post<UserDtoModel>(`${this.url}`, formData);
+    }
+
+    updateUserProfilePic(files: File[]) {
+      const formData: FormData = new FormData();
+      for (let file of files) {
+        formData.append('file', file);
+      }
+      return this.httpClient.put<ProfilePictureDtoModel>(`${this.url}/profile-pic`, formData);
     }
 
     login(userDto: UserDtoModel) {

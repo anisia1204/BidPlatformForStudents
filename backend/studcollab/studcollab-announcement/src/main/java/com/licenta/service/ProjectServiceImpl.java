@@ -4,6 +4,7 @@ import com.licenta.context.UserContextHolder;
 import com.licenta.domain.AnnouncementStatus;
 import com.licenta.domain.Project;
 import com.licenta.domain.Skill;
+import com.licenta.domain.SkillStatus;
 import com.licenta.domain.repository.ProjectJPARepository;
 import com.licenta.domain.vo.SkillVO;
 import com.licenta.service.dto.ProjectDTO;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -72,25 +75,32 @@ public class ProjectServiceImpl implements ProjectService{
         projectDTO.setRequiredSkills(updatedSkillDTOs);
         return projectDTO;
     }
-//daca un skill nou vine ultimul in array, nu se salveaza
     private void updateRequiredSkills(List<Skill> existingSkills, List<SkillDTO> skillDTOS, Project project) {
-            existingSkills.forEach(existingSkill -> {
-                boolean deleted = true;
-                for (SkillDTO skillDTO : skillDTOS) {
-                    if (deleted) {
-                        if (skillDTO.getId() == null) {
-                            SkillDTO newSkillDTO = skillService.save(skillDTO, project);
-                            skillDTO.setId(newSkillDTO.getId());
-                        } else if (Objects.equals(skillDTO.getId(), existingSkill.getId())) {
-                            skillService.update(skillDTO);
-                            deleted = false;
-                        }
-                    }
-                }
-                if(deleted) {
+        Set<Long> incomingSkillIds = skillDTOS.stream()
+                .map(SkillDTO::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        existingSkills.forEach(existingSkill -> {
+            if (incomingSkillIds.contains(existingSkill.getId())) {
+                SkillDTO skillDTO = skillDTOS.stream()
+                        .filter(dto -> Objects.equals(dto.getId(), existingSkill.getId()))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException("Skill DTO not found for existing skill"));
+                skillService.update(skillDTO);
+            } else {
+                if(!(existingSkill.getStatus() == SkillStatus.SOLD)){
                     skillService.delete(existingSkill.getId());
                 }
-            });
+            }
+        });
+
+        skillDTOS.forEach(skillDTO -> {
+            if (skillDTO.getId() == null) {
+                SkillDTO newSkillDTO = skillService.save(skillDTO, project);
+                skillDTO.setId(newSkillDTO.getId());
+            }
+        });
     }
 
     @Override

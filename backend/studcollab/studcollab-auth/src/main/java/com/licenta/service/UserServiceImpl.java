@@ -4,15 +4,13 @@ import com.google.zxing.WriterException;
 import com.licenta.config.service.JwtService;
 import com.licenta.context.UserContextHolder;
 import com.licenta.domain.ConfirmationToken;
+import com.licenta.domain.ProfilePicture;
 import com.licenta.domain.Role;
 import com.licenta.domain.User;
 import com.licenta.domain.repository.UserJPARepository;
 import com.licenta.domain.vo.*;
+import com.licenta.service.dto.*;
 import com.licenta.service.email.EmailSender;
-import com.licenta.service.dto.LoggedInUserDTO;
-import com.licenta.service.dto.LoggedInUserDTOMapper;
-import com.licenta.service.dto.UserDTO;
-import com.licenta.service.dto.UserDTOMapper;
 import com.licenta.service.exception.UserAlreadyExistsException;
 import com.licenta.service.exception.UserNotFoundException;
 import io.jsonwebtoken.Claims;
@@ -254,6 +252,13 @@ public class UserServiceImpl implements UserService{
         return resultList.stream()
                 .map(user -> new UserEmailVO(user.getId(), user.getEmail()))
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public ProfilePictureDTO updateUserProfilePicture(MultipartFile file) {
+        User user = getById(UserContextHolder.getUserContext().getUserId());
+        return profilePictureService.update(file, user);
     }
 
 

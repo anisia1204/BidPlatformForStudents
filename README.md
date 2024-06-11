@@ -1,1 +1,1 @@
-# BidPlatformForStudents
+# StudentCollab

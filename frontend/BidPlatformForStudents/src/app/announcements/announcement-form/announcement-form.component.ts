@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, Optional} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TeachingMaterialDtoModel} from "../domain/teaching-material-dto.model";
 import {TutoringServiceDtoModel} from "../domain/tutoring-service-dto.model";
@@ -14,7 +14,7 @@ import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 import {Subject, takeUntil} from "rxjs";
 import {GoBackService} from "../../utils/go-back.service";
 import {MessageService} from "primeng/api";
-import {DynamicDialogRef} from "primeng/dynamicdialog";
+import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {SkillStatusModel} from "../domain/skill-status.model";
 
 
@@ -24,7 +24,7 @@ import {SkillStatusModel} from "../domain/skill-status.model";
   styleUrls: ['./announcement-form.component.scss'],
   providers: [MessageService, DynamicDialogRef]
 })
-export class AnnouncementFormComponent implements OnInit, OnDestroy {
+export class  AnnouncementFormComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
   id: string | null = null;
   isNew = false;
@@ -38,10 +38,9 @@ export class AnnouncementFormComponent implements OnInit, OnDestroy {
   router = inject(Router)
   messageService = inject(MessageService)
   goBackService = inject(GoBackService)
-  dynamicDialogRef = inject(DynamicDialogRef)
   announcementType = ""
 
-  constructor() {
+  constructor(@Optional() public config: DynamicDialogConfig) {
     this.createForm();
   }
 
@@ -234,7 +233,7 @@ export class AnnouncementFormComponent implements OnInit, OnDestroy {
 
   saveTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
     this.announcementFormService.saveTeachingMaterialDto(teachingMaterialDto, files).subscribe(
-        teachingMaterialDto => this.dynamicDialogRef?.close(true)
+        teachingMaterialDto => this.config.data.ref.close(teachingMaterialDto)
     )
   }
   editTeachingMaterial(teachingMaterialDto: TeachingMaterialDtoModel, files: File[]) {
@@ -256,7 +255,7 @@ export class AnnouncementFormComponent implements OnInit, OnDestroy {
 
   saveTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
     this.announcementFormService.saveTutoringServiceDto(tutoringServiceDto).subscribe(
-        tutoringServiceDto => this.dynamicDialogRef?.close(true)
+        tutoringServiceDto => this.config.data.ref.close(tutoringServiceDto)
     )
   }
   editTutoringService(tutoringServiceDto: TutoringServiceDtoModel) {
@@ -272,7 +271,7 @@ export class AnnouncementFormComponent implements OnInit, OnDestroy {
 
   saveProject(projectDto: ProjectDtoModel) {
     this.announcementFormService.saveProjectDto(projectDto).subscribe(
-        projectDto => this.dynamicDialogRef?.close(true)
+        projectDto => this.config.data.ref.close(projectDto)
     )
   }
   editProject(projectDto: ProjectDtoModel) {

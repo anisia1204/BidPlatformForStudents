@@ -2,8 +2,8 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {NavbarService} from "./navbar.service";
 import {MenuItem, MessageService} from "primeng/api";
 import {Router} from "@angular/router";
-import {Subject, Subscription, takeUntil} from "rxjs";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {Subject, Subscription, take, takeUntil} from "rxjs";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {AnnouncementFormComponent} from "../../announcements/announcement-form/announcement-form.component";
 import {Role} from "../../auth/domain/role";
 
@@ -13,9 +13,9 @@ import {Role} from "../../auth/domain/role";
   styleUrls: ['./navbar.component.scss'],
   providers: [DialogService, MessageService]
 })
-export class NavbarComponent implements OnInit, OnDestroy{
+export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
-  points : number | undefined
+  points: number | undefined
   role: Role | undefined
   navbarService = inject(NavbarService)
   router = inject(Router)
@@ -24,17 +24,17 @@ export class NavbarComponent implements OnInit, OnDestroy{
   newAnnouncementDialog: DynamicDialogRef | undefined;
   destroy$: Subject<boolean> = new Subject<boolean>()
 
-  constructor(public dialogService: DialogService, private messageService: MessageService) {}
+  constructor(public dialogService: DialogService, private messageService: MessageService) {
+  }
 
   ngOnInit(): void {
     this.userSubscription = this.navbarService.isLoggedIn().subscribe(
       loggedInUserDto => {
-        if(loggedInUserDto) {
+        if (loggedInUserDto) {
           this.isLoggedIn = true
           this.points = loggedInUserDto.points
           this.role = loggedInUserDto.role
-        }
-        else {
+        } else {
           this.isLoggedIn = false
         }
       }
@@ -58,25 +58,25 @@ export class NavbarComponent implements OnInit, OnDestroy{
   }
 
   show() {
-    this.newAnnouncementDialog = this.dialogService.open(AnnouncementFormComponent, {
+    this.newAnnouncementDialog = new DynamicDialogRef()
+    const ref = this.dialogService.open(AnnouncementFormComponent, {
+      data: {
+        ref: this.newAnnouncementDialog
+      },
       position: "center",
       modal: true,
     });
     this.newAnnouncementDialog.onClose
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: boolean) => {
-        if(data){
-          this.newAnnouncementDialog?.close()
-          this.messageService.add({
-            severity: 'info',
-            summary: 'Success',
-            detail: 'Anuntul a fost creat cu succes!'
-          })
+        if (data) {
+          ref.close()
         }
       })
   }
+
   ngOnDestroy(): void {
-    this.newAnnouncementDialog?.close()
+    this.newAnnouncementDialog?.destroy()
     this.userSubscription?.unsubscribe()
     this.destroy$.next(true)
   }

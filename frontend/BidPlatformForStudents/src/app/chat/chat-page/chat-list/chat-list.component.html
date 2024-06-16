@@ -9,16 +9,25 @@
           'data:image/jpeg;base64,' + chat.chatRoomVO?.base64EncodedStringOfFileContent : './assets/no-profile-pic.png'"
              alt=""
              class="rounded-circle profile-pic">
-        <div class="text-white">
-          <strong [ngClass]="{'font-weight-bold': chat.hasUnreadMessages}">
-            {{chat.chatRoomVO?.firstName}} {{chat.chatRoomVO?.lastName}}
-          </strong>
+        <div class="chat-content">
+          <div class="text-white">
+            <strong [ngClass]="{'font-weight-bold': chat.hasUnreadMessages}">
+              {{chat.chatRoomVO?.firstName}} {{chat.chatRoomVO?.lastName}}
+            </strong>
+            <i *ngIf="chat.hasUnreadMessages && !isSelected(chat.chatRoomVO?.recipientId)"
+               [style]="{'color': '#EF4444', 'font-weight': 'bold'}"
+               class="pi pi-bell"></i>
+          </div>
+          <div class="text-muted last-message text-white mt-2">
+            {{ chat.chatRoomVO?.recipientId === chat.lastMessage?.senderId ? chat.lastMessage?.content : 'Tu: ' + chat.lastMessage?.content}}
+          </div>
+          <div>
+            <small class="date text-muted text-white">{{chat.lastMessage?.timestamp | date: "dd/MM/yyyy" }}</small>
+          </div>
+          <div>
+            <small class="time text-muted text-white">{{chat.lastMessage?.timestamp | date: "shortTime" }}</small>
+          </div>
         </div>
-        <div class="text-muted last-message text-white mt-2">
-          {{ chat.chatRoomVO?.recipientId === chat.lastMessage?.senderId ? chat.lastMessage?.content : 'Tu: ' + chat.lastMessage?.content}}
-        </div>
-        <small class="date text-muted text-white">{{chat.lastMessage?.timestamp | date: "dd/MM/yyyy" }}</small>
-        <small class="time text-muted text-white">{{chat.lastMessage?.timestamp | date: "shortTime" }}</small>
       </li>
     </ul>
   </div>

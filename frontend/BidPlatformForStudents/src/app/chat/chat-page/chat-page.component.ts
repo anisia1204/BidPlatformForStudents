@@ -28,6 +28,7 @@ export class ChatPageComponent implements OnInit, OnDestroy{
     this.chatRoomStompService.receivedMessage$
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
+        console.log(res)
         if(res) {
           this.getChatRooms()
         }

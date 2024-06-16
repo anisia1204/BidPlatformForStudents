@@ -1,7 +1,6 @@
 import {Component, inject, OnDestroy, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Subject} from "rxjs";
 import {ChatRoomListItemVoModel} from "../../domain/chat-room-list-item-vo.model";
-import {ChatRoomStompService} from "../../../utils/chat-room-stomp.service";
 import {ChatListService} from "./chat-list.service";
 
 @Component({

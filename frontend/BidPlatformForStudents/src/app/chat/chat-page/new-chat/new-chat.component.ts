@@ -37,7 +37,6 @@ export class NewChatComponent implements OnDestroy{
 
   ngOnDestroy() {
     this.destroy$.next(true)
-    this.form.reset()
   }
 
   onSubmit() {
@@ -49,5 +48,10 @@ export class NewChatComponent implements OnDestroy{
       this.chatRoomStompService.sendMessage(chatMessageDto)
       this.messageSent.emit(true)
     }
+  }
+
+  onHide() {
+    this.form.reset()
+    this.hide.emit(true)
   }
 }

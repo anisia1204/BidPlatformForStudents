@@ -2,7 +2,7 @@
   <div class="col-12 chat-messages" style="height: 300px; overflow-y: auto;" (scroll)="onScroll()" #chatArea >
     <div *ngFor="let message of chatMessages; let i = index" class="row d-flex align-items-center"
          [class]="message.senderId === recipientId ? 'justify-content-start' : 'justify-content-end'">
-      <div *ngIf="showDateHeader(i)" class="date-header">{{ getMessageDate(message) | date: 'MM/dd/yyyy'}}</div>
+      <div *ngIf="showDateHeader(i)" class="date-header">{{ message.timestamp | date: 'dd/MM/yyyy'}}</div>
       <div *ngIf="message.content" class="message-container col-auto"
            [class.recipient-message]="message.senderId === recipientId"
            [class.sender-message]="message.senderId !== recipientId">
@@ -21,7 +21,7 @@
       <input pInputText placeholder="Scrie..." formControlName="message" name="chatMessageDto"
              class="col-11">
       <button pButton type="submit"
-              [disabled]="form.get('message').value === null || form.get('message').value === ''"
+              [disabled]="form.get('message')?.value === null || form.get('message')?.value === ''"
               class="col-1 p-button-text"
               icon="pi pi-send">
       </button>

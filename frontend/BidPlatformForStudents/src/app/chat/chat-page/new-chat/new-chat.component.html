@@ -1,5 +1,5 @@
 <p-dialog header="Conversatie noua" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }"
-          (onHide)="hide.emit(true)">
+          (onHide)="onHide()">
     <span class="p-text-secondary block mb-4">Cauta utilizator dupa e-mail.</span>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="flex align-items-center gap-3 mb-4">

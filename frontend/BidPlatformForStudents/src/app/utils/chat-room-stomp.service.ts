@@ -22,10 +22,6 @@ export class ChatRoomStompService {
     return this._recipientId
   }
 
-  constructor() {
-    //this.connectToChat();
-  }
-
   private receivedMessageSubject = new BehaviorSubject<ChatMessageVoModel | null>(null)
   receivedMessage$ = this.receivedMessageSubject.asObservable()
   connectToChat(): void {
@@ -50,9 +46,10 @@ export class ChatRoomStompService {
   }
   onMessageReceived = (payload: any) => {
     const message = JSON.parse(payload.body);
-    if (this.recipientId && this.recipientId === message.senderId) {
-      this.receivedMessageSubject.next(message)
-    }
+    this.receivedMessageSubject.next(message)
+    // if (this.recipientId && this.recipientId === message.senderId) {
+    //
+    // }
   }
 
 

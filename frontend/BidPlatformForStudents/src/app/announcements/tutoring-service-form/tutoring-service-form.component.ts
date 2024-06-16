@@ -15,6 +15,15 @@ export class TutoringServiceFormComponent implements OnInit, OnDestroy{
   minDateForEndDate: Date = new Date();
 
   ngOnInit(): void {
+    if(this.form.get("tutoringType").value) {
+      this.form.get("tutoringType").value =
+        {
+          label: this.form.get("tutoringType").value === 'REMOTE' ? 'Remote' : 'Fizic',
+          value: this.form.get("tutoringType").value === 'REMOTE' ? 0 : 1
+        }
+
+    }
+
     this.minDateForStartDate = new Date()
     this.minDateForEndDate.setDate(this.minDateForStartDate.getDate() + 1)
     this.initTutoringTypes();

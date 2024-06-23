@@ -5,12 +5,13 @@ import {LoggedInUserDtoModel} from "../domain/logged-in-user-dto.model";
 import {UserVoModel} from "../domain/user-vo.model";
 import {UserEmailVoModel} from "../domain/user-email-vo.model";
 import {ProfilePictureDtoModel} from "../domain/profile-picture-dto.model";
+import {userUrl} from "../../utils/endpoints";
 
 @Injectable({
     providedIn: "root"
 })
 export class UserResourceService {
-    private url: string = "http://localhost:8081/api/user"
+    private url = userUrl
 
     constructor(private httpClient: HttpClient) {
         this.httpClient = httpClient;

@@ -73,7 +73,7 @@ public class ChatMessageServiceImpl implements ChatMessageService{
             ChatMessageVO chatMessageVO = chatMessageVOMapper.getVOFromEntity(chatMessage);
             Boolean hasUnreadMessages = !chatMessageVO.getIsRead() &&
                     !Objects.equals(chatMessageVO.getSenderId(), UserContextHolder.getUserContext().getUserId());
-                    chatRoomListItemVOS.add(new ChatRoomListItemVO(
+            chatRoomListItemVOS.add(new ChatRoomListItemVO(
                     chatRoomVO,
                     chatMessageVO,
                     hasUnreadMessages));

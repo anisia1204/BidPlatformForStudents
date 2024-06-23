@@ -8,7 +8,7 @@ import {SkillStatusModel} from "../domain/skill-status.model";
 @Component({
   selector: 'app-project-inputs',
   templateUrl: './project-inputs.component.html',
-  styleUrls: ['./project-inputs.component.scss']
+  styleUrls: ['./project-inputs.component.css']
 })
 export class ProjectInputsComponent implements OnInit, OnDestroy{
   @Input() form: FormGroup | any;

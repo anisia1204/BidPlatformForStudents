@@ -8,7 +8,7 @@ import {FileRemoveEvent, FileUploadHandlerEvent} from "primeng/fileupload";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  styleUrls: ['./registration.component.css'],
   providers: [MessageService]
 })
 export class RegistrationComponent {

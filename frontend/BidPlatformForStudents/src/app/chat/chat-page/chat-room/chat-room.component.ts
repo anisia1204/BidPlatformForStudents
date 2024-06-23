@@ -18,7 +18,7 @@ import {Subject, takeUntil} from "rxjs";
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.component.html',
-  styleUrls: ['./chat-room.component.scss']
+  styleUrls: ['./chat-room.component.css']
 })
 export class ChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   _chatMessages: ChatMessageVoModel[] | null = [];

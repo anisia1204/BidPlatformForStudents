@@ -7,7 +7,7 @@ import {WithdrawHistoryService} from "./withdraw-history.service";
 @Component({
   selector: 'app-withdraw-history',
   templateUrl: './withdraw-history.component.html',
-  styleUrls: ['./withdraw-history.component.scss']
+  styleUrls: ['./withdraw-history.component.css']
 })
 export class WithdrawHistoryComponent implements OnInit, OnDestroy {
   withdrawals!: any[];

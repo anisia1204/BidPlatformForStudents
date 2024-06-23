@@ -13,7 +13,7 @@ import {Role} from "../domain/role";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.css'],
   providers: [MessageService]
 })
 export class LoginComponent implements OnDestroy{

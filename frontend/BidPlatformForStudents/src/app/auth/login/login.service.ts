@@ -36,7 +36,6 @@ export class LoginService {
 
     if(loggedInUserDto.tokenExpirationDate) {
       const expiresIn = new Date(loggedInUserDto.tokenExpirationDate).getTime() - new Date().getTime();
-      console.log(expiresIn)
       this.autoLogout(expiresIn);
     }
 
@@ -65,7 +64,6 @@ export class LoginService {
         _token: string;
         _tokenExpirationDate: string;
       } = JSON.parse(storedData);
-      console.log(userData)
       if(!userData) {
         return;
       }
@@ -84,7 +82,6 @@ export class LoginService {
       if(loadedUser.token) {
         this.loggedInUserSubject.next(loadedUser);
         const expirationDuration = this.getExpirationDurationOfJwtToken(loadedUser.tokenExpirationDate)
-        console.log(expirationDuration)
         if(expirationDuration) {
           this.autoLogout(expirationDuration)
         }

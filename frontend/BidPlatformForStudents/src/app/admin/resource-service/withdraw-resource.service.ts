@@ -4,12 +4,13 @@ import {UserDetailsVoModel} from "../domain/user-details-vo.model";
 import {UpdateUserPointsDtoModel} from "../domain/update-user-points-dto.model";
 import {Page} from "../../announcements/domain/page.model";
 import {WithdrawVoModel} from "../domain/withdraw-vo.model";
+import {adminFeaturesUrl} from "../../utils/endpoints";
 
 @Injectable({
   providedIn: "root"
 })
 export class WithdrawResourceService {
-  private url: string = "http://localhost:8081/api/admin-features"
+  private url = adminFeaturesUrl
   constructor(private httpClient: HttpClient) {
     this.httpClient = httpClient;
   }

@@ -6,7 +6,7 @@ import {SelectItem} from "primeng/api";
 @Component({
   selector: 'app-tutoring-service-form',
   templateUrl: './tutoring-service-form.component.html',
-  styleUrls: ['./tutoring-service-form.component.scss']
+  styleUrls: ['./tutoring-service-form.component.css']
 })
 export class TutoringServiceFormComponent implements OnInit, OnDestroy{
   @Input() form: FormGroup | any;

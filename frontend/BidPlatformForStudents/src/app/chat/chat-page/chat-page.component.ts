@@ -9,7 +9,7 @@ import {ChatRoomListItemVoModel} from "../domain/chat-room-list-item-vo.model";
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
-  styleUrls: ['./chat-page.component.scss']
+  styleUrls: ['./chat-page.component.css']
 })
 export class ChatPageComponent implements OnInit, OnDestroy{
   chatPageService = inject(ChatPageService)

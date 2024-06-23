@@ -10,7 +10,7 @@ import {MessageService} from "primeng/api";
 @Component({
   selector: 'app-update-user-points',
   templateUrl: './update-user-points.component.html',
-  styleUrls: ['./update-user-points.component.scss'],
+  styleUrls: ['./update-user-points.component.css'],
   providers: [MessageService]
 })
 export class UpdateUserPointsComponent implements OnInit, OnDestroy{

@@ -12,7 +12,7 @@ import {AnnouncementSortData} from "../../utils/announcement-list/announcement-s
 @Component({
   selector: 'app-my-announcements',
   templateUrl: './my-announcements.component.html',
-  styleUrls: ['./my-announcements.component.scss'],
+  styleUrls: ['./my-announcements.component.css'],
   providers: [MessageService]
 })
 export class MyAnnouncementsComponent implements OnInit, OnDestroy{

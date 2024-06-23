@@ -10,7 +10,7 @@ import {FileRemoveEvent, FileUploadHandlerEvent} from "primeng/fileupload";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy{
   editMode = false;

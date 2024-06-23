@@ -14,7 +14,7 @@ import {AnnouncementSortData} from "../utils/announcement-list/announcement-sort
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.css'],
   providers: [MessageService]
 })
 export class DashboardComponent implements OnInit, OnDestroy{

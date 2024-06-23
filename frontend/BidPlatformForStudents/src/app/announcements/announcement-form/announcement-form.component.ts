@@ -21,7 +21,7 @@ import {SkillStatusModel} from "../domain/skill-status.model";
 @Component({
   selector: 'app-announcement-form',
   templateUrl: './announcement-form.component.html',
-  styleUrls: ['./announcement-form.component.scss'],
+  styleUrls: ['./announcement-form.component.css'],
   providers: [MessageService, DynamicDialogRef]
 })
 export class  AnnouncementFormComponent implements OnInit, OnDestroy {

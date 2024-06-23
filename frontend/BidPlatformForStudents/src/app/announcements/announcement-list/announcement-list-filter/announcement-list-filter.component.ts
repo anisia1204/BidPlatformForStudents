@@ -7,7 +7,7 @@ import {AnnouncementColumn} from "../../../utils/announcement-list/announcement-
 @Component({
   selector: 'app-announcement-list-filter',
   templateUrl: './announcement-list-filter.component.html',
-  styleUrls: ['./announcement-list-filter.component.scss']
+  styleUrls: ['./announcement-list-filter.component.css']
 })
 export class AnnouncementListFilterComponent {
   @Input() column: AnnouncementColumn | null = null

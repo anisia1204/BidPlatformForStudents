@@ -2,12 +2,13 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {ProjectDtoModel} from "../domain/project-dto.model";
 import {SkillVoModel} from "../domain/skill-vo.model";
+import {projectUrl} from "../../utils/endpoints";
 
 @Injectable({
   providedIn: "root"
 })
 export class ProjectResourceService {
-  private url = "http://localhost:8081/api/project"
+  private url = projectUrl
 
   constructor(private httpClient: HttpClient) {
   }

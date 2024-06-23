@@ -26,6 +26,7 @@ export class AnnouncementDetailsComponent implements OnInit, OnDestroy{
   destroy$: Subject<boolean> = new Subject<boolean>()
 
   constructor() {
+    this.chatRoomStompService.connectToChat()
     this.form = this.fb.group({
       message: [null]
     })
@@ -52,12 +53,8 @@ export class AnnouncementDetailsComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
+    this.chatRoomStompService.disconnect()
     this.destroy$.next(true)
-  }
-
-  isMessageInput = false;
-  showMessageInput() {
-    this.isMessageInput = true
   }
 
   protected readonly SkillStatusModel = SkillStatusModel;

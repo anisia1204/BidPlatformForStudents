@@ -5,11 +5,12 @@ import {BehaviorSubject} from "rxjs";
 import {UserContextService} from "../auth/user-context-service/user-context.service";
 import {ChatMessageDtoModel} from "../chat/domain/chat-message-dto.model";
 import {ChatMessageVoModel} from "../chat/domain/chat-message-vo.model";
+import {wsUrl} from "./endpoints";
 @Injectable({
   providedIn: "root"
 })
 export class ChatRoomStompService {
-  url = 'http://localhost:8081/ws';
+  url = wsUrl;
   socket?: WebSocket;
   stompClient?: Stomp.Client;
   userContextService = inject(UserContextService)
@@ -58,6 +59,18 @@ export class ChatRoomStompService {
       chatMessageDto.senderId = this.id
       this.stompClient.send('/app/chat', {}, JSON.stringify(chatMessageDto))
       this.receivedMessageSubject.next(chatMessageDto)
+    }
+  }
+
+  disconnect(): void {
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log('Disconnected');
+      });
+    }
+    if (this.socket) {
+      this.socket.close();
+      console.log('WebSocket closed');
     }
   }
 }

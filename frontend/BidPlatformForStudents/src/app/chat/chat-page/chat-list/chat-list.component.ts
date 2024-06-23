@@ -6,7 +6,7 @@ import {ChatListService} from "./chat-list.service";
 @Component({
   selector: 'app-chat-list',
   templateUrl: './chat-list.component.html',
-  styleUrls: ['./chat-list.component.scss']
+  styleUrls: ['./chat-list.component.css']
 })
 export class ChatListComponent implements OnDestroy{
   destroy$: Subject<boolean> = new Subject<boolean>()

@@ -7,12 +7,13 @@ import {FavoriteAnnouncementDtoModel} from "../domain/favorite-announcement-dto.
 import {ChartDataVoModel} from "../domain/chart-data-vo.model";
 import {AnnouncementListFilters} from "../../utils/announcement-list/announcement-list-filters";
 import {AnnouncementSortData} from "../../utils/announcement-list/announcement-sort-data";
+import {announcementUrl} from "../../utils/endpoints";
 
 @Injectable({
   providedIn: "root"
 })
 export class AnnouncementResourceService {
-  private url = "http://localhost:8081/api/announcements"
+  private url = announcementUrl
 
   constructor(private httpClient: HttpClient) {
   }

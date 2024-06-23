@@ -10,7 +10,7 @@ import {Role} from "../../auth/domain/role";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrls: ['./navbar.component.css'],
   providers: [DialogService, MessageService]
 })
 export class NavbarComponent implements OnInit, OnDestroy {

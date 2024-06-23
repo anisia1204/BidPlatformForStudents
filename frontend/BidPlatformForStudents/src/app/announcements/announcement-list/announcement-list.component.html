@@ -3,6 +3,7 @@
   <div class="cardd">
     <p-dataView [value]="announcements" [paginator]="true" [rows]="9" [totalRecords]="totalRecords"
                 [lazy]="true" (onLazyLoad)="onLazyLoad($event.first / 9, 9, filters, sort)"
+                [emptyMessage]="'Nu s-au gasit date!'"
                 [layout]="'grid'">
       <ng-template pTemplate="header">
         <div class="flex flex-column md:flex-row">

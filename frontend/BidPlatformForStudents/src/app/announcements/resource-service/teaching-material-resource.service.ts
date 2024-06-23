@@ -1,12 +1,13 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {TeachingMaterialDtoModel} from "../domain/teaching-material-dto.model";
+import {teachingMaterialUrl} from "../../utils/endpoints";
 
 @Injectable({
   providedIn: "root"
 })
 export class TeachingMaterialResourceService {
-  private url = "http://localhost:8081/api/teaching-material"
+  private url = teachingMaterialUrl
 
   constructor(private httpClient: HttpClient) {
   }

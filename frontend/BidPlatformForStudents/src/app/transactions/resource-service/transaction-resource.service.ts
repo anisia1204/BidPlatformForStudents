@@ -4,12 +4,13 @@ import {TransactionDtoModel} from "../domain/transaction-dto.model";
 import {Page} from "../../announcements/domain/page.model";
 import {TransactionVoModel} from "../domain/transaction-vo.model";
 import {DatePipe} from "@angular/common";
+import {transactionUrl} from "../../utils/endpoints";
 
 @Injectable({
   providedIn: "root"
 })
 export class TransactionResourceService {
-  private url = "http://localhost:8081/api/transaction"
+  private url = transactionUrl
 
   constructor(private httpClient: HttpClient) {
   }

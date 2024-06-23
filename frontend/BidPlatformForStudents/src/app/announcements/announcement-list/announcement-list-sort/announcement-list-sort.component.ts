@@ -5,7 +5,7 @@ import {AnnouncementColumn} from "../../../utils/announcement-list/announcement-
 @Component({
   selector: 'app-announcement-list-sort',
   templateUrl: './announcement-list-sort.component.html',
-  styleUrls: ['./announcement-list-sort.component.scss']
+  styleUrls: ['./announcement-list-sort.component.css']
 })
 export class AnnouncementListSortComponent {
   @Input() column: AnnouncementColumn | null = null

@@ -8,7 +8,7 @@ import {AttachmentDtoModel} from "../domain/attachment-dto.model";
 @Component({
   selector: 'app-teaching-material-form',
   templateUrl: './teaching-material-form.component.html',
-  styleUrls: ['./teaching-material-form.component.scss'],
+  styleUrls: ['./teaching-material-form.component.css'],
   providers: [MessageService]
 })
 export class TeachingMaterialFormComponent implements OnInit, OnDestroy{

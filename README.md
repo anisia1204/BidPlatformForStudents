@@ -19,10 +19,11 @@ Aplicația folosește baza de date implicită a PostgreSQL. Este important ca no
 
 ## Instalare și Rulare
 
-### 1. Rularea backend-ului
+### 1. Configurarea și rularea backend-ului
 
-1. În proiectul deschis în IntelliJ IDEA se caută clasa `StudcollabApplication`.
-2. Se rulează această clasă pentru a porni serverul. Proiectul se va construi implicit la rularea clasei, deci nu este necesară construirea sa separată.
+1. Se caută fișierul `pom.xml` din modulul Maven parinte `studcollab`, click dreapta pe fișier si click pe `Import as Maven Project`.
+2. Se caută clasa `StudcollabApplication` în modulul Maven `studcollab-web`.
+3. Se rulează această clasă pentru a porni serverul. Proiectul se va construi implicit la rularea clasei, deci nu este necesară construirea sa separată.
 
 ### 2. Configurarea și rularea frontend-ului
 
@@ -37,3 +38,10 @@ Aplicația folosește baza de date implicită a PostgreSQL. Este important ca no
     npm start
     ```
    > Aceasta comandă va rula linia "start": "ng serve" din fișierul `package.json`.
+ 
+### 3. Accesarea aplicației
+
+1. Deschide browserul și navighează la adresa:
+    ```plaintext
+    http://localhost:4200/
+    ```
